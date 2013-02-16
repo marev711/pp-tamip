@@ -1,7 +1,4 @@
      variablesGG     namesGG_old      namesGG                                                longnameGG
-              93              93           93                                                          
-              94              94           94                                                          
-             101             101          101                                                          
               31              ci           ci                                                          
               33             rsn          rsn                                                          
               34             sst          sst                                                          
@@ -16,12 +13,25 @@
               60              pv           pv                                                          
               78           var78        clwvi                                      Condensed Water Path
               79           var79        clivi                                            Ice Water Path
+              93              93           93                                                          
+              94              94           94                                                          
+              96           var96          mcu               Updraft Convective Mass Flux on full levels
+              97           var97          mcd             Downdraft Convective Mass Flux on full levels
+              98           var98     reffclwc        Hydrometeor Effective Radius of Cloud Liquid Water
+              99           var99     reffclic          Hydrometeor Effective Radius of Cloud Liquid Ice
+             100          var100          hur                                         Relative Humidity
+             101             101          101                                                          
+             102          var102        tntmp     Tendency of Air Temperature due to Diabatic Processes
+             103          var103         tntr      Tendency of Air Temperature due to Radiative Heating
+             104          var104         tnta              Tendency of Air Temperature due to Advection
+             105          var105      tnhusmp        Tendency of Specific Humidity due to Model Physics
+             106          var106       tnhusa            Tendency of Specific Humidity due to Advection
              133               Q          hus                                         Specific Humidity
              137            TCWV          prw                                          Water Vapor Path
              139            stl1         stl1                                                          
              141              sd           sd                                                          
-             143              CP          prc                                  Convective Precipitation
              142             LSP           pr                                             Precipitation
+             143              CP          prc                                  Convective Precipitation
              144              SF         prsn                                       Solid Precipitation
              145             bld          bld                                                          
              146            SSHF         hfss                         Surface Upward Sensible Heat Flux
@@ -66,13 +76,3 @@
              246            CLWC          clw                       Mass Fraction of Cloud Liquid Water
              247            CIWC          cli                                Mass Fraction of Cloud Ice
              248              CC           cl                                       Cloud Area Fraction
-             102          var102        tntmp     Tendency of Air Temperature due to Diabatic Processes
-             103          var103         tntr      Tendency of Air Temperature due to Radiative Heating
-             104          var104         tnta              Tendency of Air Temperature due to Advection
-             105          var105      tnhusmp        Tendency of Specific Humidity due to Model Physics
-             106          var106       tnhusa            Tendency of Specific Humidity due to Advection
-              96           var96          mcu               Updraft Convective Mass Flux on full levels
-              97           var97          mcd             Downdraft Convective Mass Flux on full levels
-              98           var98     reffclwc        Hydrometeor Effective Radius of Cloud Liquid Water
-              99           var99     reffclic          Hydrometeor Effective Radius of Cloud Liquid Ice
-             100          var100          hur                                         Relative Humidity
