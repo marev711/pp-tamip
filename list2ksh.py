@@ -6,7 +6,10 @@ f = open("gg.def", "r")
 grib_entries = f.readlines()
 f.close()
 
+# Array headers (index 0) are a special case
 reformatted_entries = [grib_entries[0].split()]
+
+# The remaining entries
 for grib_entry in grib_entries[1:]:
     curr_entry = grib_entry.split()
     # Merge last element to single element (might be split by above line)
