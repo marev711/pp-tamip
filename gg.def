@@ -1,0 +1,78 @@
+     variablesGG     namesGG_old      namesGG                                                longnameGG
+              93              93           93                                                          
+              94              94           94                                                          
+             101             101          101                                                          
+              31              ci           ci                                                          
+              33             rsn          rsn                                                          
+              34             sst          sst                                                          
+              35           istl1        istl1                                                          
+              39           swvl1        swvl1                                                          
+              40           swvl2        swvl2                                                          
+              41           swvl3        swvl3                                                          
+              42           swvl4        swvl4                                                          
+              44              ES          sbl                     Surface Snow and Ice Sublimation Flux
+              45            smlt         smlt                                                          
+              49            10fg         10fg                                                          
+              60              pv           pv                                                          
+              78           var78        clwvi                                      Condensed Water Path
+              79           var79        clivi                                            Ice Water Path
+             133               Q          hus                                         Specific Humidity
+             137            TCWV          prw                                          Water Vapor Path
+             139            stl1         stl1                                                          
+             141              sd           sd                                                          
+             143              CP          prc                                  Convective Precipitation
+             142             LSP           pr                                             Precipitation
+             144              SF         prsn                                       Solid Precipitation
+             145             bld          bld                                                          
+             146            SSHF         hfss                         Surface Upward Sensible Heat Flux
+             147            SLHF         hfls                           Surface Upward Latent Heat Flux
+             151             MSL          psl                                        Sea Level Pressure
+             164             TCC          clt                                      Total Cloud Fraction
+             165            U10M          uas                                Eastward Near-Surface Wind
+             166            V10M          vas                               Northward Near-Surface Wind
+             167             T2M           ts                                       Surface Temperature
+             168              2d           2d                                                          
+             169            SSRD         rsds                   Surface Downwelling Shortwave Radiation
+             170            stl2         stl2                                                          
+             172             lsm          lsm                                                          
+             173              sr           sr                                                          
+             174              al           al                                                          
+             175            STRD         rlds                    Surface Downwelling Longwave Radiation
+             176             SSR         rsus                     Surface Upwelling Shortwave Radiation
+             177             STR         rlus                      Surface Upwelling Longwave Radiation
+             178             TSR         rsut                          TOA Outgoing Shortwave Radiation
+             179             TTR         rlut                           TOA Outgoing Longwave Radiation
+             180            EWSS         tauu                     Surface Downward Eastward Wind Stress
+             181            NSSS         tauv                    Surface Downward Northward Wind Stress
+             182               E      evspsbl                                               Evaporation
+             183            stl3         stl3                                                          
+             186             lcc          lcc                                                          
+             187             mcc          mcc                                                          
+             188             hcc          hcc                                                          
+             189            sund         sund                                                          
+             197             gwd          gwd                                                          
+             198             src          src                                                          
+             201            MX2T       tasmax                Daily Maximum Near-Surface Air Temperature
+             202            MN2T       tasmin                Daily Minimum Near-Surface Air Temperature
+             205              ro           ro                                                          
+             208            TSRC       rsutcs                TOA Outgoing Clear-Sky Shortwave Radiation
+             209            TTRC       rlutcs                 TOA Outgoing Clear-Sky Longwave Radiation
+             210            SSRC       rsuscs           Surface Upwelling Clear-Sky Shortwave Radiation
+             211            STRC       rldscs          Surface Downwelling Clear-Sky Longwave Radiation
+             235             SKT          tas                              Near-Surface Air Temperature
+             236            stl4         stl4                                                          
+             238             tsn          tsn                                                          
+             243             fal          fal                                                          
+             246            CLWC          clw                       Mass Fraction of Cloud Liquid Water
+             247            CIWC          cli                                Mass Fraction of Cloud Ice
+             248              CC           cl                                       Cloud Area Fraction
+             102          var102        tntmp     Tendency of Air Temperature due to Diabatic Processes
+             103          var103         tntr      Tendency of Air Temperature due to Radiative Heating
+             104          var104         tnta              Tendency of Air Temperature due to Advection
+             105          var105      tnhusmp        Tendency of Specific Humidity due to Model Physics
+             106          var106       tnhusa            Tendency of Specific Humidity due to Advection
+              96           var96          mcu               Updraft Convective Mass Flux on full levels
+              97           var97          mcd             Downdraft Convective Mass Flux on full levels
+              98           var98     reffclwc        Hydrometeor Effective Radius of Cloud Liquid Water
+              99           var99     reffclic          Hydrometeor Effective Radius of Cloud Liquid Ice
+             100          var100          hur                                         Relative Humidity
