@@ -25,7 +25,7 @@ for grib_entry in grib_entries[1:]:
                                      '"' + curr_entry[2] + '"', 
                                      '""']
     reformatted_entries.append(curr_entry)
-print(reformatted_entries)
+
 transpose_list = map(list, zip(*reformatted_entries))
 
 # Write transposed list back to ksh-array syntax
@@ -39,7 +39,7 @@ for array in transpose_list:
     for item in array[1:]:
         f.write(item + " ")
         row_length = row_length + len(item)
-        if row_length > 75:
+        if row_length > 75 and array.index(item) < len(array)-1:
             f.write(" \\" +'\n' + " " * array_def_length)
             row_length = 0
     f.write('\n\n')
