@@ -40,34 +40,34 @@ exp=amip        #control
 #################################################################
 
 for year in $(seq ${start_date} ${end_date}); do
- for month in 07 08 09 10 11 12; do
-  echo "PROCESSING: " ${year}${month}
-  cd $TEMP
-  mkdir ${exp}${year}${month}
-  cd ${exp}${year}${month}
-  
-  ecp ectmp:/ruc/${exp}/${year}/ICMGGb0if+${year}${month}_aa .
-  ecp ectmp:/ruc/${exp}/${year}/ICMGGb0if+${year}${month}_ab .
-  cat ICMGGb0if+${year}${month}_aa ICMGGb0if+${year}${month}_ab > ICMGGb0if+${year}${month}
-  rm ICMGGb0if+${year}${month}_aa ICMGGb0if+${year}${month}_ab
-  ecp ectmp:/ruc/${exp}/${year}/ICMSHb0if+${year}${month} .
-  ecp ectmp:/nml/amip/TISR/rsdt_Amon_EC-EARTH_amip_r1i1p1_${year}${month}.nc
-  mv rsdt_Amon_EC-EARTH_amip_r1i1p1_${year}${month}.nc rsdt_Amon_EC-EARTH_amip_r3i1p1_${year}${month}.nc
+    for month in 07 08 09 10 11 12; do
+        echo "PROCESSING: " ${year}${month}
+        cd $TEMP
+        mkdir ${exp}${year}${month}
+        cd ${exp}${year}${month}
+        
+        ecp ectmp:/ruc/${exp}/${year}/ICMGGb0if+${year}${month}_aa .
+        ecp ectmp:/ruc/${exp}/${year}/ICMGGb0if+${year}${month}_ab .
+        cat ICMGGb0if+${year}${month}_aa ICMGGb0if+${year}${month}_ab > ICMGGb0if+${year}${month}
+        rm ICMGGb0if+${year}${month}_aa ICMGGb0if+${year}${month}_ab
+        ecp ectmp:/ruc/${exp}/${year}/ICMSHb0if+${year}${month} .
+        ecp ectmp:/nml/amip/TISR/rsdt_Amon_EC-EARTH_amip_r1i1p1_${year}${month}.nc
+        mv rsdt_Amon_EC-EARTH_amip_r1i1p1_${year}${month}.nc rsdt_Amon_EC-EARTH_amip_r3i1p1_${year}${month}.nc
 
-cdo splitname ${prefixGG}+${year}${month} GG${year}${month}_
-cat > rulesSH <<-EOF
+        cdo splitname ${prefixGG}+${year}${month} GG${year}${month}_
+        cat > rulesSH <<-EOF
 write "SH${year}${month}_[shortName].grb";
 EOF
-grib_filter rulesSH ${prefixSH}+${year}${month}
-wait
+        grib_filter rulesSH ${prefixSH}+${year}${month}
+        wait
 
 
-  cd $TEMP
-  cd parallel
-  prova.ksh ${year} ${month} ${exp} ${ens_exp} &
+        cd $TEMP
+        cd parallel
+        prova.ksh ${year} ${month} ${exp} ${ens_exp} &
 
 
- done
+    done
 done
 wait
 
