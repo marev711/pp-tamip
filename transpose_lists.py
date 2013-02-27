@@ -22,7 +22,8 @@ for row in transpose_list:
     f.write(row[0].rjust(max_width[0]+padding))
     f.write(row[1].rjust(max_width[1]+padding))
     f.write(row[2].rjust(max_width[2]+padding))
-    f.write(row[3].rjust(max_width[3]+padding) + '\n')
+    f.write(row[3].rjust(max_width[3]+padding))
+    f.write(row[4].rjust(max_width[4]+padding) + '\n')
 f.close()
 
 
