@@ -1,9 +1,16 @@
 #! /usr/bin/env python
 import pdb
 import re
+import sys
+
+# Input file
+if len(sys.argv) != 2:
+    print "Usage: ./list2ksh.py <input_file>"
+    sys.exit(1)
+input_file = sys.argv[1]
 
 # Read all lines
-f = open("gg.def", "r")
+f = open(input_file, "r")
 grib_entries = f.readlines()
 f.close()
 
@@ -33,18 +40,17 @@ for grib_entry in grib_entries[1:]:
 transpose_list = map(list, zip(*reformatted_entries))
 
 # Write transposed list back to ksh-array syntax
-f = open("ksh_array_def.ksh", "w")
 for array in transpose_list:
     array_def = "set -A " + array[0] + " "
     array_def_length = len(array_def)
 
     row_length = 0
-    f.write(array_def)
+    sys.stdout.write(array_def)
     for item in array[1:]:
-        f.write(item + " ")
+        sys.stdout.write(item + " ")
         row_length = row_length + len(item)
         if row_length > 75 and array.index(item) < len(array)-1:
-            f.write(" \\" +'\n' + " " * array_def_length)
+            sys.stdout.write(" \\" +'\n' + " " * array_def_length)
             row_length = 0
-    f.write('\n\n')
+    sys.stdout.write('\n\n')
 

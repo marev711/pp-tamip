@@ -1,9 +1,18 @@
 #! /usr/bin/env python
 import shlex
 import pdb
+import sys
 
 padding = 5
-f = open("gg_def_file.def", "r")
+
+# Input file
+if len(sys.argv) != 2:
+    print "Usage: ./ksh2list.py <input_file>"
+    sys.exit(1)
+input_file = sys.argv[1]
+
+# Read all lines
+f = open(input_file, "r")
 all_types = f.readlines()
 f.close()
 
@@ -17,13 +26,11 @@ for row in transpose_list:
     widths = [len(item) for item in row]
     max_width = [max(item) for item in zip(widths, max_width)]
 
-f = open("gg.def", "w")
 for row in transpose_list:
-    f.write(row[0].rjust(max_width[0]+padding))
-    f.write(row[1].rjust(max_width[1]+padding))
-    f.write(row[2].rjust(max_width[2]+padding))
-    f.write(row[3].rjust(max_width[3]+padding))
-    f.write(row[4].rjust(max_width[4]+padding) + '\n')
-f.close()
+    sys.stdout.write(row[0].rjust(max_width[0]+padding))
+    sys.stdout.write(row[1].rjust(max_width[1]+padding))
+    sys.stdout.write(row[2].rjust(max_width[2]+padding))
+    sys.stdout.write(row[3].rjust(max_width[3]+padding))
+    sys.stdout.write(row[4].rjust(max_width[4]+padding) + '\n')
 
 
