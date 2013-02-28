@@ -1,0 +1,9 @@
+     variablesSH     namesSH_old     namesSH          longnameSH      unitsSH
+               3              pt          pt                                 
+             130               t          ta     Air Temperature            K
+             131               u          ua       Eastward Wind      m s**-1
+             132               v          va      Northward Wind      m s**-1
+             135               w         wap      omega (=dp/dt)     Pa s**-1
+             138              vo          vo                                 
+             152            lnsp        lnsp                                 
+             155               d           d                                 

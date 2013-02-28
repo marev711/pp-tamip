@@ -1,0 +1,5 @@
+variablesSH 3 130 131 132 135 138 152 155
+namesSH_old "pt" "t" "u" "v" "w" "vo" "lnsp" "d"
+namesSH "pt" "ta" "ua" "va" "wap" "vo" "lnsp" "d"
+longnameSH "" "Air Temperature" "Eastward Wind" "Northward Wind" "omega (=dp/dt)" "" "" ""
+unitsSH "" "K" "m s**-1" "m s**-1" "Pa s**-1" "" "" ""
