@@ -19,7 +19,7 @@ f.close()
 reformatted_entries = [grib_entries[0].split()]
 
 # Get string start and end indices
-end_index = [m.start(0)+1 for m in re.finditer('[Gd](\s*$|\s)', grib_entries[0])]
+end_index = [m.start(0)+1 for m in re.finditer('[HGd](\s*$|\s)', grib_entries[0])]
 start_index = [m+1 for m in end_index]
 start_index = start_index[0:-1]
 start_index.insert(0,0)
