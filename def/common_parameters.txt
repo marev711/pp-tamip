@@ -1,0 +1,43 @@
+# Parameter numbers present in _both_ the postprocess script and in our T-AMIP runs
+# ------------------------------------------------------------------------------------------------
+
+variablesGG     namesGG_old      namesGG                                                longnameGG
+#     33.128             rsn          rsn                                                            
+     44.128              ES          sbl                     Surface Snow and Ice Sublimation Flux
+         78           var78        clwvi                                      Condensed Water Path
+         79           var79        clivi                                            Ice Water Path
+         96           var96          mcu               Updraft Convective Mass Flux on full levels
+         98           var98     reffclwc        Hydrometeor Effective Radius of Cloud Liquid Water
+         99           var99     reffclic          Hydrometeor Effective Radius of Cloud Liquid Ice
+        102          var102        tntmp     Tendency of Air Temperature due to Diabatic Processes
+        103          var103         tntr      Tendency of Air Temperature due to Radiative Heating
+        104          var104         tnta              Tendency of Air Temperature due to Advection
+        133               Q          hus                                         Specific Humidity
+        137            TCWV          prw                                          Water Vapor Path
+        142             LSP           pr                                             Precipitation
+        143              CP          prc                                  Convective Precipitation
+        144              SF         prsn                                       Solid Precipitation
+        146            SSHF         hfss                         Surface Upward Sensible Heat Flux
+        147            SLHF         hfls                           Surface Upward Latent Heat Flux
+        151             MSL          psl                                        Sea Level Pressure
+        164             TCC          clt                                      Total Cloud Fraction
+        165            U10M          uas                                Eastward Near-Surface Wind
+        166            V10M          vas                               Northward Near-Surface Wind
+        167             T2M           ts                                       Surface Temperature
+        169            SSRD         rsds                   Surface Downwelling Shortwave Radiation
+        175            STRD         rlds                    Surface Downwelling Longwave Radiation
+        176             SSR         rsus                     Surface Upwelling Shortwave Radiation
+        177             STR         rlus                      Surface Upwelling Longwave Radiation
+        178             TSR         rsut                          TOA Outgoing Shortwave Radiation
+        179             TTR         rlut                           TOA Outgoing Longwave Radiation
+        180            EWSS         tauu                     Surface Downward Eastward Wind Stress
+        181            NSSS         tauv                    Surface Downward Northward Wind Stress
+        182               E      evspsbl                                               Evaporation
+        208            TSRC       rsutcs                TOA Outgoing Clear-Sky Shortwave Radiation
+        209            TTRC       rlutcs                 TOA Outgoing Clear-Sky Longwave Radiation
+        210            SSRC       rsuscs           Surface Upwelling Clear-Sky Shortwave Radiation
+        211            STRC       rldscs          Surface Downwelling Clear-Sky Longwave Radiation
+        235             SKT          tas                              Near-Surface Air Temperature
+        246            CLWC          clw                       Mass Fraction of Cloud Liquid Water
+        247            CIWC          cli                                Mass Fraction of Cloud Ice
+        248              CC           cl                                       Cloud Area Fraction
