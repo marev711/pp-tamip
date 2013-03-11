@@ -51,10 +51,11 @@ entries = [[grib_entry[start:end].strip() for start,end in indices] for grib_ent
 # Couple headers to each entry
 params = [dict(zip(headers, param)) for param in entries]
 
-
 for param in params:
-    cdo_grb2nc_parSel = "cdo -R -r -f nc -t ecmwf copy -selparam," + param['variablesGG'] + " /nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-07-20/ICMGGTM53+200907 tmp.nc"
+    cdo_grb2nc_parSel = "cdo -R -r -f nc -t ecmwf copy -selparam," + param['variablesGG'] + " /nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-07-20/ICMGGTM53+200907 " + param['variablesGG'] + "_tmp.nc"
     cdo_command = postproc_aux.cdo_launch(cdo_grb2nc_parSel, log_handle=sys.stdout)
-    cdo_3h_mean = "cdo timselmean,4 tmp.nc tmp_mean.nc"
+
+    cdo_3h_mean = "cdo timselmean,4 " + param['variablesGG'] + "_tmp.nc " + param['variablesGG'] + "_tmp_mean.nc"
     cdo_command = postproc_aux.cdo_launch(cdo_3h_mean, log_handle=sys.stdout)
+
     sys.exit(1)
