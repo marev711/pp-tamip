@@ -20,7 +20,7 @@ MODULE CMOR_TAMIP_ROUTINES
     PRIVATE
       PUBLIC read_nam, read_coords, read_coords_vert, read_time, &
       read_2d_input_files_mon, read_2d_input_files_day, read_2d_input_files_6h, &
-      read_2d_input_files_3h
+      read_2d_input_files_3h, handle_err
       CONTAINS
   SUBROUTINE read_nam
     USE NCTL
@@ -367,95 +367,106 @@ MODULE CMOR_TAMIP_ROUTINES
     RETURN
   END SUBROUTINE read_time
 
-  SUBROUTINE read_2d_input_files_mon(field)
-
-    USE IGRIB
-    USE RDATA
-
+  SUBROUTINE handle_err(status, routine_name)
     IMPLICIT NONE
+    integer, intent(in) :: status
+    character(len=*), intent(in) :: routine_name
 
-    REAL, INTENT(OUT), DIMENSION(:,:) :: field
+    WRITE(*,*) "status=", status
+    CALL ABORT(routine_name)
+  END SUBROUTINE handle_err
 
-    INTEGER :: i, j
 
-    DO j=1,SIZE(field,2)
-      DO i=1,SIZE(field,1)
-        field(i,j) = RMMEAN((j-1)*SIZE(field,1)+i)
-      ENDDO
-    ENDDO
 
-  END SUBROUTINE read_2d_input_files_mon
-
-  SUBROUTINE read_2d_input_files_day(field)
-
-    USE NCTL
-    USE IGRIB
-    USE RDATA
-
-    IMPLICIT NONE
-
-    REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-
-    INTEGER :: i, j, iday
-
-    field(:,:,:)=0.
-
-    DO iday=1,NMDAYS
-      DO j=1,SIZE(field,2)
-        DO i=1,SIZE(field,1)
-          field(i,j,iday) = RDAY(iday,(j-1)*SIZE(field,1)+i)
-        ENDDO
-      ENDDO
-    ENDDO
-
-  END SUBROUTINE read_2d_input_files_day
-
-  SUBROUTINE read_2d_input_files_6h(field)
-
-    USE NCTL
-    USE IGRIB
-    USE RGRIB
-
-    IMPLICIT NONE
-
-    REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-
-    INTEGER :: i, j, ih6
-
-    field(:,:,:)=0.
-
-    DO ih6=1,NMDAYS*4
-      DO j=1,SIZE(field,2)
-        DO i=1,SIZE(field,1)
-          field(i,j,ih6) = RSEC4(ih6,(j-1)*SIZE(field,1)+i)
-        ENDDO
-      ENDDO
-    ENDDO
-
-  END SUBROUTINE read_2d_input_files_6h
-
-  SUBROUTINE read_2d_input_files_3h(field)
-
-    USE NCTL
-    USE IGRIB
-    USE RGRIB
-
-    IMPLICIT NONE
-
-    REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-
-    INTEGER :: i, j, ih3
-
-    field(:,:,:)=0.
-
-    DO ih3=1,NMDAYS*8
-      DO j=1,SIZE(field,2)
-        DO i=1,SIZE(field,1)
-          field(i,j,ih3) = RSEC4(ih3,(j-1)*SIZE(field,1)+i)
-        ENDDO
-      ENDDO
-    ENDDO
-
-  END SUBROUTINE read_2d_input_files_3h
+!!   SUBROUTINE read_2d_input_files_mon(field)
+!! 
+!!     USE IGRIB
+!!     USE RDATA
+!! 
+!!     IMPLICIT NONE
+!! 
+!!     REAL, INTENT(OUT), DIMENSION(:,:) :: field
+!! 
+!!     INTEGER :: i, j
+!! 
+!!     DO j=1,SIZE(field,2)
+!!       DO i=1,SIZE(field,1)
+!!         field(i,j) = RMMEAN((j-1)*SIZE(field,1)+i)
+!!       ENDDO
+!!     ENDDO
+!! 
+!!   END SUBROUTINE read_2d_input_files_mon
+!! 
+!!   SUBROUTINE read_2d_input_files_day(field)
+!! 
+!!     USE NCTL
+!!     USE IGRIB
+!!     USE RDATA
+!! 
+!!     IMPLICIT NONE
+!! 
+!!     REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
+!! 
+!!     INTEGER :: i, j, iday
+!! 
+!!     field(:,:,:)=0.
+!! 
+!!     DO iday=1,NMDAYS
+!!       DO j=1,SIZE(field,2)
+!!         DO i=1,SIZE(field,1)
+!!           field(i,j,iday) = RDAY(iday,(j-1)*SIZE(field,1)+i)
+!!         ENDDO
+!!       ENDDO
+!!     ENDDO
+!! 
+!!   END SUBROUTINE read_2d_input_files_day
+!! 
+!!   SUBROUTINE read_2d_input_files_6h(field)
+!! 
+!!     USE NCTL
+!!     USE IGRIB
+!!     USE RGRIB
+!! 
+!!     IMPLICIT NONE
+!! 
+!!     REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
+!! 
+!!     INTEGER :: i, j, ih6
+!! 
+!!     field(:,:,:)=0.
+!! 
+!!     DO ih6=1,NMDAYS*4
+!!       DO j=1,SIZE(field,2)
+!!         DO i=1,SIZE(field,1)
+!!           field(i,j,ih6) = RSEC4(ih6,(j-1)*SIZE(field,1)+i)
+!!         ENDDO
+!!       ENDDO
+!!     ENDDO
+!! 
+!!   END SUBROUTINE read_2d_input_files_6h
+!! 
+!!   SUBROUTINE read_2d_input_files_3h(field)
+!! 
+!!     USE NCTL
+!!     USE IGRIB
+!!     USE RGRIB
+!! 
+!!     IMPLICIT NONE
+!! 
+!!     REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
+!! 
+!!     INTEGER :: i, j, ih3
+!! 
+!!     field(:,:,:)=0.
+!! 
+!!     DO ih3=1,NMDAYS*8
+!!       DO j=1,SIZE(field,2)
+!!         DO i=1,SIZE(field,1)
+!!           field(i,j,ih3) = RSEC4(ih3,(j-1)*SIZE(field,1)+i)
+!!         ENDDO
+!!       ENDDO
+!!     ENDDO
+!! 
+!!   END SUBROUTINE read_2d_input_files_3h
 
 END MODULE CMOR_TAMIP_ROUTINES
