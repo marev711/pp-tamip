@@ -6,12 +6,20 @@ MODULE NDATASET
      DOUBLE PRECISION :: branch_time
 END MODULE NDATASET
 
+MODULE NCTL
+  INTEGER :: NYEAR0, NYEAR, NYEARS, NMONTH, NMDAYS, NMININT, NPRINTLEV
+  LOGICAL :: LWGRIB
+  CHARACTER(256) :: suffix_mon_sfc, suffix_mon_plev, suffix_mon_mlev
+  CHARACTER(256) :: suffix_day_sfc, suffix_day_plev
+  CHARACTER(256) :: suffix_3h_sfc, suffix_6h_plev, suffix_6h_mlev
+END MODULE NCTL
+
 MODULE CMOR_TAMIP_ROUTINES
 
   USE cmor_users_functions
     PRIVATE
-      PUBLIC read_nam, read_coords, read_coords_vert, read_time,
-      read_2d_input_files_mon, read_2d_input_files_day, read_2d_input_files_6h,
+      PUBLIC read_nam, read_coords, read_coords_vert, read_time, &
+      read_2d_input_files_mon, read_2d_input_files_day, read_2d_input_files_6h, &
       read_2d_input_files_3h
       CONTAINS
   SUBROUTINE read_nam
