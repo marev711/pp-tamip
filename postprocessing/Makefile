@@ -2,9 +2,9 @@ TARGET  := tamip-cmor.x
 SRCS    := cmor-auxiliary.F90 tamip-cmor.F90 
 OBJS    := ${SRCS:.F90=.o} 
 
-FC      = gfortran
-FCFLAGS = -fbacktrace -g -Wall -I/nobackup/rossby15/sm_maeva/software/cmor/cmor-install/include -ffree-line-length-none -I/nobackup/rossby15/sm_maeva/software/netCDF/netCDF-install/include/
-LDFLAGS = -L/nobackup/rossby15/sm_maeva/software/netCDF/netCDF-install/lib/ -L/nobackup/rossby15/sm_maeva/software/cmor/cmor-install/lib/ -L/nobackup/rossby15/sm_maeva/software/cmor/libuuid/install/lib/ -L/nobackup/rossby15/sm_maeva/software/cmor/udunits2/install/lib/
+FC      = ifort
+FCFLAGS = -traceback -g -check all -I/nobackup/rossby15/sm_maeva/software/cmor-ifort/cmor-install/include -I/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/include/
+LDFLAGS = -L/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib -L/nobackup/rossby15/sm_maeva/software/cmor-ifort/cmor-install/lib/ -L/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib/ -L/nobackup/rossby15/sm_maeva/software/cmor-ifort/udunits2/install/lib/
 LIBS    = -lnetcdf -lnetcdff -lcmor -luuid -ludunits2 -lexpat
 
 .PHONY: all clean distclean print_vars
