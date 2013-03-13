@@ -1,22 +1,22 @@
 ! &NAMCTL
 ! /
-& NAMDATASET 
-     curr_file = "", 
-     inpath = "", 
-     outpath = "", 
-     experiment_id = "", 
-     institution = "", 
-     source = "", 
-     calendar = "", 
-     realization = 1, 
-     contact = "", 
-     history = "", 
-     comment = "", 
-     references = "", 
-     model_id = "", 
-     forcing = "", 
-     institute_id = "", 
-     parent_experiment_id = "", 
-     branch_time = 0., 
-     parent_experiment_rip = "" 
+& NAMDATASET
+     curr_file = "44.128_tmp_mean.nc",
+     inpath = "/nobackup/rossby15/sm_maeva/projects/pp-tamip/def/",
+     outpath = "/nobackup/rossby15/sm_maeva/projects/pp-tamip/output/",
+     experiment_id = "",
+     institution = "SMHI - Swedish Meteorological and Hydrological Insitute",
+     source = "EC-Earth 3 (2012); atmosphere: IFS (cy36R4+modifications, T255L91); land: HTessel; repo-ref:https://svn.ec-earth.org/ecearth3/branches/development/tamip@1112",
+     calendar = "",
+     realization = 1,
+     contact = "Unknown",
+     history = "Unknown",
+     comment = "Unknown",
+     references = "Unknown",
+     model_id = "Unknown",
+     forcing = "Unknown",
+     institute_id = "Unknown",
+     parent_experiment_id = "Unknown",
+     branch_time = 0.,
+     parent_experiment_rip = "Unknown"
 /
