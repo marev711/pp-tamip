@@ -8,15 +8,12 @@
      INTEGER :: error_flag, ncid, rhVarId, timeVarId, &
                 lonDimID, latDimId, timeDimId, &
                 numLons, numLats, numTimes, numLength, &
-                status , id, ndims, tableId
+                status , id, ndims, tableId, ilon, ilat, itime, i
      integer, dimension(nf90_max_var_dims) :: dimIDs
-     character(len=128) :: dim_name, calendar_read
+     character(len=128) :: dim_name, calendar_read, units_read
      real, dimension(:, :, :), allocatable :: rhValues
      DOUBLE PRECISION, dimension(:), allocatable :: alats, alons, time
-     INTEGER, PARAMETER :: lon = 512     ! number of longitude grid cells
-     INTEGER, PARAMETER :: lat = 256     ! number of latitude grid cells
-     INTEGER, PARAMETER :: levs = 16     ! number of standard pressure
-
+     DOUBLE PRECISION, dimension(:, :), allocatable :: alats_bounds, alons_bounds, time_bounds
 
      call read_nml()
      status = cmor_setup(inpath=INPATH, netcdf_file_action=CMOR_APPEND)
@@ -37,6 +34,9 @@
      status = nf90_get_att(ncid, timeVarId, "calendar", calendar_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
 
+     status = nf90_get_att(ncid, timeVarId, "units", units_read)
+     if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
+
      status = cmor_dataset(outpath=outpath,                           &
                            experiment_id=experiment_id,               &
                            institution=institution,                   &
@@ -55,13 +55,36 @@
                            parent_experiment_rip=parent_experiment_rip)
 
 
-     call read_1d_coord(ncid, rhVarId, "lat", alats)
-     call read_1d_coord(ncid, rhVarId, "lon", alons)
-     call read_1d_coord(ncid, rhVarId, "time", time)
+     call read_1d_coord(ncid, rhVarId, "lat", alats, alats_bounds)
+     call read_1d_coord(ncid, rhVarId, "lon", alons, alons_bounds)
+     call read_1d_coord(ncid, rhVarId, "time", time, time_bounds)
 
      allocate(rhValues(size(alons), size(alats), size(time)))
      status = nf90_get_var(ncid, rhVarId, rhValues)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
+
+     ilon = cmor_axis(table_entry='longitude', &
+                      units='degrees_east',    &
+                      length=size(alons),      &
+                      coord_vals=alons,        &
+                      cell_bounds=alons_bounds)
+
+     ilat = cmor_axis(table_entry='latitude', &
+                      units='degrees_north',  &
+                      length=size(alats),     &
+                      coord_vals=alats,       &
+                      cell_bounds=alats_bounds)
+
+do i=1,size(time)
+  write(*,'(I5,A,F8.3,A,F8.3,A,F8.3,A)') i, ": ", time(i), " (", time_bounds(1, i), ", ", time_bounds(2, i), ")"
+end do
+     itime = cmor_axis(table_entry='time',     &
+                       units=units_read,       &
+                       length=size(time),      &
+                       coord_vals=time,        &
+                       interval="180 minutes", &
+                       cell_bounds=time_bounds)
+
 
      status = nf90_close(ncid)
      if (status /= nf90_noerr) call handle_err(status, "NF90_CLOSE")

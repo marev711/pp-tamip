@@ -116,7 +116,7 @@ MODULE CMOR_TAMIP_ROUTINES
     RETURN
   END SUBROUTINE read_nml
 
-  SUBROUTINE read_1d_coord(ncid, rhVarId, coord_name, coord_array)
+  SUBROUTINE read_1d_coord(ncid, rhVarId, coord_name, coord_array, coord_array_bounds)
 
     USE netcdf
 
@@ -125,9 +125,10 @@ MODULE CMOR_TAMIP_ROUTINES
     INTEGER, INTENT(IN) :: ncid, rhVarId
     CHARACTER(len=*), INTENT(IN) :: coord_name
     DOUBLE PRECISION, INTENT(OUT), DIMENSION(:), ALLOCATABLE :: coord_array
+    DOUBLE PRECISION, INTENT(OUT), DIMENSION(:, :), ALLOCATABLE :: coord_array_bounds
 
     INTEGER, DIMENSION(NF90_MAX_VAR_DIMS) :: dimIDs
-    INTEGER :: ndims, numLength, id, status
+    INTEGER :: ndims, numLength, id, i_bounds, status
     CHARACTER(LEN=128) :: dim_name
 
     status = nf90_inquire_variable(ncid, rhVarId, dimids = dimIDs, ndims=ndims)
@@ -137,8 +138,51 @@ MODULE CMOR_TAMIP_ROUTINES
         if(status /= nf90_NoErr) call handle_err(status, "NF90_INQUIRE_DIMENSION")
         if (dim_name .eq. coord_name) then
             allocate(coord_array(numLength))
+            coord_array = 0.0
+
             status = nf90_get_var(ncid, id, coord_array)
             if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
+
+            allocate(coord_array_bounds(2, numLength))
+            coord_array_bounds = 0.0
+
+            if (dim_name .eq. "lat") then
+                coord_array_bounds(1, 1) = 90
+                coord_array_bounds(2, 1) = coord_array(1) + (coord_array(2)-coord_array(1))/2
+                do i_bounds=2, numLength-1
+                    coord_array_bounds(1, i_bounds) = coord_array(i_bounds) - (coord_array(i_bounds)-coord_array(i_bounds-1))/2
+                    coord_array_bounds(2, i_bounds) = coord_array(i_bounds) + (coord_array(i_bounds+1)-coord_array(i_bounds))/2
+                end do
+                coord_array_bounds(1, numLength) = coord_array(numLength) - (coord_array(numLength)-coord_array(numLength-1))/2
+                coord_array_bounds(2, numLength) = -90
+            end if
+
+            if (dim_name .eq. "lon") then
+                do i_bounds=1, numLength
+                    coord_array_bounds(1, i_bounds) = coord_array(i_bounds) - 180./numLength
+                    coord_array_bounds(2, i_bounds) = coord_array(i_bounds) + 180./numLength
+                end do
+            end if
+
+            if (dim_name .eq. "time") then
+                coord_array(1) = 0
+                coord_array(2) = coord_array(2) - 2.25
+                coord_array(numLength) = 117.0
+                coord_array_bounds(1, 1) = 0
+                coord_array_bounds(2, 1) = 0 + (coord_array(2)-coord_array(1))/2
+                coord_array(2) = coord_array(2) + 2.25
+                do i_bounds=2, numLength-1
+                    coord_array(i_bounds) = coord_array(i_bounds) - 2.25
+                end do
+                do i_bounds=2, numLength-1
+                    coord_array_bounds(1, i_bounds) = coord_array(i_bounds) - (coord_array(i_bounds)-coord_array(i_bounds-1))/2
+                    coord_array_bounds(2, i_bounds) = coord_array(i_bounds) + (coord_array(i_bounds+1)-coord_array(i_bounds))/2
+                end do
+                coord_array_bounds(1, numLength) = coord_array(numLength) - (coord_array(numLength)-coord_array(numLength-1))/2
+                coord_array_bounds(2, numLength) = coord_array(numLength)
+                coord_array_bounds(1, 1) = -1.5
+                coord_array_bounds(2, numLength) = 118.5
+            end if
         end if
     end do
    END SUBROUTINE read_1d_coord
@@ -410,38 +454,38 @@ MODULE CMOR_TAMIP_ROUTINES
 
 
 !!   SUBROUTINE read_2d_input_files_mon(field)
-!! 
+!!
 !!     USE IGRIB
 !!     USE RDATA
-!! 
+!!
 !!     IMPLICIT NONE
-!! 
+!!
 !!     REAL, INTENT(OUT), DIMENSION(:,:) :: field
-!! 
+!!
 !!     INTEGER :: i, j
-!! 
+!!
 !!     DO j=1,SIZE(field,2)
 !!       DO i=1,SIZE(field,1)
 !!         field(i,j) = RMMEAN((j-1)*SIZE(field,1)+i)
 !!       ENDDO
 !!     ENDDO
-!! 
+!!
 !!   END SUBROUTINE read_2d_input_files_mon
-!! 
+!!
 !!   SUBROUTINE read_2d_input_files_day(field)
-!! 
+!!
 !!     USE NCTL
 !!     USE IGRIB
 !!     USE RDATA
-!! 
+!!
 !!     IMPLICIT NONE
-!! 
+!!
 !!     REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-!! 
+!!
 !!     INTEGER :: i, j, iday
-!! 
+!!
 !!     field(:,:,:)=0.
-!! 
+!!
 !!     DO iday=1,NMDAYS
 !!       DO j=1,SIZE(field,2)
 !!         DO i=1,SIZE(field,1)
@@ -449,23 +493,23 @@ MODULE CMOR_TAMIP_ROUTINES
 !!         ENDDO
 !!       ENDDO
 !!     ENDDO
-!! 
+!!
 !!   END SUBROUTINE read_2d_input_files_day
-!! 
+!!
 !!   SUBROUTINE read_2d_input_files_6h(field)
-!! 
+!!
 !!     USE NCTL
 !!     USE IGRIB
 !!     USE RGRIB
-!! 
+!!
 !!     IMPLICIT NONE
-!! 
+!!
 !!     REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-!! 
+!!
 !!     INTEGER :: i, j, ih6
-!! 
+!!
 !!     field(:,:,:)=0.
-!! 
+!!
 !!     DO ih6=1,NMDAYS*4
 !!       DO j=1,SIZE(field,2)
 !!         DO i=1,SIZE(field,1)
@@ -473,23 +517,23 @@ MODULE CMOR_TAMIP_ROUTINES
 !!         ENDDO
 !!       ENDDO
 !!     ENDDO
-!! 
+!!
 !!   END SUBROUTINE read_2d_input_files_6h
-!! 
+!!
 !!   SUBROUTINE read_2d_input_files_3h(field)
-!! 
+!!
 !!     USE NCTL
 !!     USE IGRIB
 !!     USE RGRIB
-!! 
+!!
 !!     IMPLICIT NONE
-!! 
+!!
 !!     REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-!! 
+!!
 !!     INTEGER :: i, j, ih3
-!! 
+!!
 !!     field(:,:,:)=0.
-!! 
+!!
 !!     DO ih3=1,NMDAYS*8
 !!       DO j=1,SIZE(field,2)
 !!         DO i=1,SIZE(field,1)
@@ -497,7 +541,7 @@ MODULE CMOR_TAMIP_ROUTINES
 !!         ENDDO
 !!       ENDDO
 !!     ENDDO
-!! 
+!!
 !!   END SUBROUTINE read_2d_input_files_3h
 
 END MODULE CMOR_TAMIP_ROUTINES
