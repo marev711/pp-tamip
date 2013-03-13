@@ -8,7 +8,7 @@
      INTEGER :: error_flag, ncid, rhVarId, timeVarId, &
                 lonDimID, latDimId, timeDimId, &
                 numLons, numLats, numTimes, numLength, &
-                status , id, ndims
+                status , id, ndims, tableId
      integer, dimension(nf90_max_var_dims) :: dimIDs
      character(len=128) :: dim_name, calendar_read
      real, dimension(:, :, :), allocatable :: rhValues
@@ -17,9 +17,13 @@
      INTEGER, PARAMETER :: lat = 256     ! number of latitude grid cells
      INTEGER, PARAMETER :: levs = 16     ! number of standard pressure
 
+
      call read_nml()
      status = cmor_setup(inpath=INPATH, netcdf_file_action=CMOR_APPEND)
      IF (status .ne. 0) call handle_err(status, "CMOR_SETUP")
+
+     tableId = cmor_load_table("TAMIP_3hrSlev")
+     call cmor_set_table(tableId)
 
      status = nf90_open(path = curr_file, mode = nf90_nowrite, ncid = ncid)
      if (status /= nf90_noerr) call handle_err(status, "NF90_OPEN")
@@ -32,8 +36,6 @@
 
      status = nf90_get_att(ncid, timeVarId, "calendar", calendar_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
-
-write(*,*) "calendar=",trim(calendar_read)
 
      status = cmor_dataset(outpath=outpath,                           &
                            experiment_id=experiment_id,               &
