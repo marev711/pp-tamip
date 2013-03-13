@@ -1,0 +1,22 @@
+! &NAMCTL
+! /
+& NAMDATASET 
+     curr_file = "", 
+     inpath = "", 
+     outpath = "", 
+     experiment_id = "", 
+     institution = "", 
+     source = "", 
+     calendar = "", 
+     realization = 1, 
+     contact = "", 
+     history = "", 
+     comment = "", 
+     references = "", 
+     model_id = "", 
+     forcing = "", 
+     institute_id = "", 
+     parent_experiment_id = "", 
+     branch_time = 0., 
+     parent_experiment_rip = "" 
+/

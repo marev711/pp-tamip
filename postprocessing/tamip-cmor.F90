@@ -16,6 +16,7 @@
      INTEGER, PARAMETER :: lat = 256     ! number of latitude grid cells
      INTEGER, PARAMETER :: levs = 16     ! number of standard pressure
 
+     call read_nml()
      INPATH = "44.128_tmp_mean.nc"
      status = cmor_setup(inpath=INPATH, netcdf_file_action=CMOR_APPEND)
      IF (status .ne. 0) call handle_err(status, "CMOR_SETUP")

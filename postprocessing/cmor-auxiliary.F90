@@ -1,5 +1,5 @@
 MODULE NDATASET
-     CHARACTER(256) :: inpath, outpath, experiment_id, institution, source, &
+     CHARACTER(256) :: curr_file, inpath, outpath, experiment_id, institution, source, &
      & calendar, contact, history, comment, references, model_id, &
      & forcing, institute_id, parent_experiment_id, parent_experiment_rip
      INTEGER :: realization
@@ -18,11 +18,11 @@ MODULE CMOR_TAMIP_ROUTINES
 
   USE cmor_users_functions
     PRIVATE
-      PUBLIC read_nam, read_coords, read_coords_vert, read_time, &
+      PUBLIC read_nml, read_coords, read_coords_vert, read_time, &
       read_2d_input_files_mon, read_2d_input_files_day, read_2d_input_files_6h, &
       read_2d_input_files_3h, handle_err
       CONTAINS
-  SUBROUTINE read_nam
+  SUBROUTINE read_nml
     USE NCTL
     USE NDATASET
 
@@ -32,7 +32,6 @@ MODULE CMOR_TAMIP_ROUTINES
 
 #include "namctl.h"
 #include "namdataset.h"
-
 !   default values overwritten by namelist NAMCTL read
 !   NYEAR0     : year since we count the days passed
 !   NYEAR      : year of the monthly output file
@@ -66,51 +65,56 @@ MODULE CMOR_TAMIP_ROUTINES
     suffix_6h_mlev=""
 
 !   default values overwritten by namelist NAMDATASET read
-    inpath="/perm/rd/neu/GRIBTOCMOR/CMIP5Tables"
-    outpath="/c1a/tmp/rd/neu/GRIBTOCMOR/N80reg"
-    experiment_id="historical"
-    institution="EC-Earth (European Earth System Model)"
-    source="EC-Earth 2.3 (2011); atmosphere: IFS (cy31R1+modifications, T159L62); ocean: NEMO (version2+modifications, ORCA1-42lev); sea ice: LIM2; land: HTessel"
-    calendar="gregorian"
-    realization=1
-    contact="xxx"
-    history="Output from archive/historical"
-    comment="Equilibrium reached after preindustrial spin-up after which data were output starting with nominal date of January 1850"
-    references="Model described by Hazeleger et al. (Bull. Amer. Meteor. Soc., 2010, 91, 1357-1363). Also see http://ecearth.knmi.nl."
-    model_id="EC-Earth"
-    forcing="Nat"
-    institute_id ="EC-Earth"
-    parent_experiment_id="N/A"
-    branch_time=0.
-    parent_experiment_rip="N/A"
+    inpath                = "N/A"
+    outpath               = "N/A"
+    experiment_id         = "N/A"
+    institution           = "N/A"
+    source                = "N/A"
+    calendar              = "N/A"
+    realization           = "N/A"
+    contact               = "N/A"
+    history               = "N/A"
+    comment               = "N/A"
+    references            = "N/A"
+    model_id              = "N/A"
+    forcing               = "N/A"
+    institute_id          = "N/A"
+    parent_experiment_id  = "N/A"
+    branch_time           = "N/A"
+    parent_experiment_rip = "N/A"
 
     NULNAM=4
 
-    OPEN(NULNAM,FILE="nam",DELIM="QUOTE")
-    READ(NULNAM,NAMCTL)
-    READ(NULNAM,NAMDATASET)
+    OPEN(NULNAM, FILE="cmor.nml", DELIM="QUOTE")
+    !READ(NULNAM, NAMCTL)
+    READ(NULNAM, NAMDATASET)
+    !READ(NULNAM, THE_INPUT)
+
     CLOSE(NULNAM)
 
-    WRITE(6,*) 'NYEAR0=',NYEAR0
-    WRITE(6,*) 'NYEAR=',NYEAR
-    NYEARS=NYEAR-(NYEAR0-1)
-    WRITE(6,*) 'NYEARS=',NYEARS
-    WRITE(6,*) 'NMONTH=',NMONTH
-    WRITE(6,*) 'NMDAYS=',NMDAYS
-    WRITE(6,*) 'NMININT=',NMININT
-    WRITE(6,*) 'NPRINTLEV=',NPRINTLEV
-    WRITE(6,*) 'LWGRIB=',LWGRIB
-    WRITE(6,*) 'suffix_mon_sfc=',suffix_mon_sfc
-    WRITE(6,*) 'suffix_mon_plev=',suffix_mon_plev
-    WRITE(6,*) 'suffix_mon_mlev=',suffix_mon_mlev
-    WRITE(6,*) 'suffix_day_sfc=',suffix_day_sfc
-    WRITE(6,*) 'suffix_day_plev=',suffix_day_plev
-    WRITE(6,*) 'suffix_3h_sfc=',suffix_3h_sfc
-    WRITE(6,*) 'suffix_6h_plev=',suffix_6h_plev
-    WRITE(6,*) 'suffix_6h_mlev=',suffix_6h_mlev
+     WRITE(6,*) 'inpath=', trim(inpath)
+     WRITE(6,*) 'outpath=', trim(outpath)
+
+!     WRITE(6,*) 'NYEAR0=',NYEAR0
+!     WRITE(6,*) 'NYEAR=',NYEAR
+!     NYEARS=NYEAR-(NYEAR0-1)
+!     WRITE(6,*) 'NYEARS=',NYEARS
+!     WRITE(6,*) 'NMONTH=',NMONTH
+!     WRITE(6,*) 'NMDAYS=',NMDAYS
+!     WRITE(6,*) 'NMININT=',NMININT
+!     WRITE(6,*) 'NPRINTLEV=',NPRINTLEV
+!     WRITE(6,*) 'LWGRIB=',LWGRIB
+!     WRITE(6,*) 'suffix_mon_sfc=',suffix_mon_sfc
+!     WRITE(6,*) 'suffix_mon_plev=',suffix_mon_plev
+!     WRITE(6,*) 'suffix_mon_mlev=',suffix_mon_mlev
+!     WRITE(6,*) 'suffix_day_sfc=',suffix_day_sfc
+!     WRITE(6,*) 'suffix_day_plev=',suffix_day_plev
+!     WRITE(6,*) 'suffix_3h_sfc=',suffix_3h_sfc
+!     WRITE(6,*) 'suffix_6h_plev=',suffix_6h_plev
+!     WRITE(6,*) 'suffix_6h_mlev=',suffix_6h_mlev
 
     RETURN
-  END SUBROUTINE read_nam
+  END SUBROUTINE read_nml
 
   SUBROUTINE read_coords(alats, alons, plevs, plev8, plev3, bnds_lat, bnds_lon)
 
