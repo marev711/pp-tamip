@@ -18,7 +18,7 @@ MODULE CMOR_TAMIP_ROUTINES
 
   USE cmor_users_functions
     PRIVATE
-      PUBLIC read_nml, read_coords, read_coords_vert, read_time, &
+      PUBLIC read_nml, read_coords, read_coords_vert, read_1d_coord, read_time, &
       read_2d_input_files_mon, read_2d_input_files_day, read_2d_input_files_6h, &
       read_2d_input_files_3h, handle_err
       CONTAINS
@@ -115,6 +115,33 @@ MODULE CMOR_TAMIP_ROUTINES
 
     RETURN
   END SUBROUTINE read_nml
+
+  SUBROUTINE read_1d_coord(ncid, rhVarId, coord_name, coord_array)
+
+    USE netcdf
+
+    IMPLICIT NONE
+
+    INTEGER, INTENT(IN) :: ncid, rhVarId
+    CHARACTER(len=*), INTENT(IN) :: coord_name
+    DOUBLE PRECISION, INTENT(OUT), DIMENSION(:), ALLOCATABLE :: coord_array
+
+    INTEGER, DIMENSION(NF90_MAX_VAR_DIMS) :: dimIDs
+    INTEGER :: ndims, numLength, id, status
+    CHARACTER(LEN=128) :: dim_name
+
+    status = nf90_inquire_variable(ncid, rhVarId, dimids = dimIDs, ndims=ndims)
+    if(status /= nf90_NoErr) call handle_err(status, "NF90_INQUIRE_VARIABLE")
+    do id=1, ndims
+        status = nf90_inquire_dimension(ncid, dimIDs(id), name=dim_name, len = numLength)
+        if(status /= nf90_NoErr) call handle_err(status, "NF90_INQUIRE_DIMENSION")
+        if (dim_name .eq. coord_name) then
+            allocate(coord_array(numLength))
+            status = nf90_get_var(ncid, id, coord_array)
+            if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
+        end if
+    end do
+   END SUBROUTINE read_1d_coord
 
   SUBROUTINE read_coords(alats, alons, plevs, plev8, plev3, bnds_lat, bnds_lon)
 
