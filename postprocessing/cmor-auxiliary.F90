@@ -17,6 +17,7 @@ END MODULE NCTL
 MODULE CMOR_TAMIP_ROUTINES
 
   USE cmor_users_functions
+  USE netcdf
     PRIVATE
       PUBLIC read_nml, read_coords, read_coords_vert, read_1d_coord, read_time, &
       read_2d_input_files_mon, read_2d_input_files_day, read_2d_input_files_6h, &
@@ -447,7 +448,8 @@ MODULE CMOR_TAMIP_ROUTINES
     integer, intent(in) :: status
     character(len=*), intent(in) :: routine_name
 
-    WRITE(*,*) "status=", status
+    WRITE(*,'(A,I3)') "status=", status
+    WRITE(*,*) trim(nf90_strerror(status))
     CALL ABORT(routine_name)
   END SUBROUTINE handle_err
 

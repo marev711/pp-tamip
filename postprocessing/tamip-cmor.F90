@@ -8,11 +8,14 @@
      INTEGER :: error_flag, ncid, rhVarId, timeVarId, &
                 lonDimID, latDimId, timeDimId, &
                 numLons, numLats, numTimes, numLength, &
-                status , id, ndims, tableId, ilon, ilat, itime, i
+                status , id, ndims, tableId, ilon, ilat, itime, i, &
+                cvar
      integer, dimension(nf90_max_var_dims) :: dimIDs
      character(len=128) :: dim_name, calendar_read, units_read
      real, dimension(:, :, :), allocatable :: rhValues
      DOUBLE PRECISION, dimension(:), allocatable :: alats, alons, time
+     DOUBLE PRECISION, dimension(2)  :: time2
+     DOUBLE PRECISION, dimension(2,2)  :: time2bnds
      DOUBLE PRECISION, dimension(:, :), allocatable :: alats_bounds, alons_bounds, time_bounds
 
      call read_nml()
@@ -75,15 +78,25 @@
                       coord_vals=alats,       &
                       cell_bounds=alats_bounds)
 
+! Write the time bounds
+write(*,*) "units_read=", trim(units_read)
 do i=1,size(time)
   write(*,'(I5,A,F8.3,A,F8.3,A,F8.3,A)') i, ": ", time(i), " (", time_bounds(1, i), ", ", time_bounds(2, i), ")"
 end do
      itime = cmor_axis(table_entry='time',     &
-                       units=units_read,       &
-                       length=size(time),      &
+                       units="hours since 2009-07-20 00:00:00",       &
                        coord_vals=time,        &
                        interval="180 minutes", &
                        cell_bounds=time_bounds)
+
+     cvar = cmor_variable(table_entry="evspsbl",                               &
+                          units="kg m-2 s-1",                            &
+                          axis_ids=(/ilon, ilat, itime/), &
+                          missing_value=1.0e20)
+
+     status = cmor_write(var_id = cvar,    &
+                         data   = rhValues)
+     if (status /= 0) call handle_err(status, "CMOR_WRITE")
 
 
      status = nf90_close(ncid)
