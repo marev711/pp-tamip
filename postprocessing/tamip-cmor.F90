@@ -68,15 +68,15 @@
 
      ilon = cmor_axis(table_entry='longitude', &
                       units='degrees_east',    &
-                      length=size(alons),      &
                       coord_vals=alons,        &
                       cell_bounds=alons_bounds)
+     if (ilon .lt. 0) call handle_err(status, "CMOR_AXIS_LON")
 
      ilat = cmor_axis(table_entry='latitude', &
                       units='degrees_north',  &
-                      length=size(alats),     &
                       coord_vals=alats,       &
                       cell_bounds=alats_bounds)
+     if (ilat .lt. 0) call handle_err(status, "CMOR_AXIS_LAT")
 
 ! Write the time bounds
 write(*,*) "units_read=", trim(units_read)
@@ -88,6 +88,7 @@ end do
                        coord_vals=time,        &
                        interval="180 minutes", &
                        cell_bounds=time_bounds)
+     if (itime .lt. 0) call handle_err(status, "CMOR_AXIS_TIME")
 
      cvar = cmor_variable(table_entry="evspsbl",                               &
                           units="kg m-2 s-1",                            &
