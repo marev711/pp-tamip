@@ -78,16 +78,20 @@
                       cell_bounds=alats_bounds)
      if (ilat .lt. 0) call handle_err(status, "CMOR_AXIS_LAT")
 
+
 ! Write the time bounds
 write(*,*) "units_read=", trim(units_read)
 do i=1,size(time)
   write(*,'(I5,A,F8.3,A,F8.3,A,F8.3,A)') i, ": ", time(i), " (", time_bounds(1, i), ", ", time_bounds(2, i), ")"
 end do
-     itime = cmor_axis(table_entry='time',     &
-                       units="hours since 2009-07-20 00:00:00",       &
-                       coord_vals=time,        &
-                       interval="180 minutes", &
-                       cell_bounds=time_bounds)
+!       itime = cmor_axis(table_entry='time',     &
+!                         units="hours since 2009-07-20 00:00:00",       &
+!                         interval="180 minutes")
+       itime = cmor_axis(table_entry='time',     &
+                         units="hours since 2009-07-20 00:00:00",       &
+                         coord_vals=time,        &
+                         interval="180 minutes", &
+                         cell_bounds=time_bounds)
      if (itime .lt. 0) call handle_err(status, "CMOR_AXIS_TIME")
 
      cvar = cmor_variable(table_entry="evspsbl",                               &
@@ -95,9 +99,16 @@ end do
                           axis_ids=(/ilon, ilat, itime/), &
                           missing_value=1.0e20)
 
-     status = cmor_write(var_id = cvar,    &
-                         data   = rhValues)
+      status = cmor_write(var_id = cvar,    &
+                          data   = rhValues)
+!       status = cmor_write(var_id = cvar,    &
+!                           data   = rhValues, &
+!                           time_vals = time, &
+!                           time_bnds = time_bounds)
      if (status /= 0) call handle_err(status, "CMOR_WRITE")
+
+     status = cmor_close()
+     if (status /= 0) call handle_err(status, "CMOR_CLOSE")
 
 
      status = nf90_close(ncid)
