@@ -1,7 +1,8 @@
  PROGRAM CMORIZETAMIP
      USE netcdf
      USE cmor_users_functions
-     USE NDATASET
+     USE NCMORIO
+     USE NATTRIBUTES
      USE CMOR_TAMIP_ROUTINES
 
      IMPLICIT NONE
@@ -28,7 +29,7 @@
      status = nf90_open(path = curr_file, mode = nf90_nowrite, ncid = ncid)
      if (status /= nf90_noerr) call handle_err(status, "NF90_OPEN")
 
-     status = nf90_inq_varid(ncid, "ES", rhVarId)
+     status = nf90_inq_varid(ncid, model_var_name, rhVarId)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID")
 
      status = nf90_inq_varid(ncid, "time", timeVarId)
@@ -40,22 +41,22 @@
      status = nf90_get_att(ncid, timeVarId, "units", units_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
 
-     status = cmor_dataset(outpath=outpath,                           &
-                           experiment_id=experiment_id,               &
-                           institution=institution,                   &
-                           source=source,                             &
+     status = cmor_dataset(branch_time=branch_time,                   &
                            calendar=calendar_read,                    &
-                           realization=realization,                   &
-                           contact=contact,                           &
-                           history=history,                           &
                            comment=comment,                           &
-                           references=references,                     &
-                           model_id=model_id,                         &
+                           contact=contact,                           &
+                           experiment_id=experiment_id,               &
                            forcing=forcing,                           &
+                           history=history,                           &
                            institute_id=institute_id,                 &
+                           institution=institution,                   &
+                           model_id=model_id,                         &
                            parent_experiment_id=parent_experiment_id, &
-                           branch_time=branch_time,                   &
-                           parent_experiment_rip=parent_experiment_rip)
+                           parent_experiment_rip=parent_experiment_rip, &
+                           realization=realization,                   &
+                           references=references,                     &
+                           source=source,                             &
+                           outpath=outpath)
 
 
      call read_1d_coord(ncid, rhVarId, "lat", alats, alats_bounds)
@@ -65,6 +66,9 @@
      allocate(rhValues(size(alons), size(alats), size(time)))
      status = nf90_get_var(ncid, rhVarId, rhValues)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
+
+     status = nf90_close(ncid)
+     if (status /= nf90_noerr) call handle_err(status, "NF90_CLOSE")
 
      ilon = cmor_axis(table_entry='longitude', &
                       units='degrees_east',    &
@@ -79,14 +83,6 @@
      if (ilat .lt. 0) call handle_err(status, "CMOR_AXIS_LAT")
 
 
-! Write the time bounds
-write(*,*) "units_read=", trim(units_read)
-do i=1,size(time)
-  write(*,'(I5,A,F8.3,A,F8.3,A,F8.3,A)') i, ": ", time(i), " (", time_bounds(1, i), ", ", time_bounds(2, i), ")"
-end do
-!       itime = cmor_axis(table_entry='time',     &
-!                         units="hours since 2009-07-20 00:00:00",       &
-!                         interval="180 minutes")
        itime = cmor_axis(table_entry='time',     &
                          units=units_read,       &
                          coord_vals=time,        &
@@ -94,23 +90,16 @@ end do
                          cell_bounds=time_bounds)
      if (itime .lt. 0) call handle_err(status, "CMOR_AXIS_TIME")
 
-     cvar = cmor_variable(table_entry="evspsbl",                               &
-                          units="kg m-2 s-1",                            &
+     cvar = cmor_variable(table_entry=cmor_var_name,          &
+                          units=model_units,             &
                           axis_ids=(/ilon, ilat, itime/), &
                           missing_value=1.0e20)
 
       status = cmor_write(var_id = cvar,    &
                           data   = rhValues)
-!       status = cmor_write(var_id = cvar,    &
-!                           data   = rhValues, &
-!                           time_vals = time, &
-!                           time_bnds = time_bounds)
+
      if (status /= 0) call handle_err(status, "CMOR_WRITE")
 
      status = cmor_close()
      if (status /= 0) call handle_err(status, "CMOR_CLOSE")
-
-
-     status = nf90_close(ncid)
-     if (status /= nf90_noerr) call handle_err(status, "NF90_CLOSE")
 END PROGRAM CMORIZETAMIP
