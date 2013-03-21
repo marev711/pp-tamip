@@ -1,7 +1,7 @@
 ! &NAMCTL
 ! /
 & NAMDATASET
-     curr_file = "44.128_tmp_mean.nc",
+     curr_file = "44.128_tmp_mean_reftimeupdate.nc",
      inpath = "/nobackup/rossby15/sm_maeva/projects/pp-tamip/def/",
      outpath = "/nobackup/rossby15/sm_maeva/projects/pp-tamip/output/",
      experiment_id = "tamip200907",

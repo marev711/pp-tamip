@@ -129,7 +129,7 @@ MODULE CMOR_TAMIP_ROUTINES
     DOUBLE PRECISION, INTENT(OUT), DIMENSION(:, :), ALLOCATABLE :: coord_array_bounds
 
     INTEGER, DIMENSION(NF90_MAX_VAR_DIMS) :: dimIDs
-    INTEGER :: ndims, numLength, id, i_bounds, status
+    INTEGER :: ndims, numLength, id, i_bounds, status, i
     CHARACTER(LEN=128) :: dim_name
 
     status = nf90_inquire_variable(ncid, rhVarId, dimids = dimIDs, ndims=ndims)
@@ -166,23 +166,19 @@ MODULE CMOR_TAMIP_ROUTINES
             end if
 
             if (dim_name .eq. "time") then
-                coord_array(1) = 0
-                coord_array(2) = coord_array(2) - 2.25
-                coord_array(numLength) = 117.0
-                coord_array_bounds(1, 1) = 0
-                coord_array_bounds(2, 1) = 0 + (coord_array(2)-coord_array(1))/2
-                coord_array(2) = coord_array(2) + 2.25
-                do i_bounds=2, numLength-1
-                    coord_array(i_bounds) = coord_array(i_bounds) - 2.25
-                end do
+                !! Explicit fix to the IFS_LASTOUT = .FALSE. setting,
+                !! remove once TAMIP-runs are rerun
+                coord_array(numLength) = coord_array(numLength - 1) + 3
+                !! End of explicit fix
+
+                coord_array_bounds(1, 1) = coord_array(1) - (coord_array(2)-coord_array(1))/2
+                coord_array_bounds(2, 1) = coord_array(1) + (coord_array(2)-coord_array(1))/2
                 do i_bounds=2, numLength-1
                     coord_array_bounds(1, i_bounds) = coord_array(i_bounds) - (coord_array(i_bounds)-coord_array(i_bounds-1))/2
                     coord_array_bounds(2, i_bounds) = coord_array(i_bounds) + (coord_array(i_bounds+1)-coord_array(i_bounds))/2
                 end do
                 coord_array_bounds(1, numLength) = coord_array(numLength) - (coord_array(numLength)-coord_array(numLength-1))/2
-                coord_array_bounds(2, numLength) = coord_array(numLength)
-                coord_array_bounds(1, 1) = -1.5
-                coord_array_bounds(2, numLength) = 118.5
+                coord_array_bounds(2, numLength) = coord_array(numLength) + (coord_array(numLength)-coord_array(numLength-1))/2
             end if
         end if
     end do

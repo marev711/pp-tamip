@@ -88,7 +88,7 @@ end do
 !                         units="hours since 2009-07-20 00:00:00",       &
 !                         interval="180 minutes")
        itime = cmor_axis(table_entry='time',     &
-                         units="hours since 2009-07-20 00:00:00",       &
+                         units=units_read,       &
                          coord_vals=time,        &
                          interval="180 minutes", &
                          cell_bounds=time_bounds)
