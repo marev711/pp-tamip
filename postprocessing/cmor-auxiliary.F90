@@ -167,7 +167,7 @@ MODULE CMOR_TAMIP_ROUTINES
 
             if (dim_name .eq. "time") then
                 !! Explicit fix to the IFS_LASTOUT = .FALSE. setting,
-                !! remove once TAMIP-runs are rerun
+                !! remove once TAMIP-runs are rerun with IFS_LASTOUT = .TRUE.
                 coord_array(numLength) = coord_array(numLength - 1) + 3
                 !! End of explicit fix
 
