@@ -53,6 +53,12 @@ entries = [[grib_entry[start:end].strip() for start,end in indices] for grib_ent
 # Couple headers to each entry
 params = [dict(zip(headers, param)) for param in entries]
 
+f = open("../def/TAMIP_dates_and_hours.txt", "r")
+dates_hours = f.readlines()
+dates = [date_hh.split()[0] for date_hh in dates_hours]
+hours = [date_hh.split()[1] for date_hh in dates_hours]
+date_hh = dict(zip(dates, hours))
+
 base_folder = "/nobackup/rossby15/rossby/joint_exp/tamip"
 run_folders = ("TMIP_2008-10-15", "TMIP_2008-10-16", "TMIP_2008-10-17", 
                "TMIP_2008-10-18", "TMIP_2008-10-20", "TMIP_2008-10-21", 
@@ -78,6 +84,7 @@ run_folders = ("TMIP_2008-10-15", "TMIP_2008-10-16", "TMIP_2008-10-17",
                "TMIP_2009-08-02")
 
 run_folder = run_folders[1]
+curr_date = re.sub("TMIP_", "", run_folder)
 os.chdir(os.path.join(base_folder, run_folder))
 gg_files = glob.glob('ICMGG*200*')
 TMIP_match = re.search('ICMGGTM([0-9]{2})\+(200[89])([0-9]{2})', gg_files[0])
@@ -85,8 +92,12 @@ TMIP_index = TMIP_match.group(1)
 TMIP_year = TMIP_match.group(2)
 TMIP_month = TMIP_match.group(3)
 
-# Special case if grib files are split across two months
-if len(gg_files) > 1:
+
+if len(gg_files) == 1:  #  The normal case, a singel grib file where we split the entries
+    cdo_splitparam = "cdo splitparam " + gg_files[0] + " split"
+    cdo_command = postproc_aux.cdo_launch(cdo_splitparam, log_handle=sys.stdout)
+    subprocess.check_call(["rename split '' split*"], shell=True)
+elif len(gg_files) == 2:  # Special case if grib files are split across two months
     TMIP_match2 = re.search('ICMGGTM([0-9]{2})\+(200[89])([0-9]{2})', gg_files[1])
     TMIP_index2 = TMIP_match2.group(1)
     TMIP_year2 = TMIP_match2.group(2)
@@ -104,16 +115,18 @@ if len(gg_files) > 1:
         cdo_command = postproc_aux.cdo_launch(cdo_mergetime, log_handle=sys.stdout)
         os.remove(split_file)
         os.remove(other_split_file)
-else:  #  The normal case, a singel grib file where we split the entries
-    cdo_splitparam = "cdo splitparam " + gg_files[0] + " split"
-    cdo_command = postproc_aux.cdo_launch(cdo_splitparam, log_handle=sys.stdout)
-    subprocess.check_call(["rename split '' split*"], shell=True)
+else:
+    print "*EE*: Script can only handle two separate GRIB-files..."
+    raise
 
 for param in params:
-    cdo_grb2nc_parSel = "cdo -R -r -f nc -t ecmwf copy -selparam," + param['variablesGG'] + " /nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-07-20/ICMGGTM53+200907 " + param['variablesGG'] + "_tmp.nc"
+    cdo_grb2nc_parSel = "cdo -R -r -f nc -t ecmwf copy " + param['variablesGG'] + ".grb " + param['variablesGG'] + "_tmp.nc"
     cdo_command = postproc_aux.cdo_launch(cdo_grb2nc_parSel, log_handle=sys.stdout)
 
     cdo_3h_mean = "cdo timselmean,4 " + param['variablesGG'] + "_tmp.nc " + param['variablesGG'] + "_tmp_mean.nc"
     cdo_command = postproc_aux.cdo_launch(cdo_3h_mean, log_handle=sys.stdout)
+
+    cdo_setreftime = "cdo setreftime," + curr_date + "," + date_hh[curr_date] + ":00 " + param['variablesGG'] + "_tmp_mean.nc " + param['variablesGG'] + "_tmp_mean_reftime0.nc"
+    cdo_command = postproc_aux.cdo_launch(cdo_setreftime, log_handle=sys.stdout)
 
     sys.exit(1)

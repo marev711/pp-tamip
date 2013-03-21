@@ -17,9 +17,9 @@ def cdo_launch(cdo_command, log_handle=None):
         log_handle.write("%%%%%%%%%%%%%%%%%%%%%%\n")
         log_handle.write(cdo_command + "\n")
         run_application = subprocess.check_call(cdo_command, shell=True, stdout=subprocess.PIPE)
-        run_application.wait()
-        std_outerr = run_application.communicate()[0]
-        log_handle.write(std_outerr)
+        #run_application.wait()
+        #std_outerr = run_application.communicate()[0]
+        #log_handle.write(std_outerr)
         log_handle.write("%%%%%%%%%%%%%%%%%%%%%%\n")
         log_handle.write("% Command finished: " +  str(datetime.datetime.now()) + "\n")
         log_handle.write("%%%%%%%%%%%%%%%%%%%%%%\n")
