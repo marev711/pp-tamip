@@ -56,6 +56,14 @@ entries = [[grib_entry[start:end].strip() for start,end in indices] for grib_ent
 # Couple headers to each entry
 params = [dict(zip(headers, param)) for param in entries]
 
+# Remove all but 3hrSlev-table entries
+params = [entry for entry in params if re.search("TAMIP_3hrSlev", entry['table_id']) != None]
+
+# Remove tables that happen to occure together with 3hrSlev-table entries
+for param_id in range(len(params)):
+    params[param_id]['table_id'] = re.sub(".*(TAMIP_3hrSlev).*", r'\1', params[param_id]['table_id'])
+
+
 f = open(os.path.join(base_dir, "def/TAMIP_experiment_info.txt"), "r")
 exp_info_raw = f.readlines()
 exp_info = [entry for entry in exp_info_raw if not re.search('^#', entry)]
@@ -141,6 +149,25 @@ for param in params:
     cdo_setreftime = "cdo setreftime," + curr_date + "," + date_hh[curr_date] + ":00 " + param['variablesGG'] + "_tmp_mean.nc " + param['variablesGG'] + "_tmp_mean_reftime0.nc"
     cdo_command = postproc_aux.cdo_launch(cdo_setreftime, log_handle=sys.stdout)
 
-    
+    nml_replacements = {"cmor_varname"  : param['namesGG'], 
+                        "model_units"   : param['unitsGG_old'], 
+                        "model_varname" : param['variablesGG'], 
+                        "experiment_id" : "tamip" + re.sub("-", "", curr_date[0:8]), 
+                        "history"       : "PLACE_HOLDER", 
+                        "realization"   : date_rea[curr_date], 
+                        "table_id"      : param['table_id']}
+    fnml = open(os.path.join(base_dir, "postprocessing/cmor.nml.tmpl"), "r")
+    nml = fnml.readlines()
+    fnml.close()
+
+    os.remove(os.path.join(base_dir, "postprocessing/cmor.nml"))
+    fnml = open(os.path.join(base_dir, "postprocessing/cmor.nml"), "w")
+    for nml_line in nml:
+        for nml_rep in nml_replacements.keys():
+            if re.search(nml_rep, nml_line) != None:
+                nml_line = re.sub("PLACE_HOLDER", nml_replacements[nml_rep], nml_line)
+        fnml.write(nml_line)
+    fnml.close()
+    print nml
 
     sys.exit(1)
