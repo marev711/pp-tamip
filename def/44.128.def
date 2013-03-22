@@ -1,0 +1,2 @@
+cdo -R -r -f nc -t ecmwf copy 44.128.grb 44.128_tmp.nc
+cdo timselmean,4 44.128_tmp.nc 44.128_tmp_mean.nc
