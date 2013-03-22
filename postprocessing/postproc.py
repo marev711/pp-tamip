@@ -23,8 +23,8 @@ import sys
 import postproc_aux
 
 # Where am I?
-curr_file = os.path.abspath(os.path.join(os.getcwd(), __file__))
-base_dir  = re.search("(.*)/.*?", os.path.dirname(curr_file)).group(1)
+script_file = os.path.abspath(os.path.join(os.getcwd(), __file__))
+base_dir  = re.search("(.*)/.*?", os.path.dirname(script_file)).group(1)
 
 # Input file
 if len(sys.argv) != 2:
@@ -101,6 +101,8 @@ run_folders = ("TMIP_2008-10-15", "TMIP_2008-10-16", "TMIP_2008-10-17",
 run_folder = run_folders[1]
 curr_date = re.sub("TMIP_", "", run_folder)
 os.chdir(os.path.join(model_data_folder, run_folder))
+inpath = os.path.join(model_data_folder, run_folder)
+curr_file = "44.128_tmp_mean_reftime0.nc"
 
 # Check which grib files are present in this folder
 grib_files = glob.glob('ICMGG*200*')
@@ -152,6 +154,8 @@ for param in params:
     nml_replacements = {"cmor_varname"  : param['namesGG'], 
                         "model_units"   : param['unitsGG_old'], 
                         "model_varname" : param['variablesGG'], 
+                        "curr_file"     : param['variablesGG'], 
+                        "inpath"        : param['variablesGG'], 
                         "experiment_id" : "tamip" + re.sub("-", "", curr_date[0:8]), 
                         "history"       : "PLACE_HOLDER", 
                         "realization"   : date_rea[curr_date], 
