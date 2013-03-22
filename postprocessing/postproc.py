@@ -168,6 +168,9 @@ for param in params:
                 nml_line = re.sub("PLACE_HOLDER", nml_replacements[nml_rep], nml_line)
         fnml.write(nml_line)
     fnml.close()
-    print nml
 
+    os.chdir(os.path.join(base_dir, "postprocessing"))
+    subprocess.check_call(
+             "LD_LIBRARY_PATH=/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib:/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib ./tamip-cmor.x",
+              shell=True, stdout=subprocess.PIPE)
     sys.exit(1)
