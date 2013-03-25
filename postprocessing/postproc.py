@@ -22,9 +22,14 @@ import subprocess
 import sys
 import postproc_aux
 
+# CMORize only from this table
+current_table = "TAMIP_3hrSlev"
+
 # Where am I?
 script_file = os.path.abspath(os.path.join(os.getcwd(), __file__))
-base_dir  = re.search("(.*)/.*?", os.path.dirname(script_file)).group(1)
+base_dir    = re.search("(.*)/.*?", os.path.dirname(script_file)).group(1)
+def_dir     = os.path.join(base_dir, "def")
+postpr_dir  = os.path.join(base_dir, "postprocessing")
 
 # Input file
 if len(sys.argv) != 2:
@@ -32,7 +37,7 @@ if len(sys.argv) != 2:
     sys.exit(1)
 definition_file = sys.argv[1]
 
-# Read all lines
+# Read defintion file
 f = open(definition_file, "r")
 grib_entries = f.readlines()
 f.close()
@@ -40,10 +45,10 @@ f.close()
 # Remove comments and empty lines
 grib_entries = [entry for entry in grib_entries if not re.search('^#', entry) and len(entry.strip()) > 0]
 
-# Array headers (index 0)
+# Retrieve headers from defintions files
 headers = grib_entries[0].split()
 
-# Get string start and end indices (from extent of headers)
+# Use extent of headers to figure out column width
 end_index = [m.start(0)+1 for m in re.finditer('[HGd](\s*$|\s)', grib_entries[0])]
 start_index = [m+1 for m in end_index]
 start_index = start_index[0:-1]
@@ -56,24 +61,26 @@ entries = [[grib_entry[start:end].strip() for start,end in indices] for grib_ent
 # Couple headers to each entry
 params = [dict(zip(headers, param)) for param in entries]
 
-# Remove all but 3hrSlev-table entries
-params = [entry for entry in params if re.search("TAMIP_3hrSlev", entry['table_id']) != None]
+# Remove all but 'current_table'-table entries
+params = [entry for entry in params if re.search(current_table, entry['table_id']) != None]
 
-# Remove tables that happen to occure together with 3hrSlev-table entries
+# Remove tables that happen to occure together with 'current_table'-table entries
 for param_id in range(len(params)):
-    params[param_id]['table_id'] = re.sub(".*(TAMIP_3hrSlev).*", r'\1', params[param_id]['table_id'])
+    params[param_id]['table_id'] = re.sub(".*(" + current_table + ").*", r'\1', params[param_id]['table_id'])
 
 
+# Couple TAMIP dates with their starting time (hours) and realisaion no
 f = open(os.path.join(base_dir, "def/TAMIP_experiment_info.txt"), "r")
-exp_info_raw = f.readlines()
-exp_info = [entry for entry in exp_info_raw if not re.search('^#', entry)]
-dates = [date_hh.split()[0] for date_hh in exp_info]
-hours = [date_hh.split()[1] for date_hh in exp_info]
-realizations = [date_hh.split()[2] for date_hh in exp_info]
+experiment_info_raw = f.readlines()
+experiment_info = [entry for entry in experiment_info_raw if not re.search('^#', entry)]
+dates = [date_hh.split()[0] for date_hh in experiment_info]
+hours = [date_hh.split()[1] for date_hh in experiment_info]
+realizations = [date_hh.split()[2] for date_hh in experiment_info]
 
 date_hh = dict(zip(dates, hours))
 date_rea = dict(zip(dates, realizations))
 
+# All experiments
 experiment_folder = "/nobackup/rossby15/rossby/joint_exp/tamip"
 run_folders = ("TMIP_2008-10-15", "TMIP_2008-10-16", "TMIP_2008-10-17", 
                "TMIP_2008-10-18", "TMIP_2008-10-20", "TMIP_2008-10-21", 
@@ -138,30 +145,39 @@ TMIP_month = TMIP_match.group(3)
 ##     print "*EE*: Script can only handle one or two separate GRIB-files..."
 ##     raise
 
-def_dir       = os.path.join(base_dir, "def")
 
 for param in params:
-    param_def_file = os.path.join(def_dir, param['table_id'], param['variablesGG'] + ".def")
-    if (os.path.exists(param_def_file)):
-        def_file = postproc_aux.parse_xml(param_def_file)
+    xml_def_file = os.path.join(def_dir, param['table_id'], param['variablesGG'] + ".def")
+    if (os.path.exists(xml_def_file)):
+        param_def_file = postproc_aux.parse_xml(xml_def_file)
 
-        if def_file.has_key("command_block"):
-            param_def = def_file["command_block"].split('\n')
+        if param_def_file.has_key("command_block"):
+            param_def = param_def_file["command_block"].split('\n')
         else:
+            print "No command_block in " + xml_def_file
             raise
 
+        # Execute command block in current definition file
         for param_def_line in param_def:
             cdo_command = param_def_line
             cdo_return = postproc_aux.cdo_launch(cdo_command, log_handle=sys.stdout)
 
+        if param_def_file.has_key("post_cdo_units"):
+            units = param_def_file["post_cdo_units"].split('\n')[0]
+        else:
+            units = param['unitsGG_old']
+
+    # Fix reference time using the TAMIP_experiment_info.txt-file
     curr_file = param['variablesGG'] + ".nc"
     curr_temp= param['variablesGG'] + "_tmp.nc"
     cdo_setreftime = "cdo setreftime," + curr_date + "," + date_hh[curr_date] + ":00 " + curr_file + " " + curr_temp
     cdo_command = postproc_aux.cdo_launch(cdo_setreftime, log_handle=sys.stdout)
     os.rename(curr_temp, curr_file)
 
+    # Update the CMOR namelist file (cmor.nml)
+    os.chdir(os.path.join(postpr_dir))
     nml_replacements = {"cmor_varname"  : param['namesGG'], 
-                        "model_units"   : def_file['post_cdo_units'], 
+                        "model_units"   : units,  # either from "unitsGG_old" or "cdo command block"
                         "model_varname" : param['namesGG_old'], 
                         "curr_file"     : os.path.join(model_data_folder, curr_file),
                         "inpath"        : os.path.join(def_dir, param['table_id']),  
@@ -169,22 +185,9 @@ for param in params:
                         "history"       : "PLACE_HOLDER", 
                         "realization"   : date_rea[curr_date], 
                         "table_id"      : param['table_id']}
-    fnml = open(os.path.join(base_dir, "postprocessing/cmor.nml.tmpl"), "r")
-    nml = fnml.readlines()
-    fnml.close()
+    postproc_aux.translate_template(nml_replacements, template="cmor.nml.tmpl", target="cmor.nml")
 
-    # Fill values in cmor-template
-    if (os.path.exists(os.path.join(base_dir, "postprocessing/cmor.nml"))):
-        os.remove(os.path.join(base_dir, "postprocessing/cmor.nml"))
-    fnml = open(os.path.join(base_dir, "postprocessing/cmor.nml"), "w")
-    for nml_line in nml:
-        for nml_rep in nml_replacements.keys():
-            if re.search(nml_rep, nml_line) != None:
-                nml_line = re.sub("PLACE_HOLDER", nml_replacements[nml_rep], nml_line)
-        fnml.write(nml_line)
-    fnml.close()
-
-    os.chdir(os.path.join(base_dir, "postprocessing"))
+    # Run CMOR
     subprocess.check_call(
              "LD_LIBRARY_PATH=/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib:/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib ./tamip-cmor.x",
               shell=True, stdout=subprocess.PIPE)

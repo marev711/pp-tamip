@@ -1,7 +1,9 @@
+import datetime
+import os
+import pdb
+import re
 import subprocess
 import xml.dom.minidom
-import pdb
-import datetime
 
 def cdo_launch(cdo_command, log_handle=None):
     """ @brief Wrapper to execute CDO commands
@@ -32,3 +34,17 @@ def parse_xml(xml_file):
             pr[key] = value
     return pr
 
+def translate_template(nml_replacements, template, target):
+    fnml = open(template, "r")
+    nml = fnml.readlines()
+    fnml.close()
+
+    if (os.path.exists(target)):
+        os.remove(target)
+    fnml = open(target, "w")
+    for nml_line in nml:
+        for nml_rep in nml_replacements.keys():
+            if re.search(nml_rep, nml_line) != None:
+                nml_line = re.sub("PLACE_HOLDER", nml_replacements[nml_rep], nml_line)
+        fnml.write(nml_line)
+    fnml.close()
