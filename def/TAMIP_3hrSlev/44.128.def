@@ -1,2 +1,13 @@
-cdo -R -r -f nc -t ecmwf copy 44.128.grb 44.128_tmp.nc
-cdo timselmean,4 44.128_tmp.nc 44.128_tmp_mean.nc
+<definition>
+
+    <command_block>
+        cdo -R -r -f nc -t ecmwf copy 44.128.grb 44.128_tmp.nc
+        cdo timselmean,4 44.128_tmp.nc 44.128.nc
+        rm -f 44.128_tmp.nc
+    </command_block>
+
+    <post_cdo_units>
+        kg m-2 s-1
+    </post_cdo_units>
+
+</definition>
