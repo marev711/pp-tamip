@@ -17,7 +17,7 @@ def cdo_launch(cdo_command, log_handle=None):
     std_outerr = None
     if (log_handle != None):
         log_handle.write(str(datetime.datetime.now()) + ": " + cdo_command + "\n")
-        run_application = subprocess.check_call(cdo_command, shell=True, stdout=subprocess.PIPE)
+        run_application = subprocess.check_call(cdo_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         #run_application.wait()
         #std_outerr = run_application.communicate()[0]
         #log_handle.write(std_outerr)
