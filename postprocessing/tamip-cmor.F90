@@ -29,7 +29,7 @@
      status = nf90_open(path = curr_file, mode = nf90_nowrite, ncid = ncid)
      if (status /= nf90_noerr) call handle_err(status, "NF90_OPEN")
 
-     status = nf90_inq_varid(ncid, model_var_name, rhVarId)
+     status = nf90_inq_varid(ncid, model_varname, rhVarId)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID")
 
      status = nf90_inq_varid(ncid, "time", timeVarId)
@@ -90,7 +90,7 @@
                          cell_bounds=time_bounds)
      if (itime .lt. 0) call handle_err(status, "CMOR_AXIS_TIME")
 
-     cvar = cmor_variable(table_entry=cmor_var_name,          &
+     cvar = cmor_variable(table_entry=cmor_varname,          &
                           units=model_units,             &
                           axis_ids=(/ilon, ilat, itime/), &
                           missing_value=1.0e20)

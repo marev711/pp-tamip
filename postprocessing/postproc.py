@@ -74,7 +74,7 @@ realizations = [date_hh.split()[2] for date_hh in exp_info]
 date_hh = dict(zip(dates, hours))
 date_rea = dict(zip(dates, realizations))
 
-model_data_folder = "/nobackup/rossby15/rossby/joint_exp/tamip"
+experiment_folder = "/nobackup/rossby15/rossby/joint_exp/tamip"
 run_folders = ("TMIP_2008-10-15", "TMIP_2008-10-16", "TMIP_2008-10-17", 
                "TMIP_2008-10-18", "TMIP_2008-10-20", "TMIP_2008-10-21", 
                "TMIP_2008-10-22", "TMIP_2008-10-23", "TMIP_2008-10-25", 
@@ -100,9 +100,8 @@ run_folders = ("TMIP_2008-10-15", "TMIP_2008-10-16", "TMIP_2008-10-17",
 
 run_folder = run_folders[1]
 curr_date = re.sub("TMIP_", "", run_folder)
-os.chdir(os.path.join(model_data_folder, run_folder))
-inpath = os.path.join(model_data_folder, run_folder)
-curr_file = "44.128_tmp_mean_reftime0.nc"
+os.chdir(os.path.join(experiment_folder, run_folder))
+model_data_folder = os.path.join(experiment_folder, run_folder)
 
 # Check which grib files are present in this folder
 grib_files = glob.glob('ICMGG*200*')
@@ -139,23 +138,33 @@ TMIP_month = TMIP_match.group(3)
 ##     print "*EE*: Script can only handle one or two separate GRIB-files..."
 ##     raise
 
+def_dir       = os.path.join(base_dir, "def")
+
 for param in params:
-    param_def_file = os.path.join(base_dir, "def", param['variablesGG'] + ".def")
+    param_def_file = os.path.join(def_dir, param['table_id'], param['variablesGG'] + ".def")
     if (os.path.exists(param_def_file)):
-        param_file = open(param_def_file, "r")
-        param_def = param_file.readlines()
+        def_file = postproc_aux.parse_xml(param_def_file)
+
+        if def_file.has_key("command_block"):
+            param_def = def_file["command_block"].split('\n')
+        else:
+            raise
+
         for param_def_line in param_def:
             cdo_command = param_def_line
             cdo_return = postproc_aux.cdo_launch(cdo_command, log_handle=sys.stdout)
 
-    cdo_setreftime = "cdo setreftime," + curr_date + "," + date_hh[curr_date] + ":00 " + param['variablesGG'] + "_tmp_mean.nc " + param['variablesGG'] + "_tmp_mean_reftime0.nc"
+    curr_file = param['variablesGG'] + ".nc"
+    curr_temp= param['variablesGG'] + "_tmp.nc"
+    cdo_setreftime = "cdo setreftime," + curr_date + "," + date_hh[curr_date] + ":00 " + curr_file + " " + curr_temp
     cdo_command = postproc_aux.cdo_launch(cdo_setreftime, log_handle=sys.stdout)
+    os.rename(curr_temp, curr_file)
 
     nml_replacements = {"cmor_varname"  : param['namesGG'], 
-                        "model_units"   : param['unitsGG_old'], 
-                        "model_varname" : param['variablesGG'], 
-                        "curr_file"     : param['variablesGG'], 
-                        "inpath"        : param['variablesGG'], 
+                        "model_units"   : def_file['post_cdo_units'], 
+                        "model_varname" : param['namesGG_old'], 
+                        "curr_file"     : os.path.join(model_data_folder, curr_file),
+                        "inpath"        : os.path.join(def_dir, param['table_id']),  
                         "experiment_id" : "tamip" + re.sub("-", "", curr_date[0:8]), 
                         "history"       : "PLACE_HOLDER", 
                         "realization"   : date_rea[curr_date], 
@@ -164,7 +173,9 @@ for param in params:
     nml = fnml.readlines()
     fnml.close()
 
-    os.remove(os.path.join(base_dir, "postprocessing/cmor.nml"))
+    # Fill values in cmor-template
+    if (os.path.exists(os.path.join(base_dir, "postprocessing/cmor.nml"))):
+        os.remove(os.path.join(base_dir, "postprocessing/cmor.nml"))
     fnml = open(os.path.join(base_dir, "postprocessing/cmor.nml"), "w")
     for nml_line in nml:
         for nml_rep in nml_replacements.keys():
