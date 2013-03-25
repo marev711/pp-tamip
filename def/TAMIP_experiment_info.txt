@@ -1,3 +1,4 @@
+# Couple date with exact start time and realisation
 #DATE       Z Realization
 2008-10-15 00           1
 2008-10-16 06           2
