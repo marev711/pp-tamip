@@ -3,7 +3,8 @@
     <command_block>
         cdo -R -r -f nc -t ecmwf copy 44.128.grb 44.128_tmp.nc
         cdo timselmean,4 44.128_tmp.nc 44.128.nc
-        rm -f 44.128_tmp.nc
+        cdo mulc,1000 -divc,2700. 44.128.nc 44.128_tmp.nc
+        mv 44.128_tmp.nc 44.128.nc
     </command_block>
 
     <post_cdo_units>
