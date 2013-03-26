@@ -115,10 +115,10 @@ grib_files = glob.glob('ICMGG*200*')
 
 
 # Split IFS-grib file(s) into separate grib files named "paramId.table2Version.grb"
-postproc_aux.split_ICM_files(grib_files)
-sys.exit(1)
+#postproc_aux.split_ICM_files(grib_files)
 
 for param in params:
+    os.chdir(os.path.join(experiment_folder, run_folder))
     xml_def_file = os.path.join(def_dir, param['table_id'], param['variablesGG'] + ".def")
     if (os.path.exists(xml_def_file)):
         param_def_file = postproc_aux.parse_xml(xml_def_file)
@@ -163,4 +163,5 @@ for param in params:
     subprocess.check_call(
              "LD_LIBRARY_PATH=/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib:/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib ./tamip-cmor.x",
               shell=True, stdout=subprocess.PIPE)
-    sys.exit(1)
+    if (param['variablesGG'] == "137.128"):
+        sys.exit(1)
