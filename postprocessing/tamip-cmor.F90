@@ -13,6 +13,8 @@
                 cvar
      integer, dimension(nf90_max_var_dims) :: dimIDs
      character(len=128) :: dim_name, calendar_read, units_read
+     character(len=1024) :: history
+     character (len=*) , parameter :: end_of_line = char(13)//char(10)
      real, dimension(:, :, :), allocatable :: rhValues
      DOUBLE PRECISION, dimension(:), allocatable :: alats, alons, time
      DOUBLE PRECISION, dimension(2)  :: time2
@@ -38,6 +40,10 @@
      status = nf90_get_att(ncid, timeVarId, "calendar", calendar_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
 
+     status = nf90_get_att(ncid, NF90_GLOBAL, "history", history)
+     if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
+     history=trim(history)//end_of_line
+
      status = nf90_get_att(ncid, timeVarId, "units", units_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
 
@@ -47,7 +53,7 @@
                            contact=contact,                           &
                            experiment_id=experiment_id,               &
                            forcing=forcing,                           &
-                           history=history,                           &
+                           history=history,                          &
                            institute_id=institute_id,                 &
                            institution=institution,                   &
                            model_id=model_id,                         &

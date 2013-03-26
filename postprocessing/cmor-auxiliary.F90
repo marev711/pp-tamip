@@ -5,7 +5,7 @@ END MODULE NCMORIO
 
 MODULE NATTRIBUTES
      CHARACTER(256) ::  calendar,              comment,        contact,              &
-                        experiment_id,         forcing,        history,              &
+                        experiment_id,         forcing,                              &
                         initialization_method, institute_id,   institution,          &
                         model_id,              modeling_realm, original_name,        &
                         parent_experiment_id,  parent_experiment_rip,                &
@@ -43,7 +43,6 @@ MODULE CMOR_TAMIP_ROUTINES
     contact               = "N/A"
     experiment_id         = "N/A"
     forcing               = "N/A"
-    history               = "N/A"
     initialization_method = "N/A"
     institute_id          = "N/A"
     institution           = "N/A"
