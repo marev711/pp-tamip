@@ -90,10 +90,11 @@
                          cell_bounds=time_bounds)
      if (itime .lt. 0) call handle_err(status, "CMOR_AXIS_TIME")
 
-     cvar = cmor_variable(table_entry=cmor_varname,          &
-                          units=model_units,             &
+     cvar = cmor_variable(table_entry=cmor_varname,       &
+                          units=model_units,              &
                           axis_ids=(/ilon, ilat, itime/), &
-                          missing_value=1.0e20)
+                          missing_value=1.0e20,           &
+                          original_name=original_name)
 
       status = cmor_write(var_id = cvar,    &
                           data   = rhValues)

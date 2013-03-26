@@ -134,10 +134,16 @@ for param in params:
             cdo_command = param_def_line
             cdo_return = postproc_aux.command_launch(cdo_command, log_handle=sys.stdout)
 
+        # Set some attributes from xml-def file
         if param_def_file.has_key("post_cdo_units"):
             units = param_def_file["post_cdo_units"].split('\n')[0]
         else:
             units = param['unitsGG_old']
+
+        if param_def_file.has_key("original_name"):
+            original_name = param_def_file["original_name"].split('\n')[0]
+        else:
+            original_name = param['namesGG_old']
 
     # Fix reference time using the TAMIP_experiment_info.txt-file
     curr_file = param['variablesGG'] + ".nc"
@@ -148,14 +154,15 @@ for param in params:
 
     # Update the CMOR namelist file (cmor.nml)
     os.chdir(os.path.join(postpr_dir))
-    nml_replacements = {"cmor_varname"  : param['namesGG'], 
-                        "model_units"   : units,  # either from "unitsGG_old" or "cdo command block"
-                        "model_varname" : param['namesGG_old'], 
+    nml_replacements = {"cmor_varname"  : param['namesGG'],
                         "curr_file"     : os.path.join(model_data_folder, curr_file),
-                        "inpath"        : os.path.join(def_dir, param['table_id']),  
-                        "experiment_id" : "tamip" + re.sub("-", "", curr_date[0:8]), 
-                        "history"       : "PLACE_HOLDER", 
-                        "realization"   : date_rea[curr_date], 
+                        "experiment_id" : "tamip" + re.sub("-", "", curr_date[0:8]),
+                        "history"       : "PLACE_HOLDER",
+                        "inpath"        : os.path.join(def_dir, param['table_id']),
+                        "model_units"   : units,  # either from "unitsGG_old" or "cdo command block"
+                        "model_varname" : param['namesGG_old'],
+                        "original_name" : original_name,
+                        "realization"   : date_rea[curr_date],
                         "table_id"      : param['table_id']}
     postproc_aux.translate_template(nml_replacements, template="cmor.nml.tmpl", target="cmor.nml")
 
