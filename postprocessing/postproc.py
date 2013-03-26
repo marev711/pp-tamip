@@ -105,46 +105,18 @@ run_folders = ("TMIP_2008-10-15", "TMIP_2008-10-16", "TMIP_2008-10-17",
                "TMIP_2009-07-30", "TMIP_2009-07-31", "TMIP_2009-08-01", 
                "TMIP_2009-08-02")
 
-run_folder = run_folders[1]
+run_folder = run_folders[12]
 curr_date = re.sub("TMIP_", "", run_folder)
 os.chdir(os.path.join(experiment_folder, run_folder))
 model_data_folder = os.path.join(experiment_folder, run_folder)
 
 # Check which grib files are present in this folder
 grib_files = glob.glob('ICMGG*200*')
-TMIP_match = re.search('ICM..TM([0-9]{2})\+(200[89])([0-9]{2})', grib_files[0])
-TMIP_index = TMIP_match.group(1)
-TMIP_year = TMIP_match.group(2)
-TMIP_month = TMIP_match.group(3)
 
 
-# Split IFS-grib files into files named "paramId.table2Version"
-## if len(grib_files) == 1:  #  The normal case, a single grib file where we split the entries
-##     cdo_splitparam = "cdo splitparam " + grib_files[0] + " split"
-##     cdo_command = postproc_aux.cdo_launch(cdo_splitparam, log_handle=sys.stdout)
-##     subprocess.check_call(["rename split '' split*"], shell=True)
-## elif len(grib_files) == 2:  # Special case if grib files are split across two months
-##     TMIP_match2 = re.search('ICM??TM([0-9]{2})\+(200[89])([0-9]{2})', grib_files[1])
-##     TMIP_index2 = TMIP_match2.group(1)
-##     TMIP_year2 = TMIP_match2.group(2)
-##     TMIP_month2 = TMIP_match2.group(3)
-##     print TMIP_index2, TMIP_year2, TMIP_month2
-##     cdo_splitparam = "cdo splitparam " + grib_files[0] + " " + TMIP_month + "."
-##     cdo_command = postproc_aux.cdo_launch(cdo_splitparam, log_handle=sys.stdout)
-##     cdo_splitparam = "cdo splitparam " + grib_files[1] + " " + TMIP_month2 + "."
-##     cdo_command = postproc_aux.cdo_launch(cdo_splitparam, log_handle=sys.stdout)
-##     split_files = glob.glob(TMIP_month + '*')
-##     for split_file in split_files:
-##         other_split_file = re.sub(TMIP_month, TMIP_month2, split_file)
-##         merged_file = re.sub("^" + TMIP_month + "\.", "", split_file)
-##         cdo_mergetime = "cdo mergetime " + split_file + " " + other_split_file + " " + merged_file
-##         cdo_command = postproc_aux.cdo_launch(cdo_mergetime, log_handle=sys.stdout)
-##         os.remove(split_file)
-##         os.remove(other_split_file)
-## else:
-##     print "*EE*: Script can only handle one or two separate GRIB-files..."
-##     raise
-
+# Split IFS-grib file(s) into separate grib files named "paramId.table2Version.grb"
+postproc_aux.split_ICM_files(grib_files)
+sys.exit(1)
 
 for param in params:
     xml_def_file = os.path.join(def_dir, param['table_id'], param['variablesGG'] + ".def")
@@ -160,7 +132,7 @@ for param in params:
         # Execute command block in current definition file
         for param_def_line in param_def:
             cdo_command = param_def_line
-            cdo_return = postproc_aux.cdo_launch(cdo_command, log_handle=sys.stdout)
+            cdo_return = postproc_aux.command_launch(cdo_command, log_handle=sys.stdout)
 
         if param_def_file.has_key("post_cdo_units"):
             units = param_def_file["post_cdo_units"].split('\n')[0]
@@ -171,7 +143,7 @@ for param in params:
     curr_file = param['variablesGG'] + ".nc"
     curr_temp= param['variablesGG'] + "_tmp.nc"
     cdo_setreftime = "cdo setreftime," + curr_date + "," + date_hh[curr_date] + ":00 " + curr_file + " " + curr_temp
-    cdo_command = postproc_aux.cdo_launch(cdo_setreftime, log_handle=sys.stdout)
+    cdo_command = postproc_aux.command_launch(cdo_setreftime, log_handle=sys.stdout)
     os.rename(curr_temp, curr_file)
 
     # Update the CMOR namelist file (cmor.nml)

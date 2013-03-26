@@ -1,11 +1,13 @@
 import datetime
+import glob
 import os
 import pdb
 import re
 import subprocess
+import sys
 import xml.dom.minidom
 
-def cdo_launch(cdo_command, log_handle=None):
+def command_launch(cdo_command, log_handle=None):
     """ @brief Wrapper to execute CDO commands
         @param cdo_command Full path to the cdo command execute
         @param log_handle Handle wo which std_out/err is written
@@ -48,3 +50,34 @@ def translate_template(nml_replacements, template, target):
                 nml_line = re.sub("PLACE_HOLDER", nml_replacements[nml_rep], nml_line)
         fnml.write(nml_line)
     fnml.close()
+
+def split_ICM_files(grib_files):
+    TMIP_regex = re.compile('ICM..TM([0-9]{2})\+(200[89])([0-9]{2})')
+    TMIP_index = TMIP_regex.search(grib_files[0]).group(1)
+    TMIP_year = TMIP_regex.search(grib_files[0]).group(2)
+    TMIP_month = TMIP_regex.search(grib_files[0]).group(3)
+
+    if len(grib_files) == 1:  #  The normal case, a single grib file where we split the entries
+        cdo_splitparam = "cdo splitparam " + grib_files[0] + " split"
+        cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
+        subprocess.check_call(["rename split '' split*"], shell=True)
+    elif len(grib_files) == 2:  # Special case if grib files are split across two months
+        TMIP_index2 = TMIP_regex.search(grib_files[1]).group(1)
+        TMIP_year2 = TMIP_regex.search(grib_files[1]).group(2)
+        TMIP_month2 = TMIP_regex.search(grib_files[1]).group(3)
+
+        cdo_splitparam = "cdo splitparam " + grib_files[0] + " " + TMIP_month + "."
+        cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
+        cdo_splitparam = "cdo splitparam " + grib_files[1] + " " + TMIP_month2 + "."
+        cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
+        split_files = glob.glob(TMIP_month + '*')
+        for split_file in split_files:
+            other_split_file = re.sub("^" + TMIP_month, TMIP_month2, split_file)
+            merged_file = re.sub("^" + TMIP_month + "\.", "", split_file)
+            cdo_mergetime = "cdo mergetime " + split_file + " " + other_split_file + " " + merged_file
+            cdo_command = command_launch(cdo_mergetime, log_handle=sys.stdout)
+            os.remove(split_file)
+            os.remove(other_split_file)
+    else:
+        print "*EE*: Script can only handle one or two separate GRIB-files..."
+        raise
