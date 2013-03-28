@@ -145,6 +145,11 @@ for param in params:
         else:
             original_name = param['namesGG_old']
 
+        if param_def_file.has_key("cmor_var_positive"):
+            positive = param_def_file["cmor_var_positive"]
+        else:
+            positive = "Skip entry"
+
     # Fix reference time using the TAMIP_experiment_info.txt-file
     curr_file = param['variablesGG'] + ".nc"
     curr_temp= param['variablesGG'] + "_tmp.nc"
@@ -162,13 +167,15 @@ for param in params:
                         "model_units"   : units,  # either from "unitsGG_old" or "cdo command block"
                         "model_varname" : param['namesGG_old'],
                         "original_name" : original_name,
+                        "positive"      : positive,
                         "realization"   : date_rea[curr_date],
                         "table_id"      : param['table_id']}
+
+
     postproc_aux.translate_template(nml_replacements, template="cmor.nml.tmpl", target="cmor.nml")
 
     # Run CMOR
     subprocess.check_call(
              "LD_LIBRARY_PATH=/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib:/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib ./tamip-cmor.x",
               shell=True, stdout=subprocess.PIPE)
-    if (param['variablesGG'] == "137.128"):
-        sys.exit(1)
+    #sys.exit(1)

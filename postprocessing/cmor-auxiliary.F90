@@ -4,12 +4,12 @@ MODULE NCMORIO
 END MODULE NCMORIO
 
 MODULE NATTRIBUTES
-     CHARACTER(256) ::  calendar,              comment,        contact,              &
-                        experiment_id,         forcing,                              &
-                        initialization_method, institute_id,   institution,          &
-                        model_id,              modeling_realm, original_name,        &
-                        parent_experiment_id,  parent_experiment_rip,                &
-                        references,            source,         table_id
+     CHARACTER(256) :: calendar,               comment,        contact,                 &
+                       experiment_id,          forcing,        initialization_method,   &
+                       institute_id,           institution,    model_id,                &
+                       modeling_realm,         original_name,  parent_experiment_id,    &
+                       parent_experiment_rip,  positive,       references,              &
+                       source,                 table_id
      INTEGER :: realization
      DOUBLE PRECISION :: branch_time
 END MODULE NATTRIBUTES

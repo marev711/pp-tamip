@@ -100,6 +100,7 @@
                           units=model_units,              &
                           axis_ids=(/ilon, ilat, itime/), &
                           missing_value=1.0e20,           &
+                          positive=positive,              &
                           original_name=original_name)
 
       status = cmor_write(var_id = cvar,    &

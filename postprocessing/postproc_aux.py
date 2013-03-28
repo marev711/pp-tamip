@@ -48,7 +48,8 @@ def translate_template(nml_replacements, template, target):
         for nml_rep in nml_replacements.keys():
             if re.search(nml_rep, nml_line) != None:
                 nml_line = re.sub("PLACE_HOLDER", nml_replacements[nml_rep], nml_line)
-        fnml.write(nml_line)
+        if re.search("Skip entry", nml_line) == None:
+            fnml.write(nml_line)
     fnml.close()
 
 def split_ICM_files(grib_files):
