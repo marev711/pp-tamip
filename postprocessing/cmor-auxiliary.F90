@@ -121,11 +121,6 @@ MODULE CMOR_TAMIP_ROUTINES
             end if
 
             if (dim_name .eq. "time") then
-                !! Explicit fix to the IFS_LASTOUT = .FALSE. setting,
-                !! remove once TAMIP-runs are rerun with IFS_LASTOUT = .TRUE.
-                coord_array(numLength) = coord_array(numLength - 1) + 3
-                !! End of explicit fix
-
                 coord_array_bounds(1, 1) = coord_array(1) - (coord_array(2)-coord_array(1))/2
                 coord_array_bounds(2, 1) = coord_array(1) + (coord_array(2)-coord_array(1))/2
                 do i_bounds=2, numLength-1
