@@ -76,9 +76,11 @@ experiment_info = [entry for entry in experiment_info_raw if not re.search('^#',
 dates = [date_hh.split()[0] for date_hh in experiment_info]
 hours = [date_hh.split()[1] for date_hh in experiment_info]
 realizations = [date_hh.split()[2] for date_hh in experiment_info]
+experiment_ids = [date_hh.split()[3] for date_hh in experiment_info]
 
 date_hh = dict(zip(dates, hours))
 date_rea = dict(zip(dates, realizations))
+date_exp = dict(zip(dates, experiment_ids))
 
 # All experiments
 experiment_folder = "/nobackup/rossby15/rossby/joint_exp/tamip"
@@ -162,7 +164,7 @@ for run_folder_id in range(5):
         os.chdir(os.path.join(postpr_dir))
         nml_replacements = {"cmor_varname"  : param['namesGG'],
                             "curr_file"     : os.path.join(model_data_folder, curr_file),
-                            "experiment_id" : "tamip" + re.sub("-", "", curr_date[0:8]),
+                            "experiment_id" : date_exp[curr_date],
                             "history"       : "PLACE_HOLDER",
                             "inpath"        : os.path.join(def_dir, param['table_id']),
                             "model_units"   : units,  # either from "unitsGG_old" or "cdo command block"
