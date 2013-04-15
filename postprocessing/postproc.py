@@ -33,7 +33,7 @@ postpr_dir  = os.path.join(base_dir, "postprocessing")
 
 # Input file
 if len(sys.argv) != 2:
-    print "Usage: ./postproc.py <defintion_file>"
+    sys.stderr.write("Usage: ./postproc.py <defintion_file>" + "\n")
     sys.exit(1)
 definition_file = sys.argv[1]
 
@@ -109,9 +109,11 @@ run_folders = ("TMIP_2009-08-02", "TMIP_2009-08-01", "TMIP_2009-07-31",
 for run_folder_id in range(5):
 
     run_folder = run_folders[run_folder_id]
+    sys.stdout.write("current run_folder=" + run_folder + "\n")
     curr_date = re.sub("TMIP_", "", run_folder)
     os.chdir(os.path.join(experiment_folder, run_folder))
     model_data_folder = os.path.join(experiment_folder, run_folder)
+    sys.stdout.write("current model_data_folder=" + model_data_folder + "\n")
     
     # Check which grib files are present in this folder
     grib_files = glob.glob('ICMGG*200*')
@@ -121,6 +123,7 @@ for run_folder_id in range(5):
     postproc_aux.split_ICM_files(grib_files)
     
     for param in params:
+        sys.stdout.write("current param=" + str(param) + "\n")
         os.chdir(os.path.join(experiment_folder, run_folder))
         xml_def_file = os.path.join(def_dir, param['table_id'], param['variablesGG'] + ".def")
         if (os.path.exists(xml_def_file)):
@@ -129,7 +132,7 @@ for run_folder_id in range(5):
             if param_def_file.has_key("command_block"):
                 param_def = param_def_file["command_block"].split('\n')
             else:
-                print "No command_block in " + xml_def_file
+                sys.stderr.write("No command_block in " + xml_def_file + "\n")
                 raise
     
             # Execute command block in current definition file
@@ -160,6 +163,7 @@ for run_folder_id in range(5):
         cdo_command = postproc_aux.command_launch(cdo_setreftime, log_handle=sys.stdout)
         os.rename(curr_temp, curr_file)
     
+        sys.stdout.write("curr_file=" + curr_file + "\n")
         # Update the CMOR namelist file (cmor.nml)
         os.chdir(os.path.join(postpr_dir))
         nml_replacements = {"cmor_varname"  : param['namesGG'],
@@ -181,4 +185,4 @@ for run_folder_id in range(5):
         subprocess.check_call(
                  "LD_LIBRARY_PATH=/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib:/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib ./tamip-cmor.x",
                   shell=True, stdout=subprocess.PIPE)
-        #sys.exit(1)
+    #sys.exit(1)
