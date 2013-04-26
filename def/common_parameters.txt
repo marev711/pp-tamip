@@ -12,7 +12,7 @@ variablesGG     namesGG_old      namesGG                                        
 #         102          var102        tntmp     Tendency of Air Temperature due to Diabatic Processes
 #         103          var103         tntr      Tendency of Air Temperature due to Radiative Heating
 #         104          var104         tnta              Tendency of Air Temperature due to Advection
-    133.128               Q         huss                                         Specific Humidity          kg kg0                 TAMIP_3hrSlev,TAMIP_sites
+    133.128               Q         huss                                         Specific Humidity          kg kg-1                 TAMIP_3hrSlev,TAMIP_sites
 # done!   137.128             TCWV          prw                                          Water Vapor Path           kg m-2                 TAMIP_3hrSlev,TAMIP_sites
 # done!   142.128              LSP           pr                                             Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
 # done!   143.128               CP          prc                                  Convective Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
