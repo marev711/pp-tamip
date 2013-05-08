@@ -41,3 +41,6 @@ variablesGG     namesGG_old      namesGG                                        
 # done!   246.128             CLWC          clw                       Mass Fraction of Cloud Liquid Water          kg kg-1                 TAMIP_3hrMlev,TAMIP_sites
 # done!   247.128             CIWC          cli                                Mass Fraction of Cloud Ice          kg kg-1                 TAMIP_3hrMlev,TAMIP_sites
 # done!   248.128               CC           cl                                       Cloud Area Fraction                -                 TAMIP_3hrMlev,TAMIP_sites
+#          96.128            ICBOT          ccb                     Air pressure at Convective Cloud Base              Pa?
+#          79.128             TCIW        clivi                                            Ice Water Path           kg m-2
+#          82.128            PQCFL         huss                                   Specific Humidity at 2m            kg kg
