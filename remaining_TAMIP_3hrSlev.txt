@@ -17,26 +17,6 @@
 ! 
 ! 
 
-!============
-variable_entry:    albisccp
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     cloud_albedo
-units:             1
-cell_methods:      time: mean
-long_name:         ISCCP Mean Cloud Albedo
-comment:           When computing time-means, weight by the ISCCP Total Cloud Fraction - see  http://www.cfmip.net/README
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          albisccp
-type:              real
-!----------------------------------
-
 !
 !============
 variable_entry:    ccb
@@ -79,68 +59,6 @@ type:              real
 
 !
 !============
-variable_entry:    huss
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     specific_humidity
-units:             1
-cell_methods:      time: mean
-long_name:         Near-Surface Specific Humidity
-comment:           near-surface (usually, 2 meters) specific humidity.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time height2m
-out_name:          huss
-type:              real
-!----------------------------------
-
-!
-!============
-variable_entry:    clivi
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     atmosphere_cloud_ice_content
-units:             kg m-2
-cell_methods:      time: mean
-long_name:         Ice Water Path
-comment:           calculate mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          clivi
-type:              real
-!----------------------------------
-
-!
-!============
-variable_entry:    cltisccp
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     cloud_area_fraction
-units:             %
-cell_methods:      time: mean
-long_name:         ISCCP Total Total Cloud Fraction
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          cltisccp
-type:              real
-!----------------------------------
-
-!
-!============
 variable_entry:    clwvi
 !============
 modeling_realm:    atmos
@@ -178,27 +96,6 @@ comment:           near-surface (usually, 2meters) relative humidity expressed a
 !----------------------------------
 dimensions:        longitude latitude time height2m
 out_name:          hurs
-type:              real
-!----------------------------------
-
-!
-!============
-variable_entry:    huss
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     specific_humidity
-units:             1
-cell_methods:      time: mean
-long_name:         Near-Surface Specific Humidity
-comment:           near-surface (usually, 2 meters) specific humidity.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time height2m
-out_name:          huss
 type:              real
 !----------------------------------
 

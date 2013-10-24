@@ -41,3 +41,21 @@ variablesGG     namesGG_old      namesGG                                        
 # done!   246.128             CLWC          clw                       Mass Fraction of Cloud Liquid Water          kg kg-1                 TAMIP_3hrMlev,TAMIP_sites
 # done!   247.128             CIWC          cli                                Mass Fraction of Cloud Ice          kg kg-1                 TAMIP_3hrMlev,TAMIP_sites
 # done!   248.128               CC           cl                                       Cloud Area Fraction                -                 TAMIP_3hrMlev,TAMIP_sites
+#       96cct.128           LBUD23          cct                      Air pressure at Convective Cloud Top      Model level                 TAMIP_3hrSlev
+#       96ccb.128           LBUD23          ccb                     Air pressure at Convective Cloud Base      Model level                 TAMIP_3hrSlev
+#        96ci.128           LBUD23           ci                        Fraction of time convection occurs                -                 TAMIP_3hrSlev
+#       96sci.128           LBUD23          sci                Fraction of time shallow convection occurs                -                 TAMIP_3hrSlev
+#          79.128             TCIW        clivi                                            Ice Water Path           kg m-2                 TAMIP_3hrSlev,TAMIP_sites
+#   7879clwvi.129        TCLW+TCIW        clwvi                      Condensed water path (liquid + ice)            kg m-2                 TAMIP_3hrSlev,TAMIP_sites
+#          82.128           LBUD23         huss                                   Specific Humidity at 2m            kg kg                 TAMIP_3hrSlev
+#          83.128           LBUD23         hurs                                   Relative Humidity at 2m                %                 TAMIP_3hrSlev
+#          86.128           LBUD23       rsdscs                   Surface Downwelling Shortwave Clear Sky            J m-2                 TAMIP_3hrSlev
+# ?? 86210rsuscs.128        LBUD23       rsuscs                   Surface Upwelling   Shortwave Clear sky            J m-2                 TAMIP_3hrSlev
+# ??       87.128           LBUD23       rldscs                   Surface Downwelling Longwave  Clear sky            J m-2                 TAMIP_3hrSlev
+#         212.128             TISR         rsdt                   TOA     Incident    Shortwave                      J m-2                 TAMIP_3hrSlev
+# ??   212178.128         tisr-tsr         rsut                   TOA     Outgoing    Shortwave   All Sky            J m-2                 TAMIP_3hrSlev
+# ??  179rlut.128             -ttr         rlut                   TOA     Outgoing    Longwave    All Sky            J m-2                 TAMIP_3hrSlev     
+# ??  209rlutcs.128          -TTRC       rlutcs                   TOA     Outgoing    Longwave  Clear Sky            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+# ??  212208rsutcs.128   tisr-tsrc       rsutcs                   TOA     Outgoing    Shortwave clear Sky            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+# ???                                      rtmt                     Net Downward flux at Top of Model
+#     165166.128  sqrt(10U^2+10V^2)     sfcWind                              Mean of 10 metre wind speed             m s-1                  TAMIP_3hrSlev,TAMIP_sites
