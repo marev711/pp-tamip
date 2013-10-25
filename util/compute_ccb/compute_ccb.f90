@@ -7,33 +7,23 @@
 program clone
   use grib_api
   implicit none
-  integer                                       :: err,i,j,iret, plx,ply, ii
-  integer                                       :: no_messages, counter
-  integer                                       :: ny, field_size, no_levels, curr_level
-  integer                                       :: sp_infile_idx,p_ml_outfile_idx, sp_grib_idx
-  integer                                       :: var96_infile_idx, var96_idx 
-  integer                                       :: igrib_source, ccb_outfile_idx
-  integer                                       :: igrib_sp,varparamid
-  integer                                       :: igrib_out
-  integer                                       :: PLPresent, nb_pl
-  real, dimension(:), allocatable               :: sp
-  real, dimension(:), allocatable               :: pl
-  integer, dimension(:), allocatable            :: var96
-  real, dimension(:), allocatable               :: p_ml_output_field
-  real, dimension(:), allocatable               :: var96field, curr_ccb
-  real                                          :: missingValue
+  integer                              :: err, i, ii
+  integer                              :: no_messages, counter, no_level1_entries
+  integer                              :: field_size, curr_level, levelSize
+  integer                              :: sp_infile_idx, var96_infile_idx
+  integer                              :: ccb_outfile_idx
+  integer                              :: var96_index_idx, sp_grib_idx
+  integer                              :: PLPresent, nb_pl
+  real                                 :: missingValue
+  real, dimension(:), allocatable      :: sp, pl
+  real, dimension(:), allocatable      :: var96field, curr_ccb
 
-  integer            :: ifile
-  real(kind=8),dimension(:),allocatable     :: lats,lons,values
-  integer(4)        :: numberOfPoints
-  integer           :: count=0, no_level1_entries
-  character(len=256) :: filename
-  integer            :: levelSize
-  integer,dimension(:),allocatable   ::  i_all_var96fields, i_ccbfields
-  character(len=256)   ::  var96_file, p_ml_outfile, ccb_outfile
-  character(len=256)   ::  surface_pressure_file
+  integer,dimension(:),allocatable     :: var96fields_grib_idx
+  integer,dimension(:),allocatable     :: ccbfields_grib_idx
+  character(len=256)                   :: var96_file, ccb_outfile
+  character(len=256)                   :: surface_pressure_file
   
-  missingValue=9999
+  missingValue = 9999
 
   var96_file = '/nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-01-15/96.128.grb'
   var96_file = TRIM(var96_file)
@@ -41,123 +31,93 @@ program clone
   surface_pressure_file = '/nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-01-15/134.128.grb'
   surface_pressure_file = TRIM(surface_pressure_file)
 
-  p_ml_outfile = '/nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-01-15/p_ml.grib1'
-  p_ml_outfile = TRIM(p_ml_outfile)
-
   ccb_outfile = '/nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-01-15/ccb.grib1'
   ccb_outfile = TRIM(ccb_outfile)
 
-  call grib_open_file(sp_infile_idx, surface_pressure_file,'r')
-  call grib_open_file(var96_infile_idx, var96_file,'r')
-  call grib_open_file(p_ml_outfile_idx,p_ml_outfile,'w')
-  call grib_open_file(ccb_outfile_idx,ccb_outfile,'w')
-!
-  call grib_index_create(var96_idx,var96_file,'level')
+  call grib_open_file(sp_infile_idx, surface_pressure_file, 'r')
+  call grib_open_file(var96_infile_idx, var96_file, 'r')
+  call grib_open_file(ccb_outfile_idx, ccb_outfile, 'w')
 
-  ! get the number of distinct values of level in the index
-  call grib_index_get_size(var96_idx,'level',levelSize)
-  ! allocate the array to contain the list of distinct levels
-  write(*,'(a,i3)') 'levelSize=',levelSize
+  ! Get the number of levels
+  call grib_index_create(var96_index_idx,var96_file, 'level')
+  call grib_index_get_size(var96_index_idx, 'level', levelSize)
 
-  !     a new grib message is loaded from file
-  !     igrib is the grib id to be used in subsequent calls
+  ! Get total field size (using surface pressure field)
   call grib_new_from_file(sp_infile_idx, sp_grib_idx, err)
-  call grib_get(sp_grib_idx,'PLPresent',PLPresent)
+  call check_exit_status(err, "Couldnt read surface pressure infile")
+  call grib_get(sp_grib_idx, 'PLPresent', PLPresent)
   if (PLPresent == 1) then
-     call grib_get_size(sp_grib_idx,'pl',nb_pl)
-     allocate(pl(nb_pl), stat=err)
-     if (err .ne. 0) then
-        print*, 'Failed to allocate ', field_size, ' values for pl'
-        STOP
-     end if
-     call grib_get(sp_grib_idx,'pl',pl)
+    call grib_get_size(sp_grib_idx,'pl', nb_pl)
+    allocate(pl(nb_pl), stat=err)
+    call check_exit_status(err, 'Failed to allocate values for pl')
+
+    call grib_get(sp_grib_idx, 'pl', pl)
   end if
-  field_size=sum(pl)
+  field_size = sum(pl)
   deallocate(pl)
+
+
+  ! Allocate input/output fields
   allocate(sp(field_size), stat=err)
-  if (err .ne. 0) then
-     print*, 'Failed to allocate ', field_size, ' values for sp'
-     STOP
-  end if
-  call grib_get(sp_grib_idx,'values',sp)
-
-
-  allocate(p_ml_output_field(field_size),stat=err)
-  if (err .ne. 0) then
-     print*, 'Failed to allocate ', field_size, ' values for the p_ml_output_field'
-     STOP
-  end if
+  call check_exit_status(err, "Failed to allocate values for sp")
+  call grib_get(sp_grib_idx,'values' ,sp)
 
   allocate(var96field(field_size),stat=err)
-  if (err .ne. 0) then
-     print*, 'Failed to allocate ', field_size, ' values for the var96field'
-     STOP
-  end if
+  call check_exit_status(err, "Failed to allocate values for var96field")
 
   allocate(curr_ccb(field_size),stat=err)
-  if (err .ne. 0) then
-     print*, 'Failed to allocate ', field_size, ' values for the curr_ccb'
-     STOP
-  end if
+  call check_exit_status(err, "Failed to allocate values for curr_ccb")
 
 
-! count the messages in the file
-  call grib_count_in_file(var96_infile_idx,no_messages)
+  ! Count the messages in the file
+  call grib_count_in_file(var96_infile_idx, no_messages)
   write(*,*) "no_messages=", no_messages
-  write(*,*) "levelSize=", levelSize
   no_level1_entries = no_messages / levelSize
-  allocate(i_all_var96fields(no_messages))
-  allocate(i_ccbfields(no_level1_entries))
-  i_all_var96fields=-1
-  i_ccbfields=-1
- 
-  write(*,*) "number of level1 messages",no_level1_entries
-  ! Load the messages from the file.
-  counter = 1
 
-  DO i=1,no_messages
-     call grib_new_from_file(var96_infile_idx,i_all_var96fields(i), iret)
-     call grib_get(i_all_var96fields(i), 'level', curr_level)
-     if (curr_level .eq. 1) then
-        call grib_clone(i_all_var96fields(i), i_ccbfields(counter))
-        call grib_set(i_ccbfields(counter), 'indicatorOfParameter', 118)
-        call grib_get(i_all_var96fields(i),'values',var96field)
-        call grib_set(i_ccbfields(counter), 'missingValue',missingValue)
-        call grib_set(i_ccbfields(counter), 'bitmapPresent',1)
-        do ii=1, field_size
-           if (var96field(ii) .eq. -1) then
-               curr_ccb(ii) = missingValue
-           else
-               curr_ccb(ii) = A(INT(var96field(ii))) + B(INT(var96field(ii))) * sp(ii)
-           end if
-        end do
-        call grib_set(i_ccbfields(counter),'values',pack(curr_ccb, mask=.true.))
-        call grib_write(i_ccbfields(counter), ccb_outfile_idx, err)
-        counter = counter + 1
-     end if
-     if (mod(i, 500) .eq. 0) then
-        write(*,*) i
-     end if
+  ! Allocate arrays to hold all grib messages
+  allocate(var96fields_grib_idx(no_messages), stat=err)
+  call check_exit_status(err, "Failed to allocate values for var96fields_grib_idx")
+  var96fields_grib_idx = -1
+
+  allocate(ccbfields_grib_idx(no_level1_entries), stat=err)
+  call check_exit_status(err, "Failed to allocate values for ccbfields_grib_idx")
+  ccbfields_grib_idx = -1
+ 
+  write(*,*) "number of level1 messages", no_level1_entries
+
+  counter = 1
+  DO i = 1, no_messages
+    call grib_new_from_file(var96_infile_idx, var96fields_grib_idx(i), err)
+    call grib_get(var96fields_grib_idx(i), 'level', curr_level)
+    if (curr_level .eq. 1) then
+      call grib_clone(var96fields_grib_idx(i), ccbfields_grib_idx(counter))
+      call grib_set(ccbfields_grib_idx(counter), 'indicatorOfParameter', 118)  ! Any experimental product no
+      call grib_set(ccbfields_grib_idx(counter), 'missingValue', missingValue)
+      call grib_set(ccbfields_grib_idx(counter), 'bitmapPresent', 1)
+      call grib_get(var96fields_grib_idx(i), 'values', var96field)
+      do ii=1, field_size
+        if (var96field(ii) .eq. -1) then
+          curr_ccb(ii) = missingValue
+        else
+          curr_ccb(ii) = A(INT(var96field(ii))) + B(INT(var96field(ii))) * sp(ii)
+        end if
+      end do
+      call grib_set(ccbfields_grib_idx(counter), 'values', pack(curr_ccb, mask=.true.))
+      call grib_write(ccbfields_grib_idx(counter), ccb_outfile_idx, err)
+      counter = counter + 1
+    end if
   END DO
 
-    call grib_clone(i_all_var96fields(1), igrib_out)
-    call grib_set(igrib_out,'level',i)
-    call grib_set(igrib_out,'indicatorOfParameter',54)
+  DO i=1, no_messages
+    call grib_release(var96fields_grib_idx(i))
+  END DO
+  DO i=1, no_level1_entries
+    call grib_release(ccbfields_grib_idx(i))
+  END DO
 
-    ! use pack to create 1D values
-    call grib_set(igrib_out,'values',pack(p_ml_output_field, mask=.true.))
-
-    ! write cloned messages to a file
-    call grib_write(igrib_out, p_ml_outfile_idx)
-
-    call grib_release(igrib_out)
-   call grib_release(i_all_var96fields(1))
-   call grib_release(igrib_sp)
-
-   call grib_close_file(var96_infile_idx)
-   call grib_close_file(sp_infile_idx)
-   call grib_close_file(p_ml_outfile_idx)
-   deallocate(p_ml_output_field)
+  call grib_close_file(var96_infile_idx)
+  call grib_close_file(sp_infile_idx)
+  call grib_close_file(ccb_outfile_idx)
 
 contains
 !======================================
@@ -212,5 +172,15 @@ real function B(idx)
   B = B_val(idx)
   return
 end function B
+
+subroutine check_exit_status(err, err_message)
+  implicit none
+  integer               :: err
+  character(len=*)      :: err_message
+  if (err .ne. 0) then
+    print*, err_message
+    STOP
+  end if
+end subroutine check_exit_status
 !======================================
 end program clone
