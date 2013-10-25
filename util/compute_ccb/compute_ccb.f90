@@ -1,8 +1,10 @@
 !
-!  Description: 1) and the pressure on the model levels
-!               2) use the information in 1 to compute the ccb 
+!  Description: 1) Compute the convective cloud base/top (ccb/cct)
+!                  The ccb/t is output in variable 96 where level one
+!                  is the model level for cct and level two is the
+!                  ditto for ccb. The ccb/t are then computed as, 
 !
-!
+!                    ccb/t = A(var96(lev)) + B(var96(lev)) * surface_pressure
 !
 program clone
   use grib_api
