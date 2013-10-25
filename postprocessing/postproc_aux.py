@@ -7,19 +7,22 @@ import subprocess
 import sys
 import xml.dom.minidom
 
-def command_launch(cdo_command, log_handle=None):
-    """ @brief Wrapper to execute CDO commands
-        @param cdo_command Full path to the cdo command execute
+def command_launch(command, local_bins=None, log_handle=None):
+    """ @brief Wrapper to execute commands from a shell
+        @param command Full path to the command execute
+        @param local_bins Path to the postprocessing specific binaries
         @param log_handle Handle wo which std_out/err is written
                Default 'None' indicates no logging
 
-        This wrapper will take an cdo commandline, executes it and writes
+        This wrapper will take an commandline, executes it and writes
         std_out/std_err to a log handle. 
     """
     std_outerr = None
     if (log_handle != None):
-        log_handle.write(str(datetime.datetime.now()) + ": " + cdo_command + "\n")
-        run_application = subprocess.check_call(cdo_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        log_handle.write(str(datetime.datetime.now()) + ": " + command + "\n")
+        if local_bins:
+            command = 'PATH=${PATH}:' + local_bins + " " + command
+        run_application = subprocess.check_call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         #run_application.wait()
         #std_outerr = run_application.communicate()[0]
         #log_handle.write(std_outerr)

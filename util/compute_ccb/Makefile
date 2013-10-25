@@ -1,4 +1,5 @@
 TARGET  := compute_ccb.x
+INSTALL_DIR := ../../bin
 SRCS    := compute_ccb.f90
 OBJS    := ${SRCS:.f90=.o} 
 
@@ -8,7 +9,7 @@ FCFLAGS = -I/home/sm_uflad/Projects/gribapi/1.9.9/include -traceback -g -check a
 LDFLAGS = -L/home/sm_uflad/Projects/gribapi/1.9.9/lib/
 LIBS    = -lgrib_api_f90 -lgrib_api
 
-.PHONY: all clean distclean print_vars
+.PHONY: all clean distclean print_vars install
 
 all: ${TARGET}
 
@@ -25,5 +26,9 @@ $(OBJS): %.o: %.f90
 
 clean: 
 	-rm -f *.mod *.o $(TARGET) *~
+
+install:
+	-mv $(TARGET) $(INSTALL_DIR)
+
 
 distclean: clean

@@ -13,32 +13,33 @@ program clone
   integer                              :: no_messages, counter, no_level1_entries
   integer                              :: field_size, curr_level, levelSize
   integer                              :: sp_infile_idx, var96_infile_idx
-  integer                              :: ccb_outfile_idx
+  integer                              :: ccbt_outfile_idx
   integer                              :: var96_index_idx, sp_grib_idx
   integer                              :: PLPresent, nb_pl
+  integer                              :: ccbt_level
   real                                 :: missingValue
   real, dimension(:), allocatable      :: sp, pl
-  real, dimension(:), allocatable      :: var96field, curr_ccb
+  real, dimension(:), allocatable      :: var96field, curr_ccbt
 
   integer,dimension(:),allocatable     :: var96fields_grib_idx
-  integer,dimension(:),allocatable     :: ccbfields_grib_idx
-  character(len=256)                   :: var96_file, ccb_outfile
+  integer,dimension(:),allocatable     :: ccbtfields_grib_idx
+  character(len=256)                   :: var96_file, ccbt_outfile
   character(len=256)                   :: surface_pressure_file
-  
-  missingValue = 9999
 
-  var96_file = '/nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-01-15/96.128.grb'
+  namelist /indata/ var96_file, surface_pressure_file, ccbt_outfile, ccbt_level
+  open(7, FILE='indata.nml')
+  read(7, NML=indata)
+  close(7)
+
   var96_file = TRIM(var96_file)
-
-  surface_pressure_file = '/nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-01-15/134.128.grb'
   surface_pressure_file = TRIM(surface_pressure_file)
+  ccbt_outfile = TRIM(ccbt_outfile)
 
-  ccb_outfile = '/nobackup/rossby15/rossby/joint_exp/tamip/TMIP_2009-01-15/ccb.grib1'
-  ccb_outfile = TRIM(ccb_outfile)
+  missingValue = 9999
 
   call grib_open_file(sp_infile_idx, surface_pressure_file, 'r')
   call grib_open_file(var96_infile_idx, var96_file, 'r')
-  call grib_open_file(ccb_outfile_idx, ccb_outfile, 'w')
+  call grib_open_file(ccbt_outfile_idx, ccbt_outfile, 'w')
 
   ! Get the number of levels
   call grib_index_create(var96_index_idx,var96_file, 'level')
@@ -67,8 +68,8 @@ program clone
   allocate(var96field(field_size),stat=err)
   call check_exit_status(err, "Failed to allocate values for var96field")
 
-  allocate(curr_ccb(field_size),stat=err)
-  call check_exit_status(err, "Failed to allocate values for curr_ccb")
+  allocate(curr_ccbt(field_size),stat=err)
+  call check_exit_status(err, "Failed to allocate values for curr_ccbt")
 
 
   ! Count the messages in the file
@@ -81,45 +82,47 @@ program clone
   call check_exit_status(err, "Failed to allocate values for var96fields_grib_idx")
   var96fields_grib_idx = -1
 
-  allocate(ccbfields_grib_idx(no_level1_entries), stat=err)
-  call check_exit_status(err, "Failed to allocate values for ccbfields_grib_idx")
-  ccbfields_grib_idx = -1
+  allocate(ccbtfields_grib_idx(no_level1_entries), stat=err)
+  call check_exit_status(err, "Failed to allocate values for ccbtfields_grib_idx")
+  ccbtfields_grib_idx = -1
  
   write(*,*) "number of level1 messages", no_level1_entries
 
+  ! Compute the ccb/t
   counter = 1
   DO i = 1, no_messages
     call grib_new_from_file(var96_infile_idx, var96fields_grib_idx(i), err)
     call grib_get(var96fields_grib_idx(i), 'level', curr_level)
-    if (curr_level .eq. 1) then
-      call grib_clone(var96fields_grib_idx(i), ccbfields_grib_idx(counter))
-      call grib_set(ccbfields_grib_idx(counter), 'indicatorOfParameter', 118)  ! Any experimental product no
-      call grib_set(ccbfields_grib_idx(counter), 'missingValue', missingValue)
-      call grib_set(ccbfields_grib_idx(counter), 'bitmapPresent', 1)
+    if (curr_level .eq. ccbt_level) then
+      call grib_clone(var96fields_grib_idx(i), ccbtfields_grib_idx(counter))
+      call grib_set(ccbtfields_grib_idx(counter), 'indicatorOfParameter', 118)  ! Any experimental product no
+      call grib_set(ccbtfields_grib_idx(counter), 'missingValue', missingValue)
+      call grib_set(ccbtfields_grib_idx(counter), 'bitmapPresent', 1)
       call grib_get(var96fields_grib_idx(i), 'values', var96field)
       do ii=1, field_size
         if (var96field(ii) .eq. -1) then
-          curr_ccb(ii) = missingValue
+          curr_ccbt(ii) = missingValue
         else
-          curr_ccb(ii) = A(INT(var96field(ii))) + B(INT(var96field(ii))) * sp(ii)
+          curr_ccbt(ii) = A(INT(var96field(ii))) + B(INT(var96field(ii))) * sp(ii)
         end if
       end do
-      call grib_set(ccbfields_grib_idx(counter), 'values', pack(curr_ccb, mask=.true.))
-      call grib_write(ccbfields_grib_idx(counter), ccb_outfile_idx, err)
+      call grib_set(ccbtfields_grib_idx(counter), 'values', pack(curr_ccbt, mask=.true.))
+      call grib_write(ccbtfields_grib_idx(counter), ccbt_outfile_idx, err)
       counter = counter + 1
     end if
   END DO
 
+  ! Finalize
   DO i=1, no_messages
     call grib_release(var96fields_grib_idx(i))
   END DO
   DO i=1, no_level1_entries
-    call grib_release(ccbfields_grib_idx(i))
+    call grib_release(ccbtfields_grib_idx(i))
   END DO
 
   call grib_close_file(var96_infile_idx)
   call grib_close_file(sp_infile_idx)
-  call grib_close_file(ccb_outfile_idx)
+  call grib_close_file(ccbt_outfile_idx)
 
 contains
 !======================================
