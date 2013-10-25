@@ -122,8 +122,8 @@ if args.run_folder:
 for run_folder in run_folders:
     sys.stdout.write("current run_folder=" + run_folder + "\n")
     curr_date = re.sub("TMIP_", "", run_folder)
-    os.chdir(os.path.join(experiment_folder, run_folder))
     model_data_folder = os.path.join(experiment_folder, run_folder)
+    os.chdir(model_data_folder)
     sys.stdout.write("current model_data_folder=" + model_data_folder + "\n")
 
     # Check which grib files are present in this folder
@@ -143,6 +143,7 @@ for run_folder in run_folders:
 
             if param_def_file.has_key("write_namelist"):
                 namelist = param_def_file["write_namelist"].split('\n')
+                postproc_aux.write_namelist(model_data_folder, param_def_file)
 
             if param_def_file.has_key("command_block"):
                 command_block = param_def_file["command_block"].split('\n')
@@ -153,7 +154,6 @@ for run_folder in run_folders:
             # Execute command block in current definition file
             for command_block_line in command_block:
                 command = command_block_line
-                pdb.set_trace()
                 command_return = postproc_aux.command_launch(command, local_bins=bin_dir, log_handle=sys.stdout)
 
             # Set some attributes from xml-def file

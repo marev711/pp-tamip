@@ -6,7 +6,7 @@
 !
 !                    ccb/t = A(var96(lev)) + B(var96(lev)) * surface_pressure
 !
-program clone
+program compute_ccbt
   use grib_api
   implicit none
   integer                              :: err, i, ii
@@ -16,7 +16,7 @@ program clone
   integer                              :: ccbt_outfile_idx
   integer                              :: var96_index_idx, sp_grib_idx
   integer                              :: PLPresent, nb_pl
-  integer                              :: ccbt_level
+  integer                              :: ccbt_level_in_var96
   real                                 :: missingValue
   real, dimension(:), allocatable      :: sp, pl
   real, dimension(:), allocatable      :: var96field, curr_ccbt
@@ -26,7 +26,7 @@ program clone
   character(len=256)                   :: var96_file, ccbt_outfile
   character(len=256)                   :: surface_pressure_file
 
-  namelist /indata/ var96_file, surface_pressure_file, ccbt_outfile, ccbt_level
+  namelist /indata/ var96_file, surface_pressure_file, ccbt_outfile, ccbt_level_in_var96
   open(7, FILE='indata.nml')
   read(7, NML=indata)
   close(7)
@@ -93,7 +93,7 @@ program clone
   DO i = 1, no_messages
     call grib_new_from_file(var96_infile_idx, var96fields_grib_idx(i), err)
     call grib_get(var96fields_grib_idx(i), 'level', curr_level)
-    if (curr_level .eq. ccbt_level) then
+    if (curr_level .eq. ccbt_level_in_var96) then
       call grib_clone(var96fields_grib_idx(i), ccbtfields_grib_idx(counter))
       call grib_set(ccbtfields_grib_idx(counter), 'indicatorOfParameter', 118)  ! Any experimental product no
       call grib_set(ccbtfields_grib_idx(counter), 'missingValue', missingValue)
@@ -188,4 +188,4 @@ subroutine check_exit_status(err, err_message)
   end if
 end subroutine check_exit_status
 !======================================
-end program clone
+end program compute_ccbt

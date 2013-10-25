@@ -37,7 +37,20 @@ def parse_xml(xml_file):
             value = node.firstChild.nodeValue.strip()
             key = node.tagName
             pr[key] = value
+            if node.hasAttributes():
+                for attr_key in node.attributes.keys():
+                    pr[key + '_' + attr_key] = node.attributes.get(attr_key).value
+
     return pr
+
+def write_namelist(curr_folder, param_def_file):
+    namelist_path = os.path.join(curr_folder, param_def_file['write_namelist_filename'])
+    namelist = param_def_file['write_namelist']
+    namelist = re.sub('\$\{RUN_FOLDER\}', curr_folder,namelist)
+    fnamelist = open(namelist_path, 'w')
+    fnamelist.write(namelist)
+    fnamelist.close()
+
 
 def translate_template(nml_replacements, template, target):
     fnml = open(template, "r")

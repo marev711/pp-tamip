@@ -1,5 +1,11 @@
 <definition>
-    <write_namelist>
+    <write_namelist filename='indata.nml'>
+        &amp;indata
+          ccbt_level_in_var96 = 1,
+          var96_file = '${RUN_FOLDER}/96.128.grb',
+          surface_pressure_file = '${RUN_FOLDER}/134.128.grb',
+          ccbt_outfile = '${RUN_FOLDER}/ccbt.grib1'
+        /
     </write_namelist>
 
     <command_block>
