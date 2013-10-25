@@ -1,0 +1,27 @@
+<definition>
+    <write_namelist filename='indata.nml'>
+        &amp;indata
+          ccbt_level_in_var96 = 2,
+          var96_file = '${RUN_FOLDER}/96.128.grb',
+          surface_pressure_file = '${RUN_FOLDER}/134.128.grb',
+          ccbt_outfile = '${RUN_FOLDER}/96ccb.128.grb'
+        /
+    </write_namelist>
+
+    <command_block>
+        compute_ccbt.x
+        cdo -R -r -f nc -t ecmwf copy 96ccb.128.grb 96ccb.128_tmp.nc
+        cdo setmissval,1e20 96ccb.128_tmp.nc 96ccb.128_missval.nc
+        cdo timselmean,4 96ccb.128_missval.nc 96ccb.128.nc
+        rm -f 96ccb.128_tmp.nc 96ccb.128_missval.nc
+    </command_block>
+
+    <post_cdo_units>
+        Pa
+     </post_cdo_units>
+
+    <original_name>
+        LBUD23
+    </original_name>
+
+</definition>
