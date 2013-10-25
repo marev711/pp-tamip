@@ -4,25 +4,23 @@
           ccbt_level_in_var96 = 1,
           var96_file = '${RUN_FOLDER}/96.128.grb',
           surface_pressure_file = '${RUN_FOLDER}/134.128.grb',
-          ccbt_outfile = '${RUN_FOLDER}/ccbt.grib1'
+          ccbt_outfile = '${RUN_FOLDER}/96cct.128.grb'
         /
     </write_namelist>
 
     <command_block>
         compute_ccbt.x
+        cdo -R -r -f nc -t ecmwf copy 96cct.128.grb 96cct.128_tmp.nc
+        cdo timselmean,4 96cct.128_tmp.nc 96cct.128.nc
     </command_block>
 
     <post_cdo_units> 
-        W m-2
+        Pa
      </post_cdo_units>
 
     <original_name>
         TSRC/2700
     </original_name>
-
-    <cmor_var_positive>
-        downwards
-    </cmor_var_positive>
 
 </definition>
 

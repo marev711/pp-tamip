@@ -21,7 +21,7 @@ program compute_ccbt
   real, dimension(:), allocatable      :: sp, pl
   real, dimension(:), allocatable      :: var96field, curr_ccbt
 
-  integer,dimension(:),allocatable     :: var96fields_grib_idx
+  integer,dimension(:),allocatable     :: var96fields_grib_idx, sp_fields_grib_idx
   integer,dimension(:),allocatable     :: ccbtfields_grib_idx
   character(len=256)                   :: var96_file, ccbt_outfile
   character(len=256)                   :: surface_pressure_file
@@ -58,12 +58,16 @@ program compute_ccbt
   end if
   field_size = sum(pl)
   deallocate(pl)
+  call grib_release(sp_grib_idx)
+  call grib_close_file(sp_infile_idx)
 
+  ! Reopen file to read in the loop further down
+  call grib_open_file(sp_infile_idx, surface_pressure_file, 'r')
 
   ! Allocate input/output fields
   allocate(sp(field_size), stat=err)
   call check_exit_status(err, "Failed to allocate values for sp")
-  call grib_get(sp_grib_idx,'values' ,sp)
+  !call grib_get(sp_grib_idx,'values' ,sp)
 
   allocate(var96field(field_size),stat=err)
   call check_exit_status(err, "Failed to allocate values for var96field")
@@ -77,10 +81,15 @@ program compute_ccbt
   write(*,*) "no_messages=", no_messages
   no_level1_entries = no_messages / levelSize
 
-  ! Allocate arrays to hold all grib messages
+  ! Allocate arrays to hold all var96 grib messages
   allocate(var96fields_grib_idx(no_messages), stat=err)
   call check_exit_status(err, "Failed to allocate values for var96fields_grib_idx")
   var96fields_grib_idx = -1
+
+  ! Allocate arrays to hold all surface pressure grib messages
+  allocate(sp_fields_grib_idx(no_level1_entries), stat=err)
+  call check_exit_status(err, "Failed to allocate values for sp_fields_grib_idx")
+  sp_fields_grib_idx = -1
 
   allocate(ccbtfields_grib_idx(no_level1_entries), stat=err)
   call check_exit_status(err, "Failed to allocate values for ccbtfields_grib_idx")
@@ -92,9 +101,15 @@ program compute_ccbt
   counter = 1
   DO i = 1, no_messages
     call grib_new_from_file(var96_infile_idx, var96fields_grib_idx(i), err)
+    call check_exit_status(err, "Failed to read current var96 field")
+
     call grib_get(var96fields_grib_idx(i), 'level', curr_level)
     if (curr_level .eq. ccbt_level_in_var96) then
-      call grib_clone(var96fields_grib_idx(i), ccbtfields_grib_idx(counter))
+      call grib_new_from_file(sp_infile_idx, sp_fields_grib_idx(counter), err)
+      call check_exit_status(err, "Failed to read current surface pressure field")
+
+      call grib_get(sp_fields_grib_idx(counter),'values', sp)
+      call grib_clone(sp_fields_grib_idx(counter), ccbtfields_grib_idx(counter))
       call grib_set(ccbtfields_grib_idx(counter), 'indicatorOfParameter', 118)  ! Any experimental product no
       call grib_set(ccbtfields_grib_idx(counter), 'missingValue', missingValue)
       call grib_set(ccbtfields_grib_idx(counter), 'bitmapPresent', 1)

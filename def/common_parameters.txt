@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------------------------
 
 variablesGG     namesGG_old      namesGG                                                longnameGG      unitsGG_old                                  table_id
-  96cct.128          LBUD23          cct                      Air pressure at Convective Cloud Top      Model level                             TAMIP_3hrSlev
+  96cct.128          var118          cct                      Air pressure at Convective Cloud Top      Model level                             TAMIP_3hrSlev
 #     33.128             rsn          rsn
 # done!    44.128               ES          sbl                     Surface Snow and Ice Sublimation Flux                m                 TAMIP_3hrSlev,TAMIP_sites
 #          78           var78        clwvi                                      Condensed Water Path

@@ -135,7 +135,6 @@ for run_folder in run_folders:
         postproc_aux.split_ICM_files(grib_files)
 
     for param in params:
-        sys.stdout.write("current param=" + str(param) + "\n")
         os.chdir(os.path.join(experiment_folder, run_folder))
         xml_def_file = os.path.join(def_dir, param['table_id'], param['variablesGG'] + ".def")
         if (os.path.exists(xml_def_file)):
