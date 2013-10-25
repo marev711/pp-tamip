@@ -11,10 +11,12 @@
     <command_block>
         compute_ccbt.x
         cdo -R -r -f nc -t ecmwf copy 96cct.128.grb 96cct.128_tmp.nc
-        cdo timselmean,4 96cct.128_tmp.nc 96cct.128.nc
+        cdo setmissval,1e20 96cct.128_tmp.nc 96cct.128_missval.nc
+        cdo timselmean,4 96cct.128_missval.nc 96cct.128.nc
+        rm -f 96cct.128_missval.nc
     </command_block>
 
-    <post_cdo_units> 
+    <post_cdo_units>
         Pa
      </post_cdo_units>
 
@@ -23,4 +25,3 @@
     </original_name>
 
 </definition>
-
