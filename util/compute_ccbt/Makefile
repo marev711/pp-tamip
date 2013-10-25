@@ -1,6 +1,6 @@
-TARGET  := compute_ccb.x
+TARGET  := compute_ccbt.x
 INSTALL_DIR := ../../bin
-SRCS    := compute_ccb.f90
+SRCS    := compute_ccbt.f90
 OBJS    := ${SRCS:.f90=.o} 
 
 FC      = ifort

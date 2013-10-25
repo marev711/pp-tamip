@@ -2,7 +2,7 @@
 !  Description: 1) Compute the convective cloud base/top (ccb/cct)
 !                  The ccb/t is output in variable 96 where level one
 !                  is the model level for cct and level two is the
-!                  ditto for ccb. The ccb/t are then computed as, 
+!                  ditto for ccb. The ccb/t are then computed as,
 !
 !                    ccb/t = A(var96(lev)) + B(var96(lev)) * surface_pressure
 !
@@ -85,7 +85,7 @@ program clone
   allocate(ccbtfields_grib_idx(no_level1_entries), stat=err)
   call check_exit_status(err, "Failed to allocate values for ccbtfields_grib_idx")
   ccbtfields_grib_idx = -1
- 
+
   write(*,*) "number of level1 messages", no_level1_entries
 
   ! Compute the ccb/t
