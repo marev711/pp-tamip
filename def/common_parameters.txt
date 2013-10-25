@@ -2,6 +2,7 @@
 # ------------------------------------------------------------------------------------------------
 
 variablesGG     namesGG_old      namesGG                                                longnameGG      unitsGG_old                                  table_id
+  96cct.128          LBUD23          cct                      Air pressure at Convective Cloud Top      Model level                             TAMIP_3hrSlev
 #     33.128             rsn          rsn
 # done!    44.128               ES          sbl                     Surface Snow and Ice Sublimation Flux                m                 TAMIP_3hrSlev,TAMIP_sites
 #          78           var78        clwvi                                      Condensed Water Path
@@ -12,7 +13,7 @@ variablesGG     namesGG_old      namesGG                                        
 #         102          var102        tntmp     Tendency of Air Temperature due to Diabatic Processes
 #         103          var103         tntr      Tendency of Air Temperature due to Radiative Heating
 #         104          var104         tnta              Tendency of Air Temperature due to Advection
-    133.128               Q         huss                                         Specific Humidity          kg kg-1                 TAMIP_3hrSlev,TAMIP_sites
+#    133.128               Q         huss                                         Specific Humidity          kg kg-1                 TAMIP_3hrSlev,TAMIP_sites
 # done!   137.128             TCWV          prw                                          Water Vapor Path           kg m-2                 TAMIP_3hrSlev,TAMIP_sites
 # done!   142.128              LSP           pr                                             Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
 # done!   143.128               CP          prc                                  Convective Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
@@ -41,7 +42,6 @@ variablesGG     namesGG_old      namesGG                                        
 # done!   246.128             CLWC          clw                       Mass Fraction of Cloud Liquid Water          kg kg-1                 TAMIP_3hrMlev,TAMIP_sites
 # done!   247.128             CIWC          cli                                Mass Fraction of Cloud Ice          kg kg-1                 TAMIP_3hrMlev,TAMIP_sites
 # done!   248.128               CC           cl                                       Cloud Area Fraction                -                 TAMIP_3hrMlev,TAMIP_sites
-#       96cct.128           LBUD23          cct                      Air pressure at Convective Cloud Top      Model level                 TAMIP_3hrSlev
 #       96ccb.128           LBUD23          ccb                     Air pressure at Convective Cloud Base      Model level                 TAMIP_3hrSlev
 #        96ci.128           LBUD23           ci                        Fraction of time convection occurs                -                 TAMIP_3hrSlev
 #       96sci.128           LBUD23          sci                Fraction of time shallow convection occurs                -                 TAMIP_3hrSlev

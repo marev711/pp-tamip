@@ -1,6 +1,9 @@
 <definition>
+    <write_namelist>
+    </write_namelist>
+
     <command_block>
-        compute_ccb.x
+        compute_ccbt.x
     </command_block>
 
     <post_cdo_units> 
