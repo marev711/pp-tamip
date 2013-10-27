@@ -18,45 +18,6 @@
 ! 
 
 !
-!============
-variable_entry:    ccb
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     air_pressure_at_convective_cloud_base
-units:             Pa
-cell_methods:      time: mean
-long_name:         Air Pressure at Convective Cloud Base
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          ccb
-type:              real
-!----------------------------------
-
-!
-!============
-variable_entry:    cct
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     air_pressure_at_convective_cloud_top
-units:             Pa
-cell_methods:      time: mean
-long_name:         Air Pressure at Convective Cloud Top
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          cct
-type:              real
-!----------------------------------
-
 !
 !============
 variable_entry:    clwvi
