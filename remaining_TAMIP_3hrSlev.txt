@@ -1,21 +1,104 @@
 ! This file lists the parameters in the TAMIP_3hrSlev table lacking a
-! cdo-command sequence in the def folder. Also note that experiments, 
+! cdo-command sequence in the def folder. Also note that experiments,
 ! TMIP_2008-10-15 and TMIP_2008-11-01 needs to be rerun
-! 
+!
 !   huss - how to compute q at the surface? Do we need 500033 (qv_s) or
-!          500034 (qv_2m). Ice when T<0, water when T>0? Irena note on 
+!          500034 (qv_2m). Ice when T<0, water when T>0? Irena note on
 !          paramId 133 on two meters, do we have humidity at two meters
-! 
-!   hurs - similar as above. 
-! 
+!
+!   hurs - similar as above.
+!
 !   albisccp - International Cloud Climatology Project, no output?
-! 
-!   
-! 
-! 
-! 
-! 
-! 
+!
+!
+!
+!
+!
+!
+!
+
+!============
+variable_entry:    albisccp
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     cloud_albedo
+units:             1
+cell_methods:      time: mean
+long_name:         ISCCP Mean Cloud Albedo
+comment:           When computing time-means, weight by the ISCCP Total Cloud Fraction - see  http://www.cfmip.net/README
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          albisccp
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    ci
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+units:             1
+cell_methods:      time: mean
+long_name:         Fraction of Time Convection Occurs
+comment:           Fraction of time that convection occurs in the grid cell .
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          ci
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    clivi
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     atmosphere_cloud_ice_content
+units:             kg m-2
+cell_methods:      time: mean
+long_name:         Ice Water Path
+comment:           calculate mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          clivi
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    cltisccp
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     cloud_area_fraction
+units:             %
+cell_methods:      time: mean
+long_name:         ISCCP Total Total Cloud Fraction
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          cltisccp
+type:              real
+!----------------------------------
+!
+
 
 !
 !
@@ -30,7 +113,7 @@ standard_name:     atmosphere_cloud_condensed_water_content
 units:             kg m-2
 cell_methods:      time: mean
 long_name:         Condensed Water Path
-comment:           calculate mass of condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
+comment:           calculate mass of condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -60,6 +143,53 @@ out_name:          hurs
 type:              real
 !----------------------------------
 
+
+!============
+variable_entry:    huss
+!============
+modeling_realm:    atmos
+
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     specific_humidity
+units:             1
+cell_methods:      time: mean
+long_name:         Near-Surface Specific Humidity
+comment:           near-surface (usually, 2 meters) specific humidity.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time height2m
+out_name:          huss
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    ps
+!============
+modeling_realm:    atmos
+
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_air_pressure
+units:             Pa
+cell_methods:      time: mean
+long_name:         Surface Air Pressure
+comment:           not, in general, the same as mean sea-level pressure
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          ps
+type:              real
+!----------------------------------
+!
+
+
+
 !
 !============
 variable_entry:    pctisccp
@@ -69,7 +199,7 @@ modeling_realm:    atmos
 ! Variable attributes:
 !----------------------------------
 standard_name:     air_pressure_at_cloud_top
-units:             Pa 
+units:             Pa
 cell_methods:      time: mean
 long_name:         ISCCP Mean Cloud Top Pressure
 comment:           When computing time-means, weight by the ISCCP Total Cloud Fraction - see  http://www.cfmip.net/README
@@ -166,6 +296,28 @@ out_name:          rtmt
 type:              real
 positive:          down
 !----------------------------------
+
+!============
+variable_entry:    rsuscs
+!============
+modeling_realm:    atmos
+
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_upwelling_shortwave_flux_in_air_assuming_clear_sky
+units:             W m-2
+cell_methods:      time: mean
+long_name:         Surface Upwelling Clear-Sky Shortwave Radiation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          rsuscs
+type:              real
+positive:          up
+!----------------------------------
+!
 
 !
 !============
