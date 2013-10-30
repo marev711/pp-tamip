@@ -1,10 +1,10 @@
 <definition>
 
     <command_block>
-        cdo -R -r -f nc -t ecmwf copy 211.128.grb 211.128_tmp.nc
-        cdo timselmean,4 211.128_tmp.nc 211.128.nc
-            cdo divc,2700. 211.128.nc 211.128_tmp.nc
-            mv 211.128_tmp.nc 211.128.nc
+        cdo -R -r -f nc -t ecmwf copy 86.128.grb 86.128_tmp.nc
+        cdo timselmean,4 86.128_tmp.nc 86.128.nc
+        cdo divc,10800. 86.128.nc 86.128_tmp.nc
+        mv 86.128_tmp.nc 86.128.nc
     </command_block>
 
     <post_cdo_units> 
@@ -12,7 +12,7 @@
      </post_cdo_units>
 
     <original_name>
-        STRC/2700
+        LBUD23/10800
     </original_name>
 
     <cmor_var_positive>
