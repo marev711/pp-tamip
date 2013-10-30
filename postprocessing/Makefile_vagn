@@ -1,0 +1,28 @@
+TARGET  := tamip-cmor.x
+SRCS    := cmor-auxiliary.F90 tamip-cmor.F90 
+OBJS    := ${SRCS:.F90=.o} 
+
+FC      = ifort
+FCFLAGS = -traceback -g -check all -I/nobackup/vagn2/sm_maeva/software/cmor-ifort/cmor-install/include -I/software/apps/netcdf/4.1.2/i12.0.3/include/
+LDFLAGS = -L/software/apps/netcdf/4.1.2/i12.0.3/lib -L/nobackup/vagn2/sm_maeva/software/cmor-ifort/cmor-install/lib/ -L/nobackup/vagn2/sm_maeva/software/cmor-ifort/uuid-1.6.2/install/lib/ -L/nobackup/vagn2/sm_maeva/software/cmor-ifort/udunits-2.1.24/install/lib/
+LIBS    = -lnetcdf -lnetcdff -lcmor -luuid -ludunits2 -lexpat
+
+.PHONY: all clean distclean print_vars
+
+all: ${TARGET}
+
+print_vars:
+	@echo TARGET=$(TARGET)
+	@echo OBJS=$(OBJS)
+	@echo SRCS=$(SRCS)
+
+$(TARGET): $(OBJS) 
+	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS) 
+
+$(OBJS): %.o: %.F90
+	$(FC) $(FCFLAGS) -o $@ -c $< 
+
+clean: 
+	-rm -f *.o *.mod $(TARGET)
+
+distclean: clean

@@ -198,6 +198,7 @@ for run_folder in run_folders:
 
         # Run CMOR
         subprocess.check_call(
-                 "LD_LIBRARY_PATH=/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib:/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib ./tamip-cmor.x",
+#                 "LD_LIBRARY_PATH=/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib:/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib ./tamip-cmor.x",
+                 "LD_LIBRARY_PATH=/software/apps/netcdf/4.1.2/i12.0.3/lib:/nobackup/vagn2/sm_maeva/software/cmor-ifort/uuid-1.6.2/install/lib ./tamip-cmor.x",
                   shell=True, stdout=subprocess.PIPE)
     #sys.exit(1)
