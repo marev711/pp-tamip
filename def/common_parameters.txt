@@ -1,11 +1,42 @@
 # Parameter numbers present in _both_ the postprocess script and in our T-AMIP runs
 # ------------------------------------------------------------------------------------------------
 
-variablesGG     namesGG_old      namesGG                                                longnameGG      unitsGG_old                                  table_id
-# done!  96cct.128          var118          cct                      Air pressure at Convective Cloud Top      Model level                             TAMIP_3hrSlev
-# done!  96ccb.128          var118          ccb                     Air Pressure at Convective Cloud Base      Model level                             TAMIP_3hrSlev
-#     33.128             rsn          rsn
-# done!    44.128               ES          sbl                     Surface Snow and Ice Sublimation Flux                m                 TAMIP_3hrSlev,TAMIP_sites
+       variablesGG          namesGG_old      namesGG                                                longnameGG      unitsGG_old                                  table_id
+    212178rsut.128                   SI         rsut                          TOA Outgoing Shortwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+    175177rlus.128                 STRD         rlus                      Surface Upwelling Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+    169176rsus.128                 SSRD         rsus                     Surface Upwelling Shortwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+   86210rsuscs.128                var86       rsuscs           Surface Upwelling Clear-Sky Shortwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+  212208rsutcs.128                   SI       rsutcs                TOA Outgoing Clear-Sky Shortwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+     209rlutcs.128                 TTRC       rlutcs                 TOA Outgoing Clear-Sky Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+        165166.128                 U10M      sfcWind                               Mean of 10 metre wind speed            m s-1                 TAMIP_3hrSlev,TAMIP_sites
+     7879clwvi.128                var78        clwvi                       Condensed water path (liquid + ice)           kg m-2                 TAMIP_3hrSlev,TAMIP_sites
+            82.128                var82         huss                                   Specific Humidity at 2m                1                             TAMIP_3hrSlev
+            83.128                var83         hurs                                   Relative Humidity at 2m                %                             TAMIP_3hrSlev
+            86.128                var86       rsdscs                   Surface Downwelling Shortwave Clear Sky            J m-2                             TAMIP_3hrSlev
+            87.128                var87       rldscs          Surface Downwelling Clear-Sky Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+       179rlut.128                  TTR         rlut                           TOA Outgoing Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+         96cct.128               var118          cct                      Air pressure at Convective Cloud Top      Model level                             TAMIP_3hrSlev
+         96ccb.128               var118          ccb                     Air Pressure at Convective Cloud Base      Model level                             TAMIP_3hrSlev
+           44.128                    ES          sbl                     Surface Snow and Ice Sublimation Flux                m                 TAMIP_3hrSlev,TAMIP_sites
+          137.128                  TCWV          prw                                          Water Vapor Path           kg m-2                 TAMIP_3hrSlev,TAMIP_sites
+          142.128                   LSP           pr                                             Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
+          143.128                    CP          prc                                  Convective Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
+          144.128                    SF         prsn                                       Solid Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
+          146.128                  SSHF         hfss                         Surface Upward Sensible Heat Flux            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+          147.128                  SLHF         hfls                           Surface Upward Latent Heat Flux            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+          151.128                   MSL          psl                                        Sea Level Pressure               Pa                 TAMIP_3hrSlev,TAMIP_sites
+          164.128                   TCC          clt                                      Total Cloud Fraction                -                 TAMIP_3hrSlev,TAMIP_sites
+          165.128                  U10M          uas                                Eastward Near-Surface Wind            m s-1                 TAMIP_3hrSlev,TAMIP_sites
+          166.128                  V10M          vas                               Northward Near-Surface Wind            m s-1                 TAMIP_3hrSlev,TAMIP_sites
+          167.128                   T2M           ts                                       Surface Temperature                K                 TAMIP_3hrSlev,TAMIP_sites
+          169.128                  SSRD         rsds                   Surface Downwelling Shortwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+          175.128                  STRD         rlds                    Surface Downwelling Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
+          180.128                  EWSS         tauu                     Surface Downward Eastward Wind Stress          N m-2 s                 TAMIP_3hrSlev,TAMIP_sites
+          181.128                  NSSS         tauv                    Surface Downward Northward Wind Stress          N m-2 s                 TAMIP_3hrSlev,TAMIP_sites
+          182.128                     E      evspsbl                                               Evaporation                m                 TAMIP_3hrSlev,TAMIP_sites
+          235.128                   SKT          tas                              Near-Surface Air Temperature                K                 TAMIP_3hrSlev,TAMIP_sites
+# Unclear what to do with the entrie below
+#          133.128                    Q         huss                                         Specific Humidity          kg kg-1                 TAMIP_3hrSlev,TAMIP_sites
 #          78           var78        clwvi                                      Condensed Water Path
 #          79           var79        clivi                                            Ice Water Path
 #          96           var96          mcu               Updraft Convective Mass Flux on full levels
@@ -14,43 +45,11 @@ variablesGG     namesGG_old      namesGG                                        
 #         102          var102        tntmp     Tendency of Air Temperature due to Diabatic Processes
 #         103          var103         tntr      Tendency of Air Temperature due to Radiative Heating
 #         104          var104         tnta              Tendency of Air Temperature due to Advection
-#    133.128               Q         huss                                         Specific Humidity          kg kg-1                 TAMIP_3hrSlev,TAMIP_sites
-# done!   137.128             TCWV          prw                                          Water Vapor Path           kg m-2                 TAMIP_3hrSlev,TAMIP_sites
-# done!   142.128              LSP           pr                                             Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
-# done!   143.128               CP          prc                                  Convective Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
-# done!   144.128               SF         prsn                                       Solid Precipitation                m                 TAMIP_3hrSlev,TAMIP_sites
-# done!   146.128             SSHF         hfss                         Surface Upward Sensible Heat Flux            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# done!   147.128             SLHF         hfls                           Surface Upward Latent Heat Flux            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# done!   151.128              MSL          psl                                        Sea Level Pressure               Pa                 TAMIP_3hrSlev,TAMIP_sites
-# done!   164.128              TCC          clt                                      Total Cloud Fraction                -                 TAMIP_3hrSlev,TAMIP_sites
-# done!   165.128             U10M          uas                                Eastward Near-Surface Wind            m s-1                 TAMIP_3hrSlev,TAMIP_sites
-# done!   166.128             V10M          vas                               Northward Near-Surface Wind            m s-1                 TAMIP_3hrSlev,TAMIP_sites
-# done!   167.128              T2M           ts                                       Surface Temperature                K                 TAMIP_3hrSlev,TAMIP_sites
-# done!   169.128             SSRD         rsds                   Surface Downwelling Shortwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# done!   175.128             STRD         rlds                    Surface Downwelling Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# irena   169176rsus.128  ssrd-ssr         rsus                     Surface Upwelling Shortwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# irena   175177rlus.128  strd-str         rlus                      Surface Upwelling Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# irena   212178rsut.128  tisr-TSR         rsut                          TOA Outgoing Shortwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# irena   179rlut.128         -TTR         rlut                           TOA Outgoing Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# done!   180.128             EWSS         tauu                     Surface Downward Eastward Wind Stress          N m-2 s                 TAMIP_3hrSlev,TAMIP_sites
-# done!   181.128             NSSS         tauv                    Surface Downward Northward Wind Stress          N m-2 s                 TAMIP_3hrSlev,TAMIP_sites
-# done!   182.128                E      evspsbl                                               Evaporation                m                 TAMIP_3hrSlev,TAMIP_sites
-# irena   212208rsutcs.128  tisr-TSRC   rsutcs                TOA Outgoing Clear-Sky Shortwave Radiation            J m-2                  TAMIP_3hrSlev,TAMIP_sites
-# irena   209rlutcs.128      -TTRC       rlutcs                 TOA Outgoing Clear-Sky Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# irena   86210rsuscs.128  86-SSRC     rsuscs           Surface Upwelling Clear-Sky Shortwave Radiation            J m-2                   TAMIP_3hrSlev,TAMIP_sites
-# ok       86.128           LBUD23       rsdscs                   Surface Downwelling Shortwave Clear Sky            J m-2                 TAMIP_3hrSlev
-# ok       87.128           LBUD23       rldscs          Surface Downwelling Clear-Sky Longwave Radiation            J m-2                 TAMIP_3hrSlev,TAMIP_sites
-# done!   235.128              SKT          tas                              Near-Surface Air Temperature                K                 TAMIP_3hrSlev,TAMIP_sites
-# done!   246.128             CLWC          clw                       Mass Fraction of Cloud Liquid Water          kg kg-1                 TAMIP_3hrMlev,TAMIP_sites
-# done!   247.128             CIWC          cli                                Mass Fraction of Cloud Ice          kg kg-1                 TAMIP_3hrMlev,TAMIP_sites
-# done!   248.128               CC           cl                                       Cloud Area Fraction                -                 TAMIP_3hrMlev,TAMIP_sites
-#       96ccb.128           LBUD23          ccb                     Air pressure at Convective Cloud Base      Model level                 TAMIP_3hrSlev
+#     33.128             rsn          rsn
 #        96ci.128           LBUD23           ci                        Fraction of time convection occurs                -                 TAMIP_3hrSlev
 #       96sci.128           LBUD23          sci                Fraction of time shallow convection occurs                -                 TAMIP_3hrSlev
 #          79.128             TCIW        clivi                                            Ice Water Path           kg m-2                 TAMIP_3hrSlev,TAMIP_sites
-#   7879clwvi.129        TCLW+TCIW        clwvi                      Condensed water path (liquid + ice)            kg m-2                 TAMIP_3hrSlev,TAMIP_sites
-#          82.128           LBUD23         huss                                   Specific Humidity at 2m            kg kg                 TAMIP_3hrSlev
-#          83.128           LBUD23         hurs                                   Relative Humidity at 2m                %                 TAMIP_3hrSlev
 #         212.128             TISR         rsdt                   TOA     Incident    Shortwave                      J m-2                 TAMIP_3hrSlev
 # SAME AS 212                 TISR         rtmt                         Net Downward flux at Top of Model
-#     165166.128  sqrt(U10M^2+V10M^2)   sfcWind                              Mean of 10 metre wind speed             m s-1                  TAMIP_3hrSlev,TAMIP_sites
+# #######################
+# These have been checked for a single case

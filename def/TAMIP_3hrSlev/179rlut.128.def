@@ -4,7 +4,7 @@
         cdo -R -r -f nc -t ecmwf copy 179.128.grb 179.128_tmp.nc
         cdo timselmean,4 179.128_tmp.nc 179.128.nc
             cdo divc,-10800. 179.128.nc 179.128_tmp.nc
-            mv 179.128_tmp.nc rlut.nc
+            mv 179.128_tmp.nc 179rlut.128.nc
     </command_block>
 
     <post_cdo_units> 

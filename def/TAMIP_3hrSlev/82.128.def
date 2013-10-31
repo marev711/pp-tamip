@@ -5,4 +5,8 @@
         cdo timselmean,4 82.128_tmp.nc 82.128.nc
     </command_block>
 
+    <original_name>
+        LBUD23
+    </original_name>
+
 </definition>

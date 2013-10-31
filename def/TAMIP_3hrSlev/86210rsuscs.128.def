@@ -9,7 +9,7 @@
         cdo divc,10800.  210.128.nc 210.128_tmp.nc
         mv  86.128_tmp.nc  86.128.nc
         mv 210.128_tmp.nc 210.128.nc
-        cdo sub -selparam,86.128 86.128.nc -selparam,210.128 210.128.nc rsuscs.nc
+        cdo sub -selparam,86.128 86.128.nc -selparam,210.128 210.128.nc 86210rsuscs.128.nc
     </command_block>
 
     <post_cdo_units> 
