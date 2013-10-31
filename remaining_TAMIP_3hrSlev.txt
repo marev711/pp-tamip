@@ -1,60 +1,74 @@
-! This file lists the parameters in the TAMIP_3hrSlev table lacking a
-! cdo-command sequence in the def folder. Also note that experiments,
-! TMIP_2008-10-15 and TMIP_2008-11-01 needs to be rerun
-!
-!   huss - how to compute q at the surface? Do we need 500033 (qv_s) or
-!          500034 (qv_2m). Ice when T<0, water when T>0? Irena note on
-!          paramId 133 on two meters, do we have humidity at two meters
-!
-!   hurs - similar as above.
-!
-!   albisccp - International Cloud Climatology Project, no output?
-!
-!
-!
-!
-!
-!
-!
+table_id: Table 3hrSlev   ! Variables on single levels
+modeling_realm: atmos
+
+frequency: 3hr
+
+cmor_version: 2.0         ! version of CMOR that can read this table
+cf_version:   1.4         ! version of CF that output conforms to
+project_id:   TAMIP  ! project id
+table_date:   28 October 2010 ! date this table was constructed
+
+missing_value: 1.e20      ! value used to indicate a missing value
+                          !   in arrays output by netCDF as 32-bit IEEE 
+                          !   floating-point numbers (float or real)
+
+baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation 
+product: output
+
+required_global_attributes: creation_date tracking_id model_id ! space separated required global attribute
+
+expt_id_ok: '5 day hindcast for tamip hindcast group 200810' 'tamip200810' 
+expt_id_ok: '5 day hindcast for tamip hindcast group 200901' 'tamip200901' 
+expt_id_ok: '5 day hindcast for tamip hindcast group 200904' 'tamip200904' 
+expt_id_ok: '5 day hindcast for tamip hindcast group 200907' 'tamip200907' 
+
+
+approx_interval:  0.125000     ! approximate spacing between successive time
+                          !   samples (in units of the output time 
+                          !   coordinate.
 
 !============
-variable_entry:    albisccp
+variable_entry:    ps
 !============
 modeling_realm:    atmos
+
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     cloud_albedo
-units:             1
+standard_name:     surface_air_pressure
+units:             Pa
 cell_methods:      time: mean
-long_name:         ISCCP Mean Cloud Albedo
-comment:           When computing time-means, weight by the ISCCP Total Cloud Fraction - see  http://www.cfmip.net/README
+long_name:         Surface Air Pressure
+comment:           not, in general, the same as mean sea-level pressure
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
 dimensions:        longitude latitude time
-out_name:          albisccp
+out_name:          ps
 type:              real
 !----------------------------------
 !
 
 !============
-variable_entry:    ci
+variable_entry:    rsdt
 !============
 modeling_realm:    atmos
+
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-units:             1
+standard_name:     toa_incoming_shortwave_flux
+units:             W m-2
 cell_methods:      time: mean
-long_name:         Fraction of Time Convection Occurs
-comment:           Fraction of time that convection occurs in the grid cell .
+long_name:         TOA Incident Shortwave Radiation
+comment:           incident shortwave at the top of the atmosphere
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
 dimensions:        longitude latitude time
-out_name:          ci
+out_name:          rsdt
 type:              real
+positive:          down
 !----------------------------------
 !
 
@@ -69,12 +83,74 @@ standard_name:     atmosphere_cloud_ice_content
 units:             kg m-2
 cell_methods:      time: mean
 long_name:         Ice Water Path
-comment:           calculate mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.
+comment:           calculate mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
 dimensions:        longitude latitude time
 out_name:          clivi
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    rtmt
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     net_downward_radiative_flux_at_top_of_atmosphere_model
+units:             W m-2
+cell_methods:      time: mean
+long_name:         Net Downward Flux at Top of Model
+comment:           i.e., at the top of that portion of the atmosphere where dynamics are explicitly treated by the model. Report only if this differs from the net downward radiative flux at the top of the atmosphere.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          rtmt
+type:              real
+positive:          down
+!----------------------------------
+!
+
+!============
+variable_entry:    ci 
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+units:             1
+cell_methods:      time: mean
+long_name:         Fraction of Time Convection Occurs
+comment:           Fraction of time that convection occurs in the grid cell .
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          ci 
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    sci
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+units:             1
+cell_methods:      time: mean
+long_name:         Fraction of Time Shallow Convection Occurs
+comment:           Fraction of time that shallow convection occurs in the grid cell. ( For models with a distinct shallow convection scheme only)
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          sci
 type:              real
 !----------------------------------
 !
@@ -99,98 +175,27 @@ type:              real
 !----------------------------------
 !
 
-
-!
-!
 !============
-variable_entry:    clwvi
+variable_entry:    albisccp
 !============
 modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     atmosphere_cloud_condensed_water_content
-units:             kg m-2
-cell_methods:      time: mean
-long_name:         Condensed Water Path
-comment:           calculate mass of condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          clwvi
-type:              real
-!----------------------------------
-
-!
-!============
-variable_entry:    hurs
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     relative_humidity
-units:             %
-cell_methods:      time: mean
-long_name:         Near-Surface Relative Humidity
-comment:           near-surface (usually, 2meters) relative humidity expressed as a percentage.  This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time height2m
-out_name:          hurs
-type:              real
-!----------------------------------
-
-
-!============
-variable_entry:    huss
-!============
-modeling_realm:    atmos
-
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     specific_humidity
+standard_name:     cloud_albedo
 units:             1
 cell_methods:      time: mean
-long_name:         Near-Surface Specific Humidity
-comment:           near-surface (usually, 2 meters) specific humidity.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time height2m
-out_name:          huss
-type:              real
-!----------------------------------
-!
-
-!============
-variable_entry:    ps
-!============
-modeling_realm:    atmos
-
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     surface_air_pressure
-units:             Pa
-cell_methods:      time: mean
-long_name:         Surface Air Pressure
-comment:           not, in general, the same as mean sea-level pressure
+long_name:         ISCCP Mean Cloud Albedo
+comment:           When computing time-means, weight by the ISCCP Total Cloud Fraction - see  http://www.cfmip.net/README
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
 dimensions:        longitude latitude time
-out_name:          ps
+out_name:          albisccp
 type:              real
 !----------------------------------
 !
 
-
-
-!
 !============
 variable_entry:    pctisccp
 !============
@@ -199,7 +204,7 @@ modeling_realm:    atmos
 ! Variable attributes:
 !----------------------------------
 standard_name:     air_pressure_at_cloud_top
-units:             Pa
+units:             Pa 
 cell_methods:      time: mean
 long_name:         ISCCP Mean Cloud Top Pressure
 comment:           When computing time-means, weight by the ISCCP Total Cloud Fraction - see  http://www.cfmip.net/README
@@ -210,153 +215,5 @@ dimensions:        longitude latitude time
 out_name:          pctisccp
 type:              real
 !----------------------------------
-
-!
-!============
-variable_entry:    psl
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     air_pressure_at_sea_level
-units:             Pa
-cell_methods:      time: mean
-long_name:         Sea Level Pressure
-comment:           not, in general, the same as surface pressure
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          psl
-type:              real
-!----------------------------------
-
-!
-!============
-variable_entry:    rsdscs
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     surface_downwelling_shortwave_flux_in_air_assuming_clear_sky
-units:             W m-2
-cell_methods:      time: mean
-long_name:         Surface Downwelling Clear-Sky Shortwave Radiation
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          rsdscs
-type:              real
-positive:          down
-!----------------------------------
-
-!
-!============
-variable_entry:    rsdt
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     toa_incoming_shortwave_flux
-units:             W m-2
-cell_methods:      time: mean
-long_name:         TOA Incident Shortwave Radiation
-comment:           incident shortwave at the top of the atmosphere
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          rsdt
-type:              real
-positive:          down
-!----------------------------------
-
-!
-!============
-variable_entry:    rtmt
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     net_downward_radiative_flux_at_top_of_atmosphere_model
-units:             W m-2
-cell_methods:      time: mean
-long_name:         Net Downward Flux at Top of Model
-comment:           i.e., at the top of that portion of the atmosphere where dynamics are explicitly treated by the model. Report only if this differs from the net downward radiative flux at the top of the atmosphere.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          rtmt
-type:              real
-positive:          down
-!----------------------------------
-
-!============
-variable_entry:    rsuscs
-!============
-modeling_realm:    atmos
-
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     surface_upwelling_shortwave_flux_in_air_assuming_clear_sky
-units:             W m-2
-cell_methods:      time: mean
-long_name:         Surface Upwelling Clear-Sky Shortwave Radiation
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          rsuscs
-type:              real
-positive:          up
-!----------------------------------
 !
 
-!
-!============
-variable_entry:    sci
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-units:             1
-cell_methods:      time: mean
-long_name:         Fraction of Time Shallow Convection Occurs
-comment:           Fraction of time that shallow convection occurs in the grid cell. ( For models with a distinct shallow convection scheme only)
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-out_name:          sci
-type:              real
-!----------------------------------
-
-!
-!============
-variable_entry:    sfcWind
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     wind_speed
-units:             m s-1
-cell_methods:      time: mean
-long_name:         Near-Surface Wind Speed
-comment:           near-surface (usually, 10 meters) wind speed.  This is the mean of the speed, not the speed computed from the mean u and v components of wind
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time height10m
-out_name:          sfcWind
-type:              real
-!----------------------------------
-!
