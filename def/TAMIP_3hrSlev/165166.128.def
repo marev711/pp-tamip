@@ -2,9 +2,9 @@
 
     <command_block>
         cdo  sqrt -add -sqr -selparam,165.128 165.128.grb -sqr -selparam,166.128 166.128.grb 165166.128.grb
-        cdo -R -r -f nc -t ecmwf copy 165166.128.grb 165166.128_tmp.nc
-        cdo timselmean,4 165166.128_tmp.nc 165166.128.nc
-        rm -f 165166.128_tmp.nc
+        cdo timselmean,4 165166.128.grb 165166.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 165166.128_tmp.grb 165166.128.nc
+        rm -f 165166.128_tmp.nc 165166.128_tmp.grb
     </command_block>
 
     <post_cdo_units> 

@@ -1,11 +1,12 @@
 <definition>
 
     <command_block>
-        cdo -R -r -f nc -t ecmwf copy 78.128.grb 78.128_tmp.nc
-        cdo -R -r -f nc -t ecmwf copy 79.128.grb 79.128_tmp.nc
-        cdo timselmean,4 78.128_tmp.nc 78.128.nc
-        cdo timselmean,4 79.128_tmp.nc 79.128.nc
+        cdo timselmean,4 78.128.grb 78.128_tmp.grb
+        cdo timselmean,4 79.128.grb 79.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 78.128_tmp.grb 78.128.nc
+        cdo -R -r -f nc -t ecmwf copy 79.128_tmp.grb 79.128.nc
         cdo add -selparam,78.128 78.128.nc -selparam,79.128 79.128.nc 7879clwvi.128.nc
+        rm -f 78.128_tmp.grb 79.128_tmp.grb
     </command_block>
 
     <original_name>

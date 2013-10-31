@@ -1,8 +1,9 @@
 <definition>
 
     <command_block>
-        cdo -R -r -f nc -t ecmwf copy 137.128.grb 137.128_tmp.nc
-        cdo timselmean,4 137.128_tmp.nc 137.128.nc
+        cdo timselmean,4 137.128.grb 137.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 137.128_tmp.grb 137.128.nc
+        rm -f 137.128_tmp.grb
     </command_block>
 
 </definition>

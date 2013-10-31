@@ -10,10 +10,10 @@
 
     <command_block>
         compute_ccbt.x
-        cdo -R -r -f nc -t ecmwf copy 96ccb.128.grb 96ccb.128_tmp.nc
-        cdo setmissval,1e20 96ccb.128_tmp.nc 96ccb.128_missval.nc
-        cdo timselmean,4 96ccb.128_missval.nc 96ccb.128.nc
-        rm -f 96ccb.128_tmp.nc 96ccb.128_missval.nc
+        cdo timselmean,4 96ccb.128.grb 96ccb.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 96ccb.128_tmp.grb 96ccb.128_tmp.nc
+        cdo setmissval,1e20 96ccb.128_tmp.nc 96ccb.128.nc
+        rm -f 96ccb.128_tmp.nc 96ccb.128_tmp.grb
     </command_block>
 
     <post_cdo_units>
