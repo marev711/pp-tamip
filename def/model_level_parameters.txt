@@ -1,0 +1,28 @@
+# Parameter numbers requested on model levels
+# ------------------------------------------------------------------------------------------------
+variablesGG          namesGG_old      namesGG                                                      longnameGG   unitsGG_old       table_id
+    131.128                   U            ua                                                   Eastward Wind         m s-1       TAMIP_3hMlev 
+    132.128                   V            va                                                  Northward Wind         m s-1       TAMIP_3hMlev
+    130.128                   T            ta                                                 Air Temperature             K       TAMIP_3hMlev
+    133.128                   G           hus                                               Specific Humidity     kg kg**-1       TAMIP_3hMlev
+ 300039.128                OMEG           wap                                                  omega (=dp/dt)        Pa s-1       TAMIP_3hMlev
+    156.128                  GH            zg                                             Geopotential Height           gpm       TAMIP_3hMlev
+    157.128                   R           hur                                               Relative Humidity             %       TAMIP_3hMlev
+                                           cl                         Cloud Area Fraction in Atmosphere Layer             %       TAMIP_3hMlev
+ 130212.128                 CLW           clw                             Mass Fraction of Cloud Liquid Water     kg kg**-1       TAMIP_3hMlev
+                                          cli                                      Mass Fraction of Cloud Ice             1       TAMIP_3hMlev
+ 201065.128                                mc                                            Convective Mass Flux    kg m-2 s-1       TAMIP_3hMlev
+                                          tnt                                     Tendency of Air Temperature         K s-1       TAMIP_3hMlev
+                                         tnta                    Tendency of Air Temperature due to Advection         K s-1       TAMIP_3hMlev
+    102.128              var102         tntmp           Tendency of Air Temperature due to Diabatic Processes         K s-1       TAMIP_3hMlev
+                                     tntscpbl   T. of Air Temp Due to Strati Cloud and PR and Boundary L. Mix         K s-1       TAMIP_3hMlev
+    103.128              var103          tntr            Tendency of Air Temperature due to Radiative Heating         K s-1       TAMIP_3hMlev
+                                         tntc             Tendency of Air Temperature due to Moist Convection         K s-1       TAMIP_3hMlev
+                                        tnhus                                   Tendency of Specific Humidity           s-1       TAMIP_3hMlev
+                                       tnhusa                  Tendency of Specific Humidity due to Advection           s-1       TAMIP_3hMlev
+                                       tnhusc                 Tendency of Specific Humidity due to Convection           s-1       TAMIP_3hMlev
+                                       tnhusd                  Tendency of Specific Humidity due to Diffusion           s-1       TAMIP_3hMlev
+                                   tnhusscpbl    T. of Specific Hum due to Strati Cloud Condensation and Evap           s-1       TAMIP_3hMlev
+162111.128               var162       tnhusmp              Tendency of Specific Humidity due to Model Physics           s-1       TAMIP_3hMlev
+54full.128                 PRES         pfull                                        Pressure on Model Levels            Pa       TAMIP_3hMlev
+54half.128                 PRES         phalf                                   Pressure on Model Half-Levels            Pa       TAMIP_3hMlev
