@@ -1,11 +1,11 @@
 # Parameter numbers requested on pressure levels
 # ------------------------------------------------------------------------------------------------
-       variablesGG          namesGG_old      namesGG                    longnameGG   unitsGG_old       table_id
-           131.128                   U            ua                 Eastward Wind         m s-1       TAMIP_3hPlev 
-           132.128                   V            va                Northward Wind         m s-1       TAMIP_3hPlev
-           130.128                   T            ta               Air Temperature             K       TAMIP_3hPlev
-           133.128                   G           hus             Specific Humidity     kg kg**-1       TAMIP_3hPlev
-        300039.128                OMEG           wap                omega (=dp/dt)        Pa s-1       TAMIP_3hPlev
-           156.128                  GH            zg           Geopotential Height           gpm       TAMIP_3hPlev
-           157.128                   R           hur             Relative Humidity             %       TAMIP_3hPlev
-                 -                   -             -     ISCCP Cloud Area Fraction             %       TAMIP_3hPlev
+       variablesGG          namesGG_old      namesGG                    longnameGG   unitsGG_old           table_id
+           131.128                    U           ua                 Eastward Wind         m s-1       TAMIP_3hPlev 
+           132.128                    V           va                Northward Wind         m s-1       TAMIP_3hPlev
+           130.128                    T           ta               Air Temperature             K       TAMIP_3hPlev
+           133.128                    G          hus             Specific Humidity     kg kg**-1       TAMIP_3hPlev
+        300039.128                 OMEG          wap                omega (=dp/dt)        Pa s-1       TAMIP_3hPlev
+           156.128                   GH           zg           Geopotential Height           gpm       TAMIP_3hPlev
+           157.128                    R          hur             Relative Humidity             %       TAMIP_3hPlev
+                 -                    -            -     ISCCP Cloud Area Fraction             %       TAMIP_3hPlev
