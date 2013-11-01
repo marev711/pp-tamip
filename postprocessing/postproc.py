@@ -36,7 +36,7 @@ args = parser.parse_args()
 
 
 # CMORize only from this table
-current_table = "TAMIP_3hrSlev"
+current_table = "TAMIP_3hrMlev"
 
 # Where am I?
 script_file = os.path.abspath(os.path.join(os.getcwd(), __file__))
@@ -169,7 +169,7 @@ for run_folder in run_folders:
             if param_def_file.has_key("cmor_var_positive"):
                 positive = param_def_file["cmor_var_positive"]
             else:
-                positive = "Skip entry"
+                positive = "Not applicable?"
 
         # Fix reference time using the TAMIP_experiment_info.txt-file
         curr_file = param['variablesGG'] + ".nc"
