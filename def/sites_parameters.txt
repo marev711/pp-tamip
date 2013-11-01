@@ -15,7 +15,7 @@
          235.128              SKT          tas                               Near-Surface Air Temperature             K    TAMIP_sites
          167.128              T2M           ts                                        Surface Temperature             K    TAMIP_sites
          151.128              MSL          psl                                         Sea Level Pressure            Pa    TAMIP_sites
-                                            ps                                       Surface Air Pressure            Pa    TAMIP_sites
+      300135.128             PSLC           ps                                       Surface Air Pressure            Pa    TAMIP_sites
          165.128             U10M          uas                           Eastward Near-Surface Wind Speed         m s-1    TAMIP_sites
          166.128             V10M          vas                          Northward Near-Surface Wind Speed         m s-1    TAMIP_sites
       165166.128             U10M      sfcWind                                    Near-Surface Wind Speed         m s-1    TAMIP_sites
