@@ -84,19 +84,23 @@ def preprocess_ICM_files(grib_files):
         if re.search('SH', grib_file) is not None:
             gp_file = re.sub('SH', 'SH2GP', grib_file)
             cdo_sp2gp = "cdo -O sp2gp " + grib_file + " " + gp_file
-            cdo_command = command_launch(cdo_sp2gp, log_handle=sys.stdout)
+            #cdo_command = command_launch(cdo_sp2gp, log_handle=sys.stdout)
             grib_files[grib_index] = gp_file
 
-    # Remove existing intermediate files if present...
-    remove_intermediate_files_matching(glob_pattern='0[0-9].*')
 
-    for grib_type in ['SH', 'GG']:
+    #for grib_type in ['SH', 'GG']:
+    for grib_type in ['GG']:
+        # Remove existing intermediate files if present...
+        remove_intermediate_files_matching(glob_pattern='0[0-9].*')
         curr_grib_files = [grib for grib in grib_files if re.search(grib_type, grib) is not None]
         if len(curr_grib_files) == 1:  #  The normal case, a single grib file where we split the entries
             cdo_splitparam = "cdo -O splitparam " + curr_grib_files[0] + " split"
             cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
             subprocess.check_call(["rename split '' split*"], shell=True)
         elif len(curr_grib_files) == 2:  # Special case if grib files are split across two months
+            TMIP_index = TMIP_regex.search(curr_grib_files[0]).group(1)
+            TMIP_year = TMIP_regex.search(curr_grib_files[0]).group(2)
+            TMIP_month = TMIP_regex.search(curr_grib_files[0]).group(3)
             TMIP_index2 = TMIP_regex.search(curr_grib_files[1]).group(1)
             TMIP_year2 = TMIP_regex.search(curr_grib_files[1]).group(2)
             TMIP_month2 = TMIP_regex.search(curr_grib_files[1]).group(3)

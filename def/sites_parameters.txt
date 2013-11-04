@@ -1,7 +1,6 @@
 # Parameter numbers requested on CFMIPS sites
 # ------------------------------------------------------------------------------------------------
      variablesGG      namesGG_old      namesGG                                                 longnameGG   unitsGG_old       table_id
-   
       228002.128                          orog                                           Surface Altitude             m    TAMIP_sites
                                             p0       vertical coordinate formula term: reference pressure            Pa    TAMIP_sites
                                           ptop                                   pressure at top of model            Pa    TAMIP_sites
