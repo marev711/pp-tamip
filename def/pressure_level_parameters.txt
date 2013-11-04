@@ -6,6 +6,6 @@
            132.128                    V           va                Northward Wind         m s-1       TAMIP_3hPlev
            133.128                    G          hus             Specific Humidity     kg kg**-1       TAMIP_3hPlev
            135.128                 OMEG          wap                omega (=dp/dt)        Pa s-1       TAMIP_3hPlev
-           156.128                   GH           zg           Geopotential Height           gpm       TAMIP_3hPlev
+           129.128                   GH           zg           Geopotential Height           gpm       TAMIP_3hPlev
+# zg = 129.128 divide by gravity 
            157.128                    R          hur             Relative Humidity             %       TAMIP_3hPlev
-                 -                    -            -     ISCCP Cloud Area Fraction             %       TAMIP_3hPlev

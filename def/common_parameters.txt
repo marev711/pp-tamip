@@ -35,21 +35,10 @@
           181.128           NSSS         tauv                 Surface Downward Northward Wind Stress         N m-2 s        TAMIP_3hrSlev         gridpoint
           182.128              E      evspsbl                                            Evaporation               m        TAMIP_3hrSlev         gridpoint
           235.128            SKT          tas                           Near-Surface Air Temperature               K        TAMIP_3hrSlev         gridpoint
+#          79.128           TCIW        clivi                                         Ice Water Path           kg m-2       TAMIP_3hrSlev,TAMIP_sites 
+#         212.128           TISR         rsdt                          TOA     Incident    Shortwave            J m-2       TAMIP_3hrSlev
 # Unclear what to do with the entrie below
-#          133.128                    Q         huss                                         Specific Humidity          kg kg-1                 TAMIP_3hrSlev,TAMIP_sites
-#          78           var78        clwvi                                      Condensed Water Path
-#          79           var79        clivi                                            Ice Water Path
-#          96           var96          mcu               Updraft Convective Mass Flux on full levels
-#          98           var98     reffclwc        Hydrometeor Effective Radius of Cloud Liquid Water
-#          99           var99     reffclic          Hydrometeor Effective Radius of Cloud Liquid Ice
-#         102          var102        tntmp     Tendency of Air Temperature due to Diabatic Processes
-#         103          var103         tntr      Tendency of Air Temperature due to Radiative Heating
-#         104          var104         tnta              Tendency of Air Temperature due to Advection
-#     33.128             rsn          rsn
 #        96ci.128           LBUD23           ci                        Fraction of time convection occurs                -                 TAMIP_3hrSlev
 #       96sci.128           LBUD23          sci                Fraction of time shallow convection occurs                -                 TAMIP_3hrSlev
-#          79.128             TCIW        clivi                                            Ice Water Path           kg m-2                 TAMIP_3hrSlev,TAMIP_sites
-#         212.128             TISR         rsdt                   TOA     Incident    Shortwave                      J m-2                 TAMIP_3hrSlev
-# SAME AS 212                 TISR         rtmt                         Net Downward flux at Top of Model
 # #######################
 # These have been checked for a single case
