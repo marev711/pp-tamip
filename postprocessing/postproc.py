@@ -6,7 +6,7 @@
 #
 # Purpose: Prepare T-AMIP grib files to be CMORized
 #
-# Usage: ./postproc.py [--skip-grib-split] <definition_file>
+# Usage: ./postproc.py [--skip-raw-grib-process] <definition_file>
 #
 # Revision history: 2013-02-28  --  Script created, Martin Evaldsson, Rossby Centre
 #
@@ -25,8 +25,8 @@ import sys
 
 
 parser = argparse.ArgumentParser(description='Postprocess and CMORize the TAMIP experiment output')
-parser.add_argument('-s', '--skip-grib-split',
-                    help='Skip the step where the ICMGG-files are split into separate files',
+parser.add_argument('-s', '--skip-raw-grib-process',
+                    help='Skip the step where the ICM??-files are split into separate files and converted to grid point space',
                     action='store_true')
 parser.add_argument('-r', '--run-folder',
                     help='Override default TAMIP subfolders (e.g., for running a subset)',
@@ -34,9 +34,6 @@ parser.add_argument('-r', '--run-folder',
 parser.add_argument('definition_file', help='Control file for processing (see def/* for examples)')
 args = parser.parse_args()
 
-
-# CMORize only from this table
-current_table = "TAMIP_3hrMlev"
 
 # Where am I?
 script_file = os.path.abspath(os.path.join(os.getcwd(), __file__))
@@ -57,7 +54,7 @@ grib_entries = [entry for entry in grib_entries if not re.search('^#', entry) an
 headers = grib_entries[0].split()
 
 # Use extent of headers to figure out column width
-end_index = [m.start(0)+1 for m in re.finditer('[HGd](\s*$|\s)', grib_entries[0])]
+end_index = [m.start(0)+1 for m in re.finditer('[dens](\s*$|\s)', grib_entries[0])]
 start_index = [m+1 for m in end_index]
 start_index = start_index[0:-1]
 start_index.insert(0,0)
@@ -68,14 +65,6 @@ entries = [[grib_entry[start:end].strip() for start,end in indices] for grib_ent
 
 # Couple headers to each entry
 params = [dict(zip(headers, param)) for param in entries]
-
-# Remove all but 'current_table'-table entries
-params = [entry for entry in params if re.search(current_table, entry['table_id']) != None]
-
-# Remove tables that happen to occure together with 'current_table'-table entries
-for param_id in range(len(params)):
-    params[param_id]['table_id'] = re.sub(".*(" + current_table + ").*", r'\1', params[param_id]['table_id'])
-
 
 # Couple TAMIP dates with their starting time (hours) and realisaion no
 f = open(os.path.join(base_dir, "def/TAMIP_experiment_info.txt"), "r")
@@ -120,23 +109,24 @@ if args.run_folder:
     run_folders = args.run_folder
 
 for run_folder in run_folders:
-    sys.stdout.write("current run_folder=" + run_folder + "\n")
+    sys.stdout.write("current run_folder = " + run_folder + "\n")
     curr_date = re.sub("TMIP_", "", run_folder)
     model_data_folder = os.path.join(experiment_folder, run_folder)
     os.chdir(model_data_folder)
-    sys.stdout.write("current model_data_folder=" + model_data_folder + "\n")
+    sys.stdout.write("current model_data_folder = " + model_data_folder + "\n")
 
     # Check which grib files are present in this folder
-    grib_files = glob.glob('ICMGG*200*')
+    grib_files = glob.glob('ICM*200*')
 
 
-    # Split IFS-grib file(s) into separate grib files named "paramId.table2Version.grb"
-    if not args.skip_grib_split:
-        postproc_aux.split_ICM_files(grib_files)
+    # Split IFS-grib file(s) into separate grib files named "paramId.table2Version.grb",
+    # if spectral, convert to gridpoint space
+    if not args.skip_raw_grib_process:
+        postproc_aux.preprocess_ICM_files(grib_files)
 
     for param in params:
         os.chdir(os.path.join(experiment_folder, run_folder))
-        xml_def_file = os.path.join(def_dir, param['table_id'], param['variablesGG'] + ".def")
+        xml_def_file = os.path.join(def_dir, param['table_id'], param['variables'] + ".def")
         if (os.path.exists(xml_def_file)):
             param_def_file = postproc_aux.parse_xml(xml_def_file)
 
@@ -159,21 +149,21 @@ for run_folder in run_folders:
             if param_def_file.has_key("post_cdo_units"):
                 units = param_def_file["post_cdo_units"].split('\n')[0]
             else:
-                units = param['unitsGG_old']
+                units = param['units_old']
 
             if param_def_file.has_key("original_name"):
                 original_name = param_def_file["original_name"].split('\n')[0]
             else:
-                original_name = param['namesGG_old']
+                original_name = param['names_old']
 
             if param_def_file.has_key("cmor_var_positive"):
                 positive = param_def_file["cmor_var_positive"]
             else:
-                positive = "Not applicable?"
+                positive = "Skip entry"
 
         # Fix reference time using the TAMIP_experiment_info.txt-file
-        curr_file = param['variablesGG'] + ".nc"
-        curr_temp= param['variablesGG'] + "_tmp.nc"
+        curr_file = param['variables'] + ".nc"
+        curr_temp= param['variables'] + "_tmp.nc"
         cdo_setreftime = "cdo setreftime," + curr_date + "," + date_hh[curr_date] + ":00 " + curr_file + " " + curr_temp
         cdo_command = postproc_aux.command_launch(cdo_setreftime, log_handle=sys.stdout)
         os.rename(curr_temp, curr_file)
@@ -181,13 +171,13 @@ for run_folder in run_folders:
         sys.stdout.write("curr_file=" + curr_file + "\n")
         # Update the CMOR namelist file (cmor.nml)
         os.chdir(os.path.join(postpr_dir))
-        nml_replacements = {"cmor_varname"  : param['namesGG'],
+        nml_replacements = {"cmor_varname"  : param['names'],
                             "curr_file"     : os.path.join(model_data_folder, curr_file),
                             "experiment_id" : date_exp[curr_date],
                             "history"       : "PLACE_HOLDER",
                             "inpath"        : os.path.join(def_dir, param['table_id']),
-                            "model_units"   : units,  # either from "unitsGG_old" or "cdo command block"
-                            "model_varname" : param['namesGG_old'],
+                            "model_units"   : units,  # either from "units_old" or "cdo command block"
+                            "model_varname" : param['names_old'],
                             "original_name" : original_name,
                             "positive"      : positive,
                             "realization"   : date_rea[curr_date],

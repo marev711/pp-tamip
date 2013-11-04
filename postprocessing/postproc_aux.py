@@ -7,6 +7,11 @@ import subprocess
 import sys
 import xml.dom.minidom
 
+def remove_intermediate_files_matching(glob_pattern):
+    files_to_remove = glob.glob(glob_pattern)
+    for file in files_to_remove:
+        os.remove(file)
+
 def command_launch(command, local_bins=None, log_handle=None):
     """ @brief Wrapper to execute commands from a shell
         @param command Full path to the command execute
@@ -68,33 +73,49 @@ def translate_template(nml_replacements, template, target):
             fnml.write(nml_line)
     fnml.close()
 
-def split_ICM_files(grib_files):
-    TMIP_regex = re.compile('ICM..TM([0-9]{2})\+(200[89])([0-9]{2})')
+def preprocess_ICM_files(grib_files):
+    TMIP_regex = re.compile('ICM.{2,5}TM([0-9]{2})\+(200[89])([0-9]{2})')
     TMIP_index = TMIP_regex.search(grib_files[0]).group(1)
     TMIP_year = TMIP_regex.search(grib_files[0]).group(2)
     TMIP_month = TMIP_regex.search(grib_files[0]).group(3)
 
-    if len(grib_files) == 1:  #  The normal case, a single grib file where we split the entries
-        cdo_splitparam = "cdo splitparam " + grib_files[0] + " split"
-        cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
-        subprocess.check_call(["rename split '' split*"], shell=True)
-    elif len(grib_files) == 2:  # Special case if grib files are split across two months
-        TMIP_index2 = TMIP_regex.search(grib_files[1]).group(1)
-        TMIP_year2 = TMIP_regex.search(grib_files[1]).group(2)
-        TMIP_month2 = TMIP_regex.search(grib_files[1]).group(3)
+    grib_files = [grib_file for grib_file in grib_files if re.search('SH2GP', grib_file) is None]
+    for grib_index, grib_file in enumerate(grib_files):
+        if re.search('SH', grib_file) is not None:
+            gp_file = re.sub('SH', 'SH2GP', grib_file)
+            cdo_sp2gp = "cdo -O sp2gp " + grib_file + " " + gp_file
+            cdo_command = command_launch(cdo_sp2gp, log_handle=sys.stdout)
+            grib_files[grib_index] = gp_file
 
-        cdo_splitparam = "cdo splitparam " + grib_files[0] + " " + TMIP_month + "."
-        cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
-        cdo_splitparam = "cdo splitparam " + grib_files[1] + " " + TMIP_month2 + "."
-        cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
-        split_files = glob.glob(TMIP_month + '*')
-        for split_file in split_files:
-            other_split_file = re.sub("^" + TMIP_month, TMIP_month2, split_file)
-            merged_file = re.sub("^" + TMIP_month + "\.", "", split_file)
-            cdo_mergetime = "cdo mergetime " + split_file + " " + other_split_file + " " + merged_file
-            cdo_command = command_launch(cdo_mergetime, log_handle=sys.stdout)
-            os.remove(split_file)
-            os.remove(other_split_file)
-    else:
-        print "*EE*: Script can only handle one or two separate GRIB-files..."
-        raise
+    # Remove existing intermediate files if present...
+    remove_intermediate_files_matching(glob_pattern='0[0-9].*')
+
+    for grib_type in ['SH', 'GG']:
+        curr_grib_files = [grib for grib in grib_files if re.search(grib_type, grib) is not None]
+        if len(curr_grib_files) == 1:  #  The normal case, a single grib file where we split the entries
+            cdo_splitparam = "cdo -O splitparam " + curr_grib_files[0] + " split"
+            cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
+            subprocess.check_call(["rename split '' split*"], shell=True)
+        elif len(curr_grib_files) == 2:  # Special case if grib files are split across two months
+            TMIP_index2 = TMIP_regex.search(curr_grib_files[1]).group(1)
+            TMIP_year2 = TMIP_regex.search(curr_grib_files[1]).group(2)
+            TMIP_month2 = TMIP_regex.search(curr_grib_files[1]).group(3)
+
+            cdo_splitparam = "cdo -O splitparam " + curr_grib_files[0] + " " + TMIP_month + "."
+            cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
+            cdo_splitparam = "cdo -O splitparam " + curr_grib_files[1] + " " + TMIP_month2 + "."
+            cdo_command = command_launch(cdo_splitparam, log_handle=sys.stdout)
+            split_files = glob.glob(TMIP_month + '*')
+            for split_file in split_files:
+                other_split_file = re.sub("^" + TMIP_month, TMIP_month2, split_file)
+                merged_file = re.sub("^" + TMIP_month + "\.", "", split_file)
+                cdo_mergetime = "cdo -O mergetime " + split_file + " " + other_split_file + " " + merged_file
+                cdo_command = command_launch(cdo_mergetime, log_handle=sys.stdout)
+                os.remove(split_file)
+                os.remove(other_split_file)
+        else:
+            print "*EE*: Script can only handle one or two separate GRIB-files..."
+            raise
+    grib_files_to_remove = glob.glob('*SH2GP*')
+    for grib_file in grib_files_to_remove:
+        os.remove(grib_file)

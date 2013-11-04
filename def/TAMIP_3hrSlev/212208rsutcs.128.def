@@ -3,14 +3,13 @@
     <command_block>
         cdo timselmean,4 212.128.grb 212.128_tmp.grb
         cdo timselmean,4 208.128.grb 208.128_tmp.grb
-        cdo -R -r -f nc -t ecmwf copy 212.128_tmp.grb 212.128.nc
-        cdo -R -r -f nc -t ecmwf copy 208.128_tmp.grb 208.128.nc
+        cdo -O -R -r -f nc -t ecmwf copy 212.128_tmp.grb 212.128.nc
+        cdo -O -R -r -f nc -t ecmwf copy 208.128_tmp.grb 208.128.nc
         cdo divc,10800.  212.128.nc 212.128_tmp.nc
         cdo divc,10800.  208.128.nc 208.128_tmp.nc
         mv 212.128_tmp.nc 212.128.nc
         mv 208.128_tmp.nc 208.128.nc
-        cdo sub -selparam,212.128 212.128.nc -selparam,208.128 208.128.nc 212208rsutcs.128.nc
-        rm -f 212.128_tmp.grb 208.128_tmp.grb
+        cdo -O sub -selparam,212.128 212.128.nc -selparam,208.128 208.128.nc 212208rsutcs.128.nc
     </command_block>
 
     <post_cdo_units> 

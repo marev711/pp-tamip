@@ -1,13 +1,13 @@
 # Parameter numbers requested on model levels
 # ------------------------------------------------------------------------------------------------
-variablesGG          namesGG_old      namesGG                                                      longnameGG   unitsGG_old       table_id
-    130.128                   T            ta                                                 Air Temperature             K       TAMIP_3hMlev
-    131.128                   U            ua                                                   Eastward Wind         m s-1       TAMIP_3hMlev 
-    132.128                   V            va                                                  Northward Wind         m s-1       TAMIP_3hMlev
-#    133.128                   Q           hus                                               Specific Humidity     kg kg**-1       TAMIP_3hMlev
-    135.128                OMEG           wap                                                  omega (=dp/dt)        Pa s-1       TAMIP_3hMlev
-#    156.128                  GH            zg                                             Geopotential Height           gpm       TAMIP_3hMlev
-    157.128                   R           hur                                               Relative Humidity             %       TAMIP_3hMlev
+  variables           names_old         names                                                        longname     units_old           table_id    representation
+    130.128                   T            ta                                                 Air Temperature             K       TAMIP_3hMlev          spectral
+    131.128                   U            ua                                                   Eastward Wind         m s-1       TAMIP_3hMlev          spectral  
+    132.128                   V            va                                                  Northward Wind         m s-1       TAMIP_3hMlev          spectral
+#    133.128                   Q           hus                                               Specific Humidity     kg kg**-1       TAMIP_3hMlev         gridpoint
+    135.128                OMEG           wap                                                  omega (=dp/dt)        Pa s-1       TAMIP_3hMlev          spectral
+#    156.128                  GH            zg                                             Geopotential Height           gpm       TAMIP_3hMlev         gridpoint
+    157.128                   R           hur                                               Relative Humidity             %       TAMIP_3hMlev          spectral
 # 130212.128                 CLW           clw                             Mass Fraction of Cloud Liquid Water     kg kg**-1       TAMIP_3hMlev
 # 201065.128                                mc                                            Convective Mass Flux    kg m-2 s-1       TAMIP_3hMlev
 #    102.128              var102         tntmp           Tendency of Air Temperature due to Diabatic Processes         K s-1       TAMIP_3hMlev

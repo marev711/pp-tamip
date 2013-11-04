@@ -11,8 +11,8 @@
     <command_block>
         compute_ccbt.x
         cdo timselmean,4 96cct.128.grb 96cct.128_tmp.grb
-        cdo -R -r -f nc -t ecmwf copy 96cct.128_tmp.grb 96cct.128_tmp.nc
-        cdo setmissval,1e20 96cct.128_tmp.nc 96cct.128.nc
+        cdo -O -R -r -f nc -t ecmwf copy 96cct.128_tmp.grb 96cct.128_tmp.nc
+        cdo -O setmissval,1e20 96cct.128_tmp.nc 96cct.128.nc
         rm -f 96cct.128_tmp.nc 96cct.128_tmp.grb
     </command_block>
 

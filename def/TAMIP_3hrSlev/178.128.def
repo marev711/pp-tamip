@@ -2,7 +2,7 @@
 
     <command_block>
         cdo timselmean,4 178.128.grb 178.128_tmp.grb
-        cdo -R -r -f nc -t ecmwf copy 178.128_tmp.grb 178.128.nc
+        cdo -O -R -r -f nc -t ecmwf copy 178.128_tmp.grb 178.128.nc
         cdo divc,2700. 178.128.nc 178.128_tmp.nc
         mv 178.128_tmp.nc 178.128.nc
         rm -f 178.128_tmp.grb
