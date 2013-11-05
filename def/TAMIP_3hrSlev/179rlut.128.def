@@ -3,7 +3,7 @@
     <command_block>
         cdo timselmean,4 179.128.grb 179.128_tmp.grb
         cdo -O -R -r -f nc -t ecmwf copy 179.128_tmp.grb 179.128.nc
-        cdo divc,-10800. 179.128.nc 179.128_tmp.nc
+        cdo divc,-2700. 179.128.nc 179.128_tmp.nc
         mv 179.128_tmp.nc 179rlut.128.nc
     </command_block>
 
@@ -12,7 +12,7 @@
      </post_cdo_units>
 
     <original_name>
-       -TTR/10800
+       -TTR/2700
     </original_name>
 
     <cmor_var_positive>

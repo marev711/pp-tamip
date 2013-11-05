@@ -2,8 +2,10 @@
 
     <command_block>
         cdo timselmean,4 135.128.grb 135.128_tmp.grb
-        cdo -R -r -f nc -t ecmwf copy 135.128_tmp.grb 135.128.nc
+        cdo -R -r -f nc -t ecmwf copy 135.128_tmp.grb 135.128_two_levels.nc
+        cdo selname,W_2 135.128_two_levels.nc 135.128.nc
         rm -f 135.128_tmp.grb
+        rm -f 135.128_two_levels.nc
     </command_block>
 
 </definition>

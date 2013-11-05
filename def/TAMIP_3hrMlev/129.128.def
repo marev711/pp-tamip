@@ -1,0 +1,19 @@
+<definition>
+
+    <command_block>
+        cdo timselmean,4 129.128.grb 129.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 129.128_tmp.grb 129.128_two_levels.nc
+        cdo divc,9.80665 -selname,Z_2 129.128_two_levels.nc 129.128.nc
+        rm -f 129.128_tmp.grb
+        rm -f 129.128_two_levels.nc
+    </command_block>
+
+    <original_name>
+        Z_2/little_g
+    <original_name>
+
+    <post_cdo_units>
+        m
+    </post_cdo_units>
+
+</definition>

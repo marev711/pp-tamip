@@ -3,7 +3,7 @@
     <command_block>
         cdo -R -r -f nc -t ecmwf copy 133.128.grb 133.128_tmp.nc
         cdo splitname 133.128_tmp.nc tmp
-        cdo timselmean,4 tmpQ.nc 133.128.nc
+        cdo timselmean,4 tmpQ_2.nc 133.128.nc
         rm -f tmp*
     </command_block>
 

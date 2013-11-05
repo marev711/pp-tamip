@@ -4,7 +4,7 @@
            130.128                    T           ta               Air Temperature             K       TAMIP_3hPlev
            131.128                    U           ua                 Eastward Wind         m s-1       TAMIP_3hPlev 
            132.128                    V           va                Northward Wind         m s-1       TAMIP_3hPlev
-           133.128                    G          hus             Specific Humidity     kg kg**-1       TAMIP_3hPlev
+           133.128                    Q          hus             Specific Humidity     kg kg**-1       TAMIP_3hPlev
            135.128                 OMEG          wap                omega (=dp/dt)        Pa s-1       TAMIP_3hPlev
            129.128                   GH           zg           Geopotential Height           gpm       TAMIP_3hPlev
 # zg = 129.128 divide by gravity 

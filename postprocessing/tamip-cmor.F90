@@ -10,22 +10,22 @@
                 lonDimID, latDimId, timeDimId, &
                 numLons, numLats, numTimes, numLength, &
                 status , id, ndims, tableId, ilon, ilat, itime, i, &
-                cvar
+                cvar, counter
      integer, dimension(nf90_max_var_dims) :: dimIDs
      character(len=128) :: dim_name, calendar_read, units_read
      character(len=1024) :: history
      character (len=*) , parameter :: end_of_line = char(13)//char(10)
      real, dimension(:, :, :), allocatable :: rhValues
-     DOUBLE PRECISION, dimension(:), allocatable :: alats, alons, time
+     DOUBLE PRECISION, dimension(:), allocatable :: alats, alons, time, lev_2
      DOUBLE PRECISION, dimension(2)  :: time2
      DOUBLE PRECISION, dimension(2,2)  :: time2bnds
-     DOUBLE PRECISION, dimension(:, :), allocatable :: alats_bounds, alons_bounds, time_bounds
+     DOUBLE PRECISION, dimension(:, :), allocatable :: alats_bounds, alons_bounds, time_bounds, lev_2_bounds
 
      call read_nml()
      status = cmor_setup(inpath=INPATH, netcdf_file_action=CMOR_APPEND)
      IF (status .ne. 0) call handle_err(status, "CMOR_SETUP")
 
-     tableId = cmor_load_table("TAMIP_3hrSlev")
+     tableId = cmor_load_table(table_id)
      call cmor_set_table(tableId)
 
      status = nf90_open(path = curr_file, mode = nf90_nowrite, ncid = ncid)
@@ -68,6 +68,7 @@
      call read_1d_coord(ncid, rhVarId, "lat", alats, alats_bounds)
      call read_1d_coord(ncid, rhVarId, "lon", alons, alons_bounds)
      call read_1d_coord(ncid, rhVarId, "time", time, time_bounds)
+     call read_1d_coord(ncid, rhVarId, "lev_2", lev, lev_bounds)
 
      allocate(rhValues(size(alons), size(alats), size(time)))
      status = nf90_get_var(ncid, rhVarId, rhValues)
@@ -102,7 +103,6 @@
                           missing_value=1.0e20,           &
                           positive=positive,              &
                           original_name=original_name)
-
       status = cmor_write(var_id = cvar,    &
                           data   = rhValues)
 

@@ -1,0 +1,19 @@
+<definition>
+
+    <command_block>
+        cdo timselmean,4 102.128.grb 102.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 102.128_tmp.grb 102.128.nc
+        cdo add 110.162.nc 102.128.nc tnt.128.nc
+        rm -f 102.128_tmp.grb
+        rm -f 102.128.nc
+    </command_block>
+
+    <original_name>
+        var110+var102
+    <original_name>
+
+    <post_cdo_units>
+        K s-1
+    </post_cdo_units>
+
+</definition>

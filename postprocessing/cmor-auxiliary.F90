@@ -84,7 +84,7 @@ MODULE CMOR_TAMIP_ROUTINES
     DOUBLE PRECISION, INTENT(OUT), DIMENSION(:, :), ALLOCATABLE :: coord_array_bounds
 
     INTEGER, DIMENSION(NF90_MAX_VAR_DIMS) :: dimIDs
-    INTEGER :: ndims, numLength, id, i_bounds, status, i
+    INTEGER :: ndims, numLength, id, i_bounds, status, i, coord_id
     CHARACTER(LEN=128) :: dim_name
 
     status = nf90_inquire_variable(ncid, rhVarId, dimids = dimIDs, ndims=ndims)
@@ -96,7 +96,10 @@ MODULE CMOR_TAMIP_ROUTINES
             allocate(coord_array(numLength))
             coord_array = 0.0
 
-            status = nf90_get_var(ncid, id, coord_array)
+            status = nf90_inq_varid(ncid, coord_name, coord_id)
+            if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID")
+
+            status = nf90_get_var(ncid, coord_id, coord_array)
             if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
 
             allocate(coord_array_bounds(2, numLength))

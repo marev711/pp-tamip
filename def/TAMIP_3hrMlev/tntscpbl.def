@@ -1,0 +1,17 @@
+<definition>
+
+    <command_block>
+        cdo add -timselmean,4 90.128.grb -timselmean,4 107.128.grb tntscpbl.grb
+        cdo -R -r -f nc -t ecmwf copy tntscpbl.grb tntscpbl.nc
+        rm -f tntscpbl.grb
+    </command_block>
+
+    <original_name>
+        var90+var107
+    <original_name>
+
+    <post_cdo_units>
+        K s-1
+    </post_cdo_units>
+
+</definition>

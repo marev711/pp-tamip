@@ -1,0 +1,19 @@
+<definition>
+
+    <command_block>
+        cdo timselmean,4 248.128.grb 248.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 248.128_tmp.grb 248.128_tmp.nc
+        cdo mulc,100 248.128_tmp.nc 248.128.nc
+        rm -f 248.128_tmp.grb
+        rm -f 248.128_tmp.nc
+    </command_block>
+
+    <original_name>
+        CC*100
+    <original_name>
+
+    <post_cdo_units>
+        %
+    </post_cdo_units>
+
+</definition>

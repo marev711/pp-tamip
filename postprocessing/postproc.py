@@ -81,7 +81,10 @@ date_exp = dict(zip(dates, experiment_ids))
 
 # All experiments
 experiment_folder = "/nobackup/rossby15/rossby/joint_exp/tamip"
-run_folders = ["TMIP_2009-08-02", "TMIP_2009-08-01", "TMIP_2009-07-31",
+run_folders = [
+#               "TMIP_2009-08-02", "TMIP_2009-08-01", "TMIP_2009-07-31",
+#               "TMIP_2009-07-30"], "TMIP_2009-07-28", "TMIP_2009-07-27",
+               "TMIP_2009-07-28", "TMIP_2009-07-27",
                "TMIP_2009-07-30", "TMIP_2009-07-28", "TMIP_2009-07-27",
                "TMIP_2009-07-26", "TMIP_2009-07-25", "TMIP_2009-07-23",
                "TMIP_2009-07-22", "TMIP_2009-07-21", "TMIP_2009-07-20",

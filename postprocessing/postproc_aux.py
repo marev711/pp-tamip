@@ -84,12 +84,11 @@ def preprocess_ICM_files(grib_files):
         if re.search('SH', grib_file) is not None:
             gp_file = re.sub('SH', 'SH2GP', grib_file)
             cdo_sp2gp = "cdo -O sp2gp " + grib_file + " " + gp_file
-            #cdo_command = command_launch(cdo_sp2gp, log_handle=sys.stdout)
+            cdo_command = command_launch(cdo_sp2gp, log_handle=sys.stdout)
             grib_files[grib_index] = gp_file
 
 
-    #for grib_type in ['SH', 'GG']:
-    for grib_type in ['GG']:
+    for grib_type in ['SH', 'GG']:
         # Remove existing intermediate files if present...
         remove_intermediate_files_matching(glob_pattern='0[0-9].*')
         curr_grib_files = [grib for grib in grib_files if re.search(grib_type, grib) is not None]
