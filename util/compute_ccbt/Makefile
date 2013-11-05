@@ -1,6 +1,6 @@
 TARGET  := compute_ccbt.x
 INSTALL_DIR := ../../bin
-SRCS    := compute_ccbt.f90
+SRCS    := level_coefficients.f90 compute_ccbt.f90 
 OBJS    := ${SRCS:.f90=.o} 
 
 FC      = ifort
