@@ -176,6 +176,7 @@ for run_folder in run_folders:
         os.chdir(os.path.join(postpr_dir))
         nml_replacements = {"cmor_varname"  : param['names'],
                             "curr_file"     : os.path.join(model_data_folder, curr_file),
+                            "sp_file"       : os.path.join(model_data_folder, '134.128.nc'),
                             "experiment_id" : date_exp[curr_date],
                             "history"       : "PLACE_HOLDER",
                             "inpath"        : os.path.join(def_dir, param['table_id']),

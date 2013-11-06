@@ -1,5 +1,5 @@
 MODULE NCMORIO
-     CHARACTER(256) :: curr_file ,    inpath,       outpath, &
+     CHARACTER(256) :: curr_file,   sp_file,  inpath,  outpath, &
                        model_varname, cmor_varname, model_units
 END MODULE NCMORIO
 
@@ -19,7 +19,7 @@ MODULE CMOR_TAMIP_ROUTINES
   USE cmor_users_functions
   USE netcdf
     PRIVATE
-      PUBLIC read_nml, read_coords, read_coords_vert, read_1d_coord, read_time, &
+      PUBLIC read_nml, read_coords, read_coords_vert, read_1d_coord, read_1d_variable, read_time, &
       read_2d_input_files_mon, read_2d_input_files_day, read_2d_input_files_6h, &
       read_2d_input_files_3h, handle_err
       CONTAINS
@@ -35,6 +35,7 @@ MODULE CMOR_TAMIP_ROUTINES
 #include "namcmorio.h"
 
     curr_file             = "N/A"
+    sp_file               = "N/A"
     inpath                = "N/A"
     outpath               = "N/A"
 
@@ -146,6 +147,65 @@ MODULE CMOR_TAMIP_ROUTINES
      WRITE(*,*) trim(nf90_strerror(status))
      CALL ABORT(routine_name)
    END SUBROUTINE handle_err
+
+  SUBROUTINE read_1d_variable(ncid, var_name, var_array)
+    USE netcdf
+    IMPLICIT NONE
+
+    INTEGER, INTENT(IN) :: ncid
+    CHARACTER(len=*), INTENT(IN) :: var_name
+    DOUBLE PRECISION, INTENT(OUT), DIMENSION(:), ALLOCATABLE :: var_array
+    CHARACTER(LEN=128) :: dim_name
+
+    INTEGER, DIMENSION(NF90_MAX_VAR_DIMS) :: dimIDs
+    INTEGER :: ndims, numLength, id, i_bounds, status, i, var_id
+
+    status = nf90_inq_varid(ncid, var_name, var_id)
+    if(status /= nf90_NoErr) call handle_err(status, "NF90_INQUIRE_VARIABLE_ID")
+
+    status = nf90_inquire_variable(ncid, var_id, dimids = dimIDs, ndims=ndims)
+    if(status /= nf90_NoErr) call handle_err(status, "NF90_INQUIRE_VARIABLE")
+
+    ! Assume single (lev?) dimenstion
+    status = nf90_inquire_dimension(ncid, dimIDs(1), name=dim_name, len = numLength)
+    if(status /= nf90_NoErr) call handle_err(status, "NF90_INQUIRE_DIMENSION")
+    allocate(var_array(numLength))
+    var_array = 0.0
+    status = nf90_get_var(ncid, var_id, var_array)
+    if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
+
+
+  end subroutine read_1d_variable
+
+!            if (dim_name .eq. "lat") then
+!                coord_array_bounds(1, 1) = 90
+!                coord_array_bounds(2, 1) = coord_array(1) + (coord_array(2)-coord_array(1))/2
+!                do i_bounds=2, numLength-1
+!                    coord_array_bounds(1, i_bounds) = coord_array(i_bounds) - (coord_array(i_bounds)-coord_array(i_bounds-1))/2
+!                    coord_array_bounds(2, i_bounds) = coord_array(i_bounds) + (coord_array(i_bounds+1)-coord_array(i_bounds))/2
+!                end do
+!                coord_array_bounds(1, numLength) = coord_array(numLength) - (coord_array(numLength)-coord_array(numLength-1))/2
+!                coord_array_bounds(2, numLength) = -90
+!            end if
+!
+!            if (dim_name .eq. "lon") then
+!                do i_bounds=1, numLength
+!                    coord_array_bounds(1, i_bounds) = coord_array(i_bounds) - 180./numLength
+!                    coord_array_bounds(2, i_bounds) = coord_array(i_bounds) + 180./numLength
+!                end do
+!            end if
+!
+!            if (dim_name .eq. "time") then
+!                coord_array_bounds(1, 1) = coord_array(1) - (coord_array(2)-coord_array(1))/2
+!                coord_array_bounds(2, 1) = coord_array(1) + (coord_array(2)-coord_array(1))/2
+!                do i_bounds=2, numLength-1
+!                    coord_array_bounds(1, i_bounds) = coord_array(i_bounds) - (coord_array(i_bounds)-coord_array(i_bounds-1))/2
+!                    coord_array_bounds(2, i_bounds) = coord_array(i_bounds) + (coord_array(i_bounds+1)-coord_array(i_bounds))/2
+!                end do
+!                coord_array_bounds(1, numLength) = coord_array(numLength) - (coord_array(numLength)-coord_array(numLength-1))/2
+!                coord_array_bounds(2, numLength) = coord_array(numLength) + (coord_array(numLength)-coord_array(numLength-1))/2
+!            end if
+
 !!
 !!
 !!     IMPLICIT NONE

@@ -109,7 +109,7 @@ program compute_ccbt
         if (var96field(ii) .eq. -1) then
           curr_ccbt(ii) = missingValue
         else
-          curr_ccbt(ii) = A(INT(var96field(ii))) + B(INT(var96field(ii))) * sp(ii)
+          curr_ccbt(ii) = hyam(INT(var96field(ii))) + hybm(INT(var96field(ii))) * sp(ii)
         end if
       end do
       call grib_set(ccbtfields_grib_idx(counter), 'values', pack(curr_ccbt, mask=.true.))

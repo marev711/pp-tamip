@@ -83,7 +83,7 @@ def preprocess_ICM_files(grib_files):
     for grib_index, grib_file in enumerate(grib_files):
         if re.search('SH', grib_file) is not None:
             gp_file = re.sub('SH', 'SH2GP', grib_file)
-            cdo_sp2gp = "cdo -O sp2gp " + grib_file + " " + gp_file
+            cdo_sp2gp = "cdo -O sp2gp -sp2sp,170 " + grib_file + " " + gp_file
             cdo_command = command_launch(cdo_sp2gp, log_handle=sys.stdout)
             grib_files[grib_index] = gp_file
 

@@ -1,7 +1,8 @@
 TARGET  := compute_ccbt.x
 INSTALL_DIR := ../../bin
+DEF_DIR := ../defintions/
 SRCS    := level_coefficients.f90 compute_ccbt.f90 
-OBJS    := ${SRCS:.f90=.o} 
+OBJS    := ${SRCS:.f90=.o}
 
 FC      = ifort
 CCFLAGS = -traceback -g -check all

@@ -1,6 +1,7 @@
-TARGET  := tamip-cmor.x
-SRCS    := cmor-auxiliary.F90 tamip-cmor.F90
-OBJS    := ${SRCS:.F90=.o} 
+SRCSs   := cmor-auxiliary.F90 tamip-cmor-slev.F90
+SRCSm   := tamip-cmor-mlev.F90
+OBJSs   := ${SRCSs:.F90=.o}
+OBJSm   := ${SRCSm:.F90=.o}
 
 FC      = ifort
 FCFLAGS = -traceback -g -check all -I/nobackup/rossby15/sm_maeva/software/cmor-ifort/cmor-install/include -I/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/include/
@@ -9,20 +10,32 @@ LIBS    = -lnetcdf -lnetcdff -lcmor -luuid -ludunits2 -lexpat
 
 .PHONY: all clean distclean print_vars
 
-all: ${TARGET}
+all: tamip-cmor-slev.x tamip-cmor-mlev.x
 
 print_vars:
 	@echo TARGET=$(TARGET)
 	@echo OBJS=$(OBJS)
 	@echo SRCS=$(SRCS)
 
-$(TARGET): $(OBJS) 
-	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS) 
+tamip-cmor-slev.x: cmor-auxiliary.o tamip-cmor-slev.o
+	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
-$(OBJS): %.o: %.F90
-	$(FC) $(FCFLAGS) -o $@ -c $< 
+tamip-cmor-mlev.x: level_coefficients.o cmor-auxiliary.o tamip-cmor-mlev.o
+	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
-clean: 
+cmor-auxiliary.o: cmor-auxiliary.F90
+	$(FC) $(FCFLAGS) -o $@ -c $<
+
+level_coefficients.o: level_coefficients.f90
+	$(FC) $(FCFLAGS) -o $@ -c $<
+
+tamip-cmor-slev.o: tamip-cmor-slev.F90
+	$(FC) $(FCFLAGS) -o $@ -c $<
+
+tamip-cmor-mlev.o: tamip-cmor-mlev.F90
+	$(FC) $(FCFLAGS) -o $@ -c $<
+
+clean:
 	-rm -f *.o *.mod $(TARGET) *.x
 
 test.o: test.F90
