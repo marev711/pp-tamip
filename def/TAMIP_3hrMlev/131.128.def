@@ -1,12 +1,9 @@
 <definition>
 
     <command_block>
-        cdo timselmean,4 131.128.grb 131.128_tmp.grb
-        cdo -R -r -f nc -t ecmwf copy 131.128_tmp.grb 131.128_two_levels.nc
-        cdo selname,U_2 131.128_two_levels.nc 131.128.nc
-        rm -f 131.128_U.nc
+        cdo selltype,109 -timselmean,4 131.128.grb 131.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 131.128_tmp.grb 131.128.nc
         rm -f 131.128_tmp.grb
-        rm -f 131.128_two_levels.nc
     </command_block>
 
 </definition>
