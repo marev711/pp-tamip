@@ -1,6 +1,7 @@
 MODULE NCMORIO
      CHARACTER(256) :: curr_file,   sp_file,  inpath,  outpath, &
-                       model_varname, cmor_varname, model_units
+                       model_varname, ml_ref_grib, cmor_varname, &
+                       model_units
 END MODULE NCMORIO
 
 MODULE NATTRIBUTES
@@ -36,6 +37,7 @@ MODULE CMOR_TAMIP_ROUTINES
 
     curr_file             = "N/A"
     sp_file               = "N/A"
+    ml_ref_grib           = "N/A"
     inpath                = "N/A"
     outpath               = "N/A"
 

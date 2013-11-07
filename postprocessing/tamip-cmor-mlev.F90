@@ -90,9 +90,9 @@
      call read_1d_coord(ncid, rhVarId, "lon", alons, alons_bounds)
      call read_1d_coord(ncid, rhVarId, "time", time, time_bounds)
      do lev = 1, size(hyam_val)
-       levels(lev) = hyam(lev)/100000. + hybm(lev)
-       levels_bounds(1, lev) = hyai(lev)/100000. + hybi(lev)
-       levels_bounds(2, lev) = hyai(lev+1)/100000. + hybi(lev+1)
+       levels(lev) = hyam(lev)/ref_pressure + hybm(lev)
+       levels_bounds(1, lev) = hyai(lev)/ref_pressure + hybi(lev)
+       levels_bounds(2, lev) = hyai(lev+1)/ref_pressure + hybi(lev+1)
      end do
      allocate(rhValues(size(alons), size(alats), size(levels), size(time)))
      status = nf90_get_var(ncid, rhVarId, rhValues)

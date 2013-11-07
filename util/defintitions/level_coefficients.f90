@@ -1,5 +1,6 @@
 module level_coefficients
   implicit none
+  real, parameter                 ::  ref_pressure = 101325.
   real, parameter, dimension(92)  ::  hyai_val=(/     0.0000,        2.0000,        3.9808,        7.3872,       12.9080, &
                                                      21.4140,       33.9530,       51.7470,       76.1680,      108.7200, &
                                                     150.9900,      204.6400,      271.3600,      352.8200,      450.6900, &
