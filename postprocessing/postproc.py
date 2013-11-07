@@ -191,7 +191,7 @@ for run_folder in run_folders:
         postproc_aux.translate_template(nml_replacements, template="cmor.nml.tmpl", target="cmor.nml")
 
         # Run CMOR
-        tamip_binary = param['table_id'] + ".x"
+        tamip_binary = "./" + param['table_id'] + ".x"
         subprocess.check_call(
                  "LD_LIBRARY_PATH=/software/apps/netcdf/4.2/i1214-hdf5-1.8.9/lib:/nobackup/rossby15/sm_maeva/software/cmor-ifort/libuuid/install/lib " + tamip_binary,
 #                 "LD_LIBRARY_PATH=/software/apps/netcdf/4.1.2/i12.0.3/lib:/nobackup/vagn2/sm_maeva/software/cmor-ifort/uuid-1.6.2/install/lib ./tamip-cmor.x",
