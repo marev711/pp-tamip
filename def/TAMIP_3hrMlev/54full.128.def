@@ -1,0 +1,28 @@
+
+<definition>
+    <write_namelist filename='indata.nml'>
+        &amp;indata
+          compute_full_levels = .True.,
+          surface_pressure_file = '${RUN_FOLDER}/134.128_gaussian.grb',
+          ml_ref_grib_file =      '${DEF_FOLDER}/ml_ref_file.grb'
+          pressure_outfile =      '${RUN_FOLDER}/54full.128.grb'
+        /
+    </write_namelist>
+
+    <command_block>
+        cdo -R -r -t ecmwf copy 134.128.grb 134.128_gaussian.grb
+        compute_pressure.x
+        cdo timselmean,4 54full.128.grb 54full.128_tmp.grb
+        mv -f 54full.128_tmp.grb 54full.128.nc
+        rm -f 134.128_gaussian.grb
+    </command_block>
+
+    <post_cdo_units>
+        Pa
+     </post_cdo_units>
+
+    <original_name>
+       AP(k)+B(k)*PS 
+    </original_name>
+
+</definition>

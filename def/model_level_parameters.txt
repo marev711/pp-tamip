@@ -21,10 +21,8 @@
     115.128              var115        tnhusc                 Tendency of Specific Humidity due to Convection           s-1      TAMIP_3hrMlev
       tnhus              var103         tnhus                                   Tendency of Specific Humidity           s-1      TAMIP_3hrMlev
  tnhusscpbl               var91    tnhusscpbl    T. of Specific Hum due to Strati Cloud Condensation and Evap           s-1      TAMIP_3hrMlev
-#
-#54full.128                 PRES         pfull                                        Pressure on Model Levels            Pa       TAMIP_3hMlev
-#?? 54half.128                 PRES         phalf                                   Pressure on Model Half-Levels            Pa       TAMIP_3hMlev
-#?? --> how to calculate half levels outside the code?? Klaus
+ 54full.128                PRES         pfull                                        Pressure on Model Levels            Pa      TAMIP_3hrMlev
+ 54half.128                PRES         phalf                                   Pressure on Model Half-Levels            Pa      TAMIP_3hrMlev
 #
 #                                     tntscpbl   T. of Air Temp Due to Strati Cloud and PR and Boundary L. Mix         K s-1       TAMIP_3hMlev
 ############

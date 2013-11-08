@@ -135,7 +135,7 @@ for run_folder in run_folders:
 
             if param_def_file.has_key("write_namelist"):
                 namelist = param_def_file["write_namelist"].split('\n')
-                postproc_aux.write_namelist(model_data_folder, param_def_file)
+                postproc_aux.write_namelist(param_def_file, model_data_folder, def_dir)
 
             if param_def_file.has_key("command_block"):
                 command_block = param_def_file["command_block"].split('\n')

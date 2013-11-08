@@ -48,10 +48,11 @@ def parse_xml(xml_file):
 
     return pr
 
-def write_namelist(curr_folder, param_def_file):
+def write_namelist(param_def_file, curr_folder, def_folder):
     namelist_path = os.path.join(curr_folder, param_def_file['write_namelist_filename'])
     namelist = param_def_file['write_namelist']
-    namelist = re.sub('\$\{RUN_FOLDER\}', curr_folder,namelist)
+    namelist = re.sub('\$\{RUN_FOLDER\}', curr_folder, namelist)
+    namelist = re.sub('\$\{DEF_FOLDER\}', def_folder, namelist)
     fnamelist = open(namelist_path, 'w')
     fnamelist.write(namelist)
     fnamelist.close()

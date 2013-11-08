@@ -246,8 +246,8 @@ stored_direction: decreasing
 valid_min:        0.0
 valid_max:        1.0
 formula:          p(n,k,j,i) = ap(k) + b(k)*ps(n,j,i)
-z_factors:        ap: ap b: b ps: ps
-z_bounds_factors: ap: ap_bnds b: b_bnds ps: ps
+z_factors:        ap: ap b: b ps: ps p0: p0
+z_bounds_factors: ap: ap_bnds b: b_bnds ps: ps p0: p0
 !----------------------------------		
 !
 !

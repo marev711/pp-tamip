@@ -158,6 +158,12 @@
      if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_B")
 
      zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
+                               zfactor_name='p0', &
+                               zfactor_values=ref_pressure, &
+                               units='Pa')
+     if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_P0")
+
+     zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
                                zfactor_name='ps', &
                                axis_ids=(/ilon, ilat, itime/),    &
                                units='Pa')
@@ -173,6 +179,7 @@
       status = cmor_write(var_id = cvar,    &
                           data   = rhValues)
      if (status /= 0) call handle_err(status, "CMOR_WRITE")
+
 
      status = cmor_write(var_id = zfactor_id,    &
                          store_with=cvar, &
