@@ -1,0 +1,8 @@
+<definition>
+
+    <command_block>
+        cdo -R -r -t ecmwf -f nc copy 235.128.grb 235.128.nc
+        ncl write_cf_sites.ncl
+    </command_block>
+
+</definition>

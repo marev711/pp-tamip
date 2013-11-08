@@ -76,7 +76,7 @@
 #                                        tnhusd             Tendency of Specific Humidity due to Diffusion           s-1    TAMIP_sites
 #                                    tnhusscpbl   T. of Spec Hum due to Strati Cloud Condensation and Evap           s-1    TAMIP_sites
 #      162111.128           var162      tnhusmp         Tendency of Specific Humidity due to Model Physics           s-1    TAMIP_sites
-#                                           evu          Eddy Viscosity Coefficient for Momentum Variables        m2 s-1    TAMIP_sites   
-#                                           edt      Eddy Diffusivity Coefficient for Temperature Variable        m2 s-1    TAMIP_sites   
-#      54full.128             PRES        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites   
-#      54half.128             PRES        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites   
+#                                           evu          Eddy Viscosity Coefficient for Momentum Variables        m2 s-1    TAMIP_sites
+#                                           edt      Eddy Diffusivity Coefficient for Temperature Variable        m2 s-1    TAMIP_sites
+#      54full.128             PRES        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites
+#      54half.128             PRES        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
