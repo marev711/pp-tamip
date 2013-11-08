@@ -1,10 +1,9 @@
 <definition>
 
     <command_block>
-        cdo -R -r -f nc -t ecmwf copy 133.128.grb 133.128_tmp.nc
-        cdo splitname 133.128_tmp.nc tmp
-        cdo timselmean,4 tmpQ_2.nc 133.128.nc
-        rm -f tmp*
+        cdo timselmean,4 -selltype,100 133.128.grb 133.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf copy 133.128_tmp.grb 133.128.nc
+        rm -f 133.128_tmp.grb
     </command_block>
 
 </definition>

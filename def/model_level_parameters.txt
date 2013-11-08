@@ -24,7 +24,6 @@
  54full.128                PRES         pfull                                        Pressure on Model Levels            Pa      TAMIP_3hrMlev
  54half.128                PRES         phalf                                   Pressure on Model Half-Levels            Pa      TAMIP_3hrMlev
 #
-#                                     tntscpbl   T. of Air Temp Due to Strati Cloud and PR and Boundary L. Mix         K s-1       TAMIP_3hMlev
 ############
 #?? 201065.128                                mc Convective Mass Flux    kg m-2 s-1       TAMIP_3hMlev
 # ?? Ask Klaus

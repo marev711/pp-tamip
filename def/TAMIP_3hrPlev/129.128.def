@@ -1,7 +1,7 @@
 <definition>
 
     <command_block>
-        cdo divc,9.80665 -timselmean,4 1-selltype,109 29.128.grb 129.128_tmp.grb
+        cdo divc,9.80665 -timselmean,4 -selltype,100 129.128.grb 129.128_tmp.grb
         cdo -R -r -f nc -t ecmwf copy 129.128_tmp.grb 129.128.nc
         rm -f 129.128_tmp.grb
     </command_block>

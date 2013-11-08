@@ -1,7 +1,7 @@
 <definition>
 
     <command_block>
-        cdo selltype,109 -timselmean,4 130.128.grb 130.128_tmp.grb
+        cdo timselmean,4 -selltype,109 130.128.grb 130.128_tmp.grb
         cdo -R -r -f nc -t ecmwf copy 130.128_tmp.grb 130.128.nc
         rm -f 130.128_tmp.grb
     </command_block>

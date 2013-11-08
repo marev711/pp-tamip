@@ -1,11 +1,10 @@
 # Parameter numbers requested on pressure levels
 # ------------------------------------------------------------------------------------------------
-       variablesGG          namesGG_old      namesGG                    longnameGG   unitsGG_old           table_id
-           130.128                    T           ta               Air Temperature             K       TAMIP_3hPlev
-           131.128                    U           ua                 Eastward Wind         m s-1       TAMIP_3hPlev 
-           132.128                    V           va                Northward Wind         m s-1       TAMIP_3hPlev
-           133.128                    Q          hus             Specific Humidity     kg kg**-1       TAMIP_3hPlev
-           135.128                 OMEG          wap                omega (=dp/dt)        Pa s-1       TAMIP_3hPlev
-           129.128                   GH           zg           Geopotential Height           gpm       TAMIP_3hPlev
-# zg = 129.128 divide by gravity 
-           157.128                    R          hur             Relative Humidity             %       TAMIP_3hPlev
+         variables            names_old        names                      longname     units_old           table_id    representation
+           130.128                    T           ta               Air Temperature             K      TAMIP_3hrPlev          spectral
+           131.128                    U           ua                 Eastward Wind         m s-1      TAMIP_3hrPlev          spectral
+           132.128                    V           va                Northward Wind         m s-1      TAMIP_3hrPlev          spectral
+           133.128                    Q          hus             Specific Humidity     kg kg**-1      TAMIP_3hrPlev         gridpoint
+           135.128                    W          wap                omega (=dp/dt)        Pa s-1      TAMIP_3hrPlev          spectral
+           129.128                    Z           zg           Geopotential Height           gpm      TAMIP_3hrPlev          spectral
+           157.128                    R          hur             Relative Humidity             %      TAMIP_3hrPlev
