@@ -12,10 +12,10 @@ print_vars:
 	@echo OBJS=$(OBJS)
 	@echo SRCS=$(SRCS)
 
-TAMIP_3hrSlev.x: cmor-auxiliary.o tamip-cmor-slev.o
+TAMIP_3hrSlev.x: cmor-auxiliary.o TAMIP_3hrSlev.o
 	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
-TAMIP_3hrMlev.x: level_coefficients.o cmor-auxiliary.o tamip-cmor-mlev.o
+TAMIP_3hrMlev.x: level_coefficients.o cmor-auxiliary.o TAMIP_3hrMlev.o
 	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 cmor-auxiliary.o: cmor-auxiliary.F90
@@ -24,10 +24,10 @@ cmor-auxiliary.o: cmor-auxiliary.F90
 level_coefficients.o: level_coefficients.f90
 	$(FC) $(FCFLAGS) -o $@ -c $<
 
-tamip-cmor-slev.o: tamip-cmor-slev.F90
+TAMIP_3hrSlev.o: TAMIP_3hrSlev.F90
 	$(FC) $(FCFLAGS) -o $@ -c $<
 
-tamip-cmor-mlev.o: tamip-cmor-mlev.F90
+TAMIP_3hrMlev.o: TAMIP_3hrMlev.F90
 	$(FC) $(FCFLAGS) -o $@ -c $<
 
 clean:
