@@ -26,7 +26,11 @@ def command_launch(command, local_bins=None, log_handle=None):
     if (log_handle != None):
         log_handle.write(str(datetime.datetime.now()) + ": " + command + "\n")
         if local_bins:
-            command = 'PATH=${PATH}:' + local_bins + " " + command
+            if re.search('^\s*ncl\s+', command) is not None:
+                command_groups = re.search('^\s*(ncl\s+)([a-zA-Z_.]*)', command)
+                command = command_groups.group(1) +\
+                        os.path.join(local_bins, command_groups.group(2))
+            command = "PATH=${PATH}:" + local_bins + " " + command
         run_application = subprocess.check_call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         #run_application.wait()
         #std_outerr = run_application.communicate()[0]
