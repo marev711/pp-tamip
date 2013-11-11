@@ -1,13 +1,14 @@
 # Parameter numbers requested on CFMIPS sites
 # ------------------------------------------------------------------------------------------------
        variables        names_old        names                                                   longname     units_old       table_id
+         235.128              SKT          tas                               Near-Surface Air Temperature             K    TAMIP_sites
+#         tnt.128           var110          tnt                                Tendency of Air Temperature         K s-1    TAMIP_sites
 #                                            p0       vertical coordinate formula term: reference pressure            Pa    TAMIP_sites
 #                                          ptop                                   pressure at top of model            Pa    TAMIP_sites
 #                                             b                     vertical coordinate formula term: b(k)                  TAMIP_sites
 #                                        b_bnds                 vertical coordinate formula term: b(k+1/2)                  TAMIP_sites
 #                                            ap                    vertical coordinate formula term: ap(k)            Pa    TAMIP_sites
 #                                       ap_bnds                vertical coordinate formula term: ap(k+1/2)            Pa    TAMIP_sites
-         235.128              SKT          tas                               Near-Surface Air Temperature             K    TAMIP_sites
 #         167.128              T2M           ts                                        Surface Temperature             K    TAMIP_sites
 #         151.128              MSL          psl                                         Sea Level Pressure            Pa    TAMIP_sites
 #      300135.128             PSLC           ps                                       Surface Air Pressure            Pa    TAMIP_sites
@@ -64,7 +65,6 @@
 #                                         rsucs                    Upwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
 #                                         rldcs                   Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
 #                                         rsdcs                  Downwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
-#                                           tnt                                Tendency of Air Temperature         K s-1    TAMIP_sites
 #         104.128           var104         tnta               Tendency of Air Temperature due to Advection         K s-1    TAMIP_sites
 #         102.128           var102        tntmp      Tendency of Air Temperature due to Diabatic Processes         K s-1    TAMIP_sites
 #                                      tntscpbl   T. of Air Temp due to Strati Cloud Condensation and Evap         K s-1    TAMIP_sites

@@ -18,7 +18,7 @@ time_len = dimsizes(time)
 sp_fhandle = addfile(sp_file, "r")
 sp = sp_fhandle->SP
 
-sites_array = new((/119, time_len/), float)
+sites_array = new((/119, 91, time_len/), float)
 sp_array = new((/119, time_len/), float)
 new_lat = new((/119/), float)
 new_lon = new((/119/), float)
@@ -26,29 +26,27 @@ do time_idx = 0, time_len - 1
     do site_idx = 0, 118
         latv = cf_sites_lat(site_idx)
         lonv = cf_sites_lon(site_idx)
-        sites_array(site_idx, time_idx) = fvar(time_idx, {latv}, {lonv})
-        tmp = fvar(time_idx, {latv}, {lonv})
-        new_lon(site_idx) = stringtofloat(tmp@lon)
-        new_lat(site_idx) = stringtofloat(tmp@lat)
+        sites_array(site_idx, :, time_idx) = fvar(time_idx, :, {latv}, {lonv})
         sp_array(site_idx, time_idx) = sp(time_idx, {latv}, {lonv})
     end do
 end do
 sites_array!0 = "sites"
-sites_array!1 = "time"
+sites_array!1 = "lev"
+sites_array!2 = "time"
 sites_array&time = time
-
 
 do site_idx = 0, 118
     sites_array&sites(site_idx) = site_idx + 1
     latv = cf_sites_lat(site_idx)
     lonv = cf_sites_lon(site_idx)
-    tmp = fvar(0, {latv}, {lonv})
+    tmp = fvar(0, 0, {latv}, {lonv})
     new_lon(site_idx) = stringtofloat(tmp@lon)
     new_lat(site_idx) = stringtofloat(tmp@lat)
     delete(tmp)
 end do
 sites_array@lat = new_lat
 sites_array@lon = new_lon
+sites_array@lev = ispan(1, 91, 1)
 
 sp_array!0 = "sites"
 sp_array!1 = "time"
