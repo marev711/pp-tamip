@@ -63,6 +63,18 @@ def write_namelist(param_def_file, curr_folder, def_folder, param):
     fnamelist.write(namelist)
     fnamelist.close()
 
+def write_ncl(param_def_file, curr_folder, def_folder, param):
+    namelist_path = os.path.join(curr_folder, param_def_file['write_ncl_filename'])
+    namelist = param_def_file['write_ncl']
+    namelist = re.sub('\$\{RUN_FOLDER\}', curr_folder, namelist)
+    namelist = re.sub('\$\{DEF_FOLDER\}', def_folder, namelist)
+    namelist = re.sub('\$\{OLDVARNAME\}', param['names_old'], namelist)
+    namelist = re.sub('\$\{NEWVARNAME\}', param['names'],  namelist)
+    fnamelist = open(namelist_path, 'w')
+    fnamelist.write(namelist)
+    fnamelist.close()
+
+
 
 def translate_template(nml_replacements, template, target):
     fnml = open(template, "r")

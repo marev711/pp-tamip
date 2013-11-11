@@ -86,7 +86,7 @@ if (isfilepresent(outfilename)) then
 end if
 
 fout = addfile(outfilename, "c")
-fout->$newvarname$ = sites_array
+fout->$oldvarname$ = sites_array
 
 if (isfilepresent("134.sites.nc")) then
     system("rm -f 134.sites.nc")

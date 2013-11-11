@@ -8,11 +8,11 @@
 
      IMPLICIT NONE
      INTEGER :: error_flag, ncid, ncid2, rhVarId, timeVarId, &
-                timeDimId, lev, sitesVarId, &
-                numTimes, numLength, &
+                timeDimId, lev, sitesVarId, levVarId, &
+                numTimes, numLength, ilon, ilat, &
                 status , id, ndims, tableId, itime, i, &
                 cvar, counter, hyaiId, hybiId, ilev, hyamId, hybmId, &
-                zaxis_id, zfactor_id
+                zaxis_id, zfactor_id, nVariables
      integer, dimension(nf90_max_var_dims) :: dimIDs
 
      double precision, dimension(91) :: levels
@@ -22,11 +22,13 @@
      character(len=1024) :: history
      character (len=*) , parameter :: end_of_line = char(13)//char(10)
      real, dimension(:, :, :), allocatable :: ps_val
-     real, dimension(:, :, :, :), allocatable :: rhValues
-     DOUBLE PRECISION, dimension(:), allocatable :: time, sites
+     real, dimension(:, :, :, :), allocatable :: rhValues_lev
+     real, dimension(:, :, :), allocatable :: rhValues
+     DOUBLE PRECISION, dimension(:), allocatable :: time, sites, alats, alons
      DOUBLE PRECISION, dimension(:, :), allocatable :: time_bounds, sites_bounds
      DOUBLE PRECISION, dimension(:, :), allocatable :: hyai_bounds, hybi_bounds
      DOUBLE PRECISION, dimension(:, :), allocatable :: hyam_bounds, hybm_bounds
+     DOUBLE PRECISION, dimension(:, :), allocatable :: alons_bounds, alats_bounds
 
      call read_nml()
      status = cmor_setup(inpath=INPATH, netcdf_file_action=CMOR_APPEND)
@@ -44,19 +46,34 @@
      status = nf90_inq_varid(ncid, "time", timeVarId)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (time)")
 
+     write(*,*) "1"
+     write(*,*) "curr_file= ", curr_file
      status = nf90_inq_varid(ncid, "sites", sitesVarId)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (sites)")
+     write(*,*) "2"
 
+     status = nf90_inquire(ncid, nVariables=nVariables)
+     if(status /= nf90_NoErr) call handle_err(status, "NF90_INQUIRE")
+
+     if (nVariables .gt. 3) then
+         status = nf90_inq_varid(ncid, "lev", levVarId)
+         if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (lev)")
+     end if
+
+     write(*,*) "3"
      status = nf90_get_att(ncid, timeVarId, "calendar", calendar_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
 
+     write(*,*) "4"
      status = nf90_get_att(ncid, NF90_GLOBAL, "history", history)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
      history=trim(history)//end_of_line
 
+     write(*,*) "5"
      status = nf90_get_att(ncid, timeVarId, "units", units_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
 
+     write(*,*) "6"
      status = cmor_dataset(branch_time=branch_time,                   &
                            calendar=calendar_read,                    &
                            comment=comment,                           &
@@ -82,6 +99,7 @@
        levels_bounds(1, lev) = hyai(lev)/ref_pressure + hybi(lev)
        levels_bounds(2, lev) = hyai(lev+1)/ref_pressure + hybi(lev+1)
      end do
+     write(*,*) "3"
      allocate(rhValues(size(sites), size(levels), size(time)))
      status = nf90_get_var(ncid, rhVarId, rhValues)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
