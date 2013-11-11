@@ -52,11 +52,13 @@ def parse_xml(xml_file):
 
     return pr
 
-def write_namelist(param_def_file, curr_folder, def_folder):
+def write_namelist(param_def_file, curr_folder, def_folder, param):
     namelist_path = os.path.join(curr_folder, param_def_file['write_namelist_filename'])
     namelist = param_def_file['write_namelist']
     namelist = re.sub('\$\{RUN_FOLDER\}', curr_folder, namelist)
     namelist = re.sub('\$\{DEF_FOLDER\}', def_folder, namelist)
+    namelist = re.sub('\$\{OLDVARNAME\}', param['names_old'], namelist)
+    namelist = re.sub('\$\{NEWVARNAME\}', param['names'],  namelist)
     fnamelist = open(namelist_path, 'w')
     fnamelist.write(namelist)
     fnamelist.close()

@@ -5,7 +5,7 @@ LIBS    = -lnetcdf -lnetcdff -lcmor -luuid -ludunits2 -lexpat
 
 .PHONY: all clean distclean print_vars
 
-all: TAMIP_3hrSlev.x TAMIP_3hrMlev.x TAMIP_3hrPlev.x
+all: TAMIP_3hrSlev.x TAMIP_3hrMlev.x TAMIP_3hrPlev.x TAMIP_sites.x
 
 print_vars:
 	@echo TARGET=$(TARGET)
@@ -13,6 +13,9 @@ print_vars:
 	@echo SRCS=$(SRCS)
 
 TAMIP_3hrSlev.x: cmor-auxiliary.o TAMIP_3hrSlev.o
+	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS)
+
+TAMIP_sites.x: level_coefficients.o cmor-auxiliary.o TAMIP_sites.o
 	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 TAMIP_3hrMlev.x: level_coefficients.o cmor-auxiliary.o TAMIP_3hrMlev.o
@@ -28,6 +31,9 @@ level_coefficients.o: level_coefficients.f90
 	$(FC) $(FCFLAGS) -o $@ -c $<
 
 TAMIP_3hrSlev.o: TAMIP_3hrSlev.F90
+	$(FC) $(FCFLAGS) -o $@ -c $<
+
+TAMIP_sites.o: TAMIP_sites.F90
 	$(FC) $(FCFLAGS) -o $@ -c $<
 
 TAMIP_3hrMlev.o: TAMIP_3hrMlev.F90
