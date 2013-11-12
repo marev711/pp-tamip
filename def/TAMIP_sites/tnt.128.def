@@ -14,7 +14,7 @@
         cdo -O -R -r -f nc -t ecmwf copy 102.128.grb 102.128.nc
         cdo -O -R -r -f nc -t ecmwf copy 110.162.grb 110.162.nc
         cdo add 110.162.nc 102.128.nc tnt.128.nc
-        ncl write_cf_sites.ncl
+        ncl write_cf_sites_lev.ncl
     </command_block>
 
     <original_name>

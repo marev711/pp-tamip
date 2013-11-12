@@ -35,8 +35,9 @@ do time_idx = 0, time_len - 1
         sp_array(time_idx, site_idx) = sp(time_idx, {latv}, {lonv})
     end do
 end do
-sites_array!1 = "sites"
 sites_array!0 = "time"
+sites_array!1 = "sites"
+sites_array!2 = "lev"
 sites_array&time = time
 
 do site_idx = 0, 118
@@ -51,10 +52,9 @@ end do
 sites_array@lat = new_lat
 sites_array@lon = new_lon
 
-sp_array!1 = "sites"
 sp_array!0 = "time"
+sp_array!1 = "sites"
 sp_array&time = time
-
 
 ; Update coordinate attributes
 new_att = (/"units", "long_name"/)

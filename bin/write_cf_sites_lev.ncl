@@ -10,6 +10,8 @@ cf_sites_name = str_get_field(cf_sites, 4, ",")
 
 f_data = addfile(data_path + "/" + data_file, "r")
 fvar = f_data->$oldvarname$
+history = f_data@history
+
 fvar_lat = fvar&lat
 fvar_lon = fvar&lon
 time = fvar&time
@@ -18,22 +20,24 @@ time_len = dimsizes(time)
 sp_fhandle = addfile(sp_file, "r")
 sp = sp_fhandle->SP
 
-sites_array = new((/119, 91, time_len/), float)
-sp_array = new((/119, time_len/), float)
+sites_array = new((/time_len, 119, 91/), float)
+sp_array = new((/time_len, 119/), float)
 new_lat = new((/119/), float)
 new_lon = new((/119/), float)
 do time_idx = 0, time_len - 1
     do site_idx = 0, 118
         latv = cf_sites_lat(site_idx)
         lonv = cf_sites_lon(site_idx)
-        sites_array(site_idx, :, time_idx) = fvar(time_idx, :, {latv}, {lonv})
-        sp_array(site_idx, time_idx) = sp(time_idx, {latv}, {lonv})
+        sites_array(time_idx, site_idx, :) = fvar(time_idx, :, {latv}, {lonv})
+        sp_array(time_idx, site_idx) = sp(time_idx, {latv}, {lonv})
     end do
 end do
-sites_array!0 = "sites"
-sites_array!1 = "lev"
-sites_array!2 = "time"
+sites_array!0 = "time"
+sites_array!1 = "sites"
+sites_array!2 = "lev"
 sites_array&time = time
+sites_array&sites = ispan(0, 118, 1)
+sites_array&lev = ispan(1, 91, 1)
 
 do site_idx = 0, 118
     sites_array&sites(site_idx) = site_idx + 1
@@ -46,10 +50,9 @@ do site_idx = 0, 118
 end do
 sites_array@lat = new_lat
 sites_array@lon = new_lon
-sites_array@lev = ispan(1, 91, 1)
 
-sp_array!0 = "sites"
-sp_array!1 = "time"
+sp_array!0 = "time"
+sp_array!1 = "sites"
 sp_array&time = time
 
 ; Update coordinate attributes
@@ -75,8 +78,8 @@ do idx = 0, dimsizes(sites_atts) - 1
     delete_VarAtts(sp_array&sites, sites_sp_atts(idx))
 end do
 
-delete_VarAtts(sites_array&time, (/"long_name", "axis", "_FillValue"/))
-delete_VarAtts(sp_array&time, (/"long_name", "axis", "_FillValue"/))
+delete_VarAtts(sites_array&time, (/"_FillValue"/))
+delete_VarAtts(sp_array&time, (/"_FillValue"/))
 
 sites_array&sites = tmp_sites
 sp_array&sites = tmp_sp_sites
@@ -86,7 +89,12 @@ if (isfilepresent(outfilename)) then
 end if
 
 fout = addfile(outfilename, "c")
+filedimdef(fout,"time",-1,True)
 fout->$oldvarname$ = sites_array
+timestamp = systemfunc("date -R")
+cr = inttochar(10)
+history = history + cr + timestamp + ": write_cf_sites.ncl " + data_file
+fout@history = history
 
 if (isfilepresent("134.sites.nc")) then
     system("rm -f 134.sites.nc")
