@@ -1,8 +1,8 @@
 # Parameter numbers requested on CFMIPS sites
 # ------------------------------------------------------------------------------------------------
        variables        names_old        names                                                   longname     units_old       table_id
-         235.128              SKT          tas                               Near-Surface Air Temperature             K    TAMIP_sites
-#         tnt.128           var110          tnt                                Tendency of Air Temperature         K s-1    TAMIP_sites
+         tnt.128           var110          tnt                                Tendency of Air Temperature         K s-1    TAMIP_sites
+#         235.128              SKT          tas                               Near-Surface Air Temperature             K    TAMIP_sites
 #                                            p0       vertical coordinate formula term: reference pressure            Pa    TAMIP_sites
 #                                          ptop                                   pressure at top of model            Pa    TAMIP_sites
 #                                             b                     vertical coordinate formula term: b(k)                  TAMIP_sites

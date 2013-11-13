@@ -23,7 +23,7 @@ expt_id_ok: '5 day hindcast for tamip hindcast group 200904' 'tamip200904'
 expt_id_ok: '5 day hindcast for tamip hindcast group 200907' 'tamip200907' 
 
 
-approx_interval:  0.017361     ! approximate spacing between successive time
+approx_interval:  0.03125     ! approximate spacing between successive time
                           !   samples (in units of the output time 
                           !   coordinate.
 
@@ -270,8 +270,8 @@ stored_direction: decreasing
 valid_min:        0.0
 valid_max:        1.0
 formula:          p(n,k,j,i) = ap(k) + b(k)*ps(n,j,i)
-z_factors:        ap: ap b: b ps: ps
-z_bounds_factors: ap: ap_bnds b: b_bnds ps: ps
+z_factors:        ap: ap b: b ps: ps p0: p0
+z_bounds_factors: ap: ap_bnds b: b_bnds ps: ps p0: p0
 !----------------------------------		
 !
 !

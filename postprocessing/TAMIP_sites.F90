@@ -9,7 +9,7 @@
      IMPLICIT NONE
      INTEGER :: error_flag, ncid, ncid2, rhVarId, timeVarId, &
                 timeDimId, lev, sitesVarId, levVarId, &
-                numTimes, numLength, ilon, ilat, &
+                numTimes, numLength, isite, &
                 status , id, ndims, tableId, itime, i, &
                 cvar, counter, hyaiId, hybiId, ilev, hyamId, hybmId, &
                 zaxis_id, zfactor_id, nVariables
@@ -17,13 +17,15 @@
 
      double precision, dimension(91) :: levels
      double precision, dimension(2, 92) :: levels_bounds
+     logical                            :: lev_is_present
 
      character(len=128) :: dim_name, calendar_read, units_read
      character(len=1024) :: history
      character (len=*) , parameter :: end_of_line = char(13)//char(10)
-     real, dimension(:, :, :), allocatable :: ps_val
-     real, dimension(:, :, :, :), allocatable :: rhValues_lev
-     real, dimension(:, :, :), allocatable :: rhValues
+     real, dimension(:, :), allocatable :: ps_val
+     real, dimension(:, :, :), allocatable :: rhValues_lev
+     real, dimension(:, :), allocatable :: rhValues
+     integer, dimension(:), allocatable :: axis_ids
      DOUBLE PRECISION, dimension(:), allocatable :: time, sites, alats, alons
      DOUBLE PRECISION, dimension(:, :), allocatable :: time_bounds, sites_bounds
      DOUBLE PRECISION, dimension(:, :), allocatable :: hyai_bounds, hybi_bounds
@@ -46,34 +48,35 @@
      status = nf90_inq_varid(ncid, "time", timeVarId)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (time)")
 
-     write(*,*) "1"
-     write(*,*) "curr_file= ", curr_file
      status = nf90_inq_varid(ncid, "sites", sitesVarId)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (sites)")
-     write(*,*) "2"
 
      status = nf90_inquire(ncid, nVariables=nVariables)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQUIRE")
 
      if (nVariables .gt. 3) then
+         lev_is_present = .True.
+         allocate(axis_ids(3))
+     else
+         lev_is_present = .False.
+         allocate(axis_ids(2))
+     end if
+
+     if (lev_is_present) then
          status = nf90_inq_varid(ncid, "lev", levVarId)
          if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (lev)")
      end if
 
-     write(*,*) "3"
      status = nf90_get_att(ncid, timeVarId, "calendar", calendar_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
 
-     write(*,*) "4"
      status = nf90_get_att(ncid, NF90_GLOBAL, "history", history)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
      history=trim(history)//end_of_line
 
-     write(*,*) "5"
      status = nf90_get_att(ncid, timeVarId, "units", units_read)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_ATT")
 
-     write(*,*) "6"
      status = cmor_dataset(branch_time=branch_time,                   &
                            calendar=calendar_read,                    &
                            comment=comment,                           &
@@ -99,10 +102,16 @@
        levels_bounds(1, lev) = hyai(lev)/ref_pressure + hybi(lev)
        levels_bounds(2, lev) = hyai(lev+1)/ref_pressure + hybi(lev+1)
      end do
-     write(*,*) "3"
-     allocate(rhValues(size(sites), size(levels), size(time)))
-     status = nf90_get_var(ncid, rhVarId, rhValues)
-     if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
+
+     if (lev_is_present) then
+         allocate(rhValues_lev(size(levels), size(sites), size(time)))
+         status = nf90_get_var(ncid, rhVarId, rhValues_lev)
+         if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
+     else
+         allocate(rhValues(size(sites), size(time)))
+         status = nf90_get_var(ncid, rhVarId, rhValues)
+         if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
+     end if
 
      status = nf90_close(ncid)
      if (status /= nf90_noerr) call handle_err(status, "NF90_CLOSE")
@@ -113,7 +122,7 @@
      status = nf90_inq_varid(ncid2, 'SP', rhVarId)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (SP)")
 
-     allocate(ps_val(size(alons), size(alats), size(time)))
+     allocate(ps_val(size(sites), size(time)))
      status = nf90_get_var(ncid2, rhVarId, ps_val)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_GET_VAR")
 
@@ -121,18 +130,10 @@
      if (status /= nf90_noerr) call handle_err(status, "NF90_CLOSE")
 
 
-     ilon = cmor_axis(table_entry='longitude', &
-                      units='degrees_east',    &
-                      coord_vals=alons,        &
-                      cell_bounds=alons_bounds)
-     if (ilon .lt. 0) call handle_err(status, "CMOR_AXIS_LON")
-
-     ilat = cmor_axis(table_entry='latitude', &
-                      units='degrees_north',  &
-                      coord_vals=alats,       &
-                      cell_bounds=alats_bounds)
-     if (ilat .lt. 0) call handle_err(status, "CMOR_AXIS_LAT")
-
+     isite = cmor_axis(table_entry='site', &
+                      units='1',    &
+                      coord_vals=sites)
+     if (isite .lt. 0) call handle_err(status, "CMOR_AXIS_LON")
 
      itime = cmor_axis(table_entry='time',     &
                        units=units_read,       &
@@ -141,55 +142,68 @@
                        cell_bounds=time_bounds)
      if (itime .lt. 0) call handle_err(status, "CMOR_AXIS_TIME")
 
-     ilev = cmor_axis(table_entry='alternate_hybrid_sigma',     &
-                       units='1',       &
-                       coord_vals=levels, &
-                       cell_bounds=levels_bounds)
-     if (ilev .lt. 0) call handle_err(status, "CMOR_AXIS_LEVEL")
+     if (lev_is_present) then
+         ilev = cmor_axis(table_entry='alternate_hybrid_sigma',     &
+                           units='1',       &
+                           coord_vals=levels, &
+                           cell_bounds=levels_bounds)
+         if (ilev .lt. 0) call handle_err(status, "CMOR_AXIS_LEVEL")
 
-     zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
-                               zfactor_name='ap', &
-                               axis_ids=(/ilev/),    &
-                               units='Pa',         &
-                               zfactor_values=hyam_val, &
-                               zfactor_bounds=hyai_val)
-     if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_AP")
+         zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
+                                   zfactor_name='ap', &
+                                   axis_ids=(/ilev/),    &
+                                   units='Pa',         &
+                                   zfactor_values=hyam_val, &
+                                   zfactor_bounds=hyai_val)
+         if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_AP")
 
-     zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
-                               zfactor_name='b', &
-                               axis_ids=(/ilev/),    &
-                               units='1',         &
-                               zfactor_values=hybm_val, &
-                               zfactor_bounds=hybi_val)
-     if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_B")
+         zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
+                                   zfactor_name='b', &
+                                   axis_ids=(/ilev/),    &
+                                   units='1',         &
+                                   zfactor_values=hybm_val, &
+                                   zfactor_bounds=hybi_val)
+         if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_B")
 
-     zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
-                               zfactor_name='p0', &
-                               zfactor_values=ref_pressure, &
-                               units='Pa')
-     if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_P0")
+         zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
+                                   zfactor_name='p0', &
+                                   zfactor_values=ref_pressure, &
+                                   units='Pa')
+         if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_P0")
 
-     zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
-                               zfactor_name='ps', &
-                               axis_ids=(/ilon, ilat, itime/),    &
-                               units='Pa')
-     if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_PS")
+         zfactor_id = cmor_zfactor(zaxis_id=ilev,     &
+                                   zfactor_name='ps', &
+                                   axis_ids=(/isite, itime/),    &
+                                   units='Pa')
+         if (zfactor_id .lt. 0) call handle_err(status, "CMOR_ZFACTOR_PS")
 
-     cvar = cmor_variable(table_entry=cmor_varname,       &
-                          units=model_units,              &
-                          axis_ids=(/ilon, ilat, ilev, itime/), &
-                          missing_value=1.0e20,           &
-                          positive=positive,              &
+         axis_ids = (/ilev, isite, itime/)
+     else
+         axis_ids = (/isite, itime/)
+     end if
+
+     cvar = cmor_variable(table_entry=cmor_varname,     &
+                          units=model_units,            &
+                          axis_ids=axis_ids,            &
+                          missing_value=1.0e20,         &
+                          positive=positive,            &
                           original_name=original_name)
 
-      status = cmor_write(var_id = cvar,    &
-                          data   = rhValues)
-     if (status /= 0) call handle_err(status, "CMOR_WRITE")
+     if (lev_is_present) then
+          status = cmor_write(var_id = cvar,    &
+                              data   = rhValues_lev)
+     else
+          status = cmor_write(var_id = cvar,    &
+                              data   = rhValues)
+         if (status /= 0) call handle_err(status, "CMOR_WRITE")
+     end if
 
 
-     status = cmor_write(var_id = zfactor_id,    &
-                         store_with=cvar, &
-                         data   = ps_val)
+     if (lev_is_present) then
+         status = cmor_write(var_id = zfactor_id,    &
+                             store_with=cvar, &
+                             data   = ps_val)
+     end if
 
 
      status = cmor_close()

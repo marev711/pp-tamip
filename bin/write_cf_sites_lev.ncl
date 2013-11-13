@@ -101,4 +101,5 @@ if (isfilepresent("134.sites.nc")) then
 end if
 
 fspout = addfile("134.sites.nc", "c")
+filedimdef(fspout,"time",-1,True)
 fspout->sp = sp_array
