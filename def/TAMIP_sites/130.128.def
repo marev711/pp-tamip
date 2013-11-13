@@ -3,17 +3,17 @@
     <write_ncl filename="indata.ncl">
         cf_sites_file = "${DEF_FOLDER}/cf_sites_location_lon360.txt"
         data_path = "${RUN_FOLDER}/"
-        data_file = "151.128.nc"
+        data_file = "130.128.nc"
         oldvarname = "${OLDVARNAME}"
         newvarname = "${NEWVARNAME}"
         sp_file = "${RUN_FOLDER}/134.128.nc"
-        outfilename = "151.sites.nc"
+        outfilename = "130.sites.nc"
     </write_ncl>
 
     <command_block>
-        cdo -O -R -r -t ecmwf -f nc copy 151.128.grb 151.128.nc
-        ncl write_cf_sites.ncl
-        mv -f 151.sites.nc 151.128.nc 
+        cdo -R -r -f nc -t ecmwf copy 130.128.grb 130.128.nc
+        ncl write_cf_sites_lev.ncl
+        mv -f 130.sites.nc 130.128.nc 
     </command_block>
 
 </definition>

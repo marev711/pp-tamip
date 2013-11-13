@@ -1,0 +1,27 @@
+<definition>
+
+    <write_ncl filename="indata.ncl">
+        cf_sites_file = "${DEF_FOLDER}/cf_sites_location_lon360.txt"
+        data_path = "${RUN_FOLDER}/"
+        data_file = "7879clwvi.128.nc"
+        oldvarname = "${OLDVARNAME}"
+        newvarname = "${NEWVARNAME}"
+        sp_file = "${RUN_FOLDER}/134.128.nc"
+        outfilename = "7879clwvi.sites.nc"
+    </write_ncl>
+
+    <command_block>
+        cdo -O -R -r -f nc -t ecmwf copy 78.128.grb 78.128_tmp.nc
+        cdo -O -R -r -f nc -t ecmwf copy 79.128.grb 79.128_tmp.nc
+        cdo -O add -selparam,78.128 78.128_tmp.nc -selparam,79.128 79.128_tmp.nc 7879clwvi.128.nc
+        rm -f 78.128_tmp.nc 79.128_tmp.nc
+        ncl write_cf_sites.ncl
+        mv -f 7879clwvi.sites.nc 7879clwvi.128.nc 
+    </command_block>
+
+    <original_name>
+        TCLW+TCIW
+    </original_name>
+
+
+</definition>

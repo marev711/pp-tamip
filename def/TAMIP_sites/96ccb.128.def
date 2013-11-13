@@ -1,0 +1,31 @@
+<definition>
+
+<!-- The assumption is that 96ccb already has been computed in the TAMIP_3hrSlev-table -->
+
+    <write_ncl filename="indata.ncl">
+        cf_sites_file = "${DEF_FOLDER}/cf_sites_location_lon360.txt"
+        data_path = "${RUN_FOLDER}/"
+        data_file = "96ccb.128.nc"
+        oldvarname = "${OLDVARNAME}"
+        newvarname = "${NEWVARNAME}"
+        sp_file = "${RUN_FOLDER}/134.128.nc"
+        outfilename = "96ccb.sites.nc"
+    </write_ncl>
+
+    <command_block>
+        cdo -O -R -r -f nc -t ecmwf copy 96ccb.128.grb 96ccb.128_tmp.nc
+        cdo -O setmissval,1e20 96ccb.128_tmp.nc 96ccb.128.nc
+        rm -f 96ccb.128_tmp.nc
+        ncl write_cf_sites.ncl
+        mv -f 96ccb.sites.nc 96ccb.128.nc 
+    </command_block>
+
+    <post_cdo_units>
+        Pa
+     </post_cdo_units>
+
+    <original_name>
+        LBUD23
+    </original_name>
+
+</definition>

@@ -175,7 +175,7 @@ for run_folder in run_folders:
         cdo_command = postproc_aux.command_launch(cdo_setreftime, log_handle=sys.stdout)
         os.rename(curr_temp, curr_file)
 
-        sys.stdout.write("curr_file=" + curr_file + "\n")
+        sys.stdout.write("postpr.py: curr_file = " + curr_file + "\n")
         # Update the CMOR namelist file (cmor.nml)
         os.chdir(os.path.join(postpr_dir))
         nml_replacements = {"cmor_varname"  : param['names'],

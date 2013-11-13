@@ -10,9 +10,9 @@
 #      165166.128             U10M      sfcWind                                    Near-Surface Wind Speed         m s-1    TAMIP_sites
 #          83.128            var83         hurs                             Near-Surface Relative Humidity             %    TAMIP_sites
 #          82.128            var82         huss                             Near-Surface Specific Humidity             1    TAMIP_sites
-         142.128              LSP           pr                                              Precipitation    kg m-2 s-1    TAMIP_sites
-         144.128               SF         prsn                                              Snowfall Flux    kg m-2 s-1    TAMIP_sites
-         143.128               CP          prc                                   Convective Precipitation    kg m-2 s-1    TAMIP_sites
+#         142.128              LSP           pr                                              Precipitation    kg m-2 s-1    TAMIP_sites
+#         144.128               SF         prsn                                              Snowfall Flux    kg m-2 s-1    TAMIP_sites
+#         143.128               CP          prc                                   Convective Precipitation    kg m-2 s-1    TAMIP_sites
 #         182.128                E      evspsbl                                                Evaporation    kg m-2 s-1    TAMIP_sites
 #          44.128               ES          sbl                      Surface Snow and Ice Sublimation Flux    kg m-2 s-1    TAMIP_sites
 #         180.128             EWSS         tauu                      Surface Downward Eastward Wind Stress            Pa    TAMIP_sites
@@ -26,38 +26,26 @@
 #          86.128            var86       rsdscs          Surface Downwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
 # 86210rsuscs.128            var86       rsuscs            Surface Upwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
 #          87.128            var87       rldscs           Surface Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
-#         212.128             TISR         rsdt                           TOA Incident Shortwave Radiation         W m-2    TAMIP_sites
+#         212.128               SI         rsdt                           TOA Incident Shortwave Radiation         W m-2    TAMIP_sites
 #  212178rsut.128               SI         rsut                           TOA Outgoing Shortwave Radiation         W m-2    TAMIP_sites
 #     179rlut.128              TTR         rlut                            TOA Outgoing Longwave Radiation         W m-2    TAMIP_sites
-#   209rlutcs.128             TTRC       rlutcs                  TOA Outgoing Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
-#212208rsutcs.128               SI       rsutcs                 TOA Outgoing Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
 #         137.128             TCWV          prw                                           Water Vapor Path        kg m-2    TAMIP_sites
 #         164.128              TCC          clt                                       Total Cloud Fraction             %    TAMIP_sites
 #   7879clwvi.128            var78        clwvi                                       Condensed Water Path        kg m-2    TAMIP_sites
-#          79.128             TCIW        clivi                                             Ice Water Path        kg m-2    TAMIP_sites
+#   209rlutcs.128             TTRC       rlutcs                  TOA Outgoing Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
+#212208rsutcs.128               SI       rsutcs                 TOA Outgoing Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
+#         79.128             var79        clivi                                             Ice Water Path        kg m-2    TAMIP_sites
 #       96ccb.128           var118          ccb                      Air Pressure at Convective Cloud Base            Pa    TAMIP_sites
 #       96cct.128           var118          cct                       Air Pressure at Convective Cloud Top            Pa    TAMIP_sites
-#        96ci.128           LBUD23           ci                         Fraction of Time Convection Occurs             1    TAMIP_sites
-#       96sci.128           LBUD23           ci                 Fraction of Time Shallow Convection Occurs             1    TAMIP_sites
-#                                            cl                                        Cloud Area Fraction             %    TAMIP_sites
-#      130212.128              CLW          clw                        Mass Fraction of Cloud Liquid Water             1    TAMIP_sites
-#                                           cli                                 Mass Fraction of Cloud Ice             1    TAMIP_sites
-#      201065.128               mc           mc                                       Convective Mass Flux    kg m-2 s-1    TAMIP_sites
-#         130.128                T           ta                                            Air Temperature             K    TAMIP_sites
+         130.128                T           ta                                            Air Temperature             K    TAMIP_sites
 #         131.128                U           ua                                              Eastward Wind         m s-1    TAMIP_sites
 #         132.128                V           va                                             Northward Wind         m s-1    TAMIP_sites
 #         133.128                G          hus                                          Specific Humidity             1    TAMIP_sites
 #         157.128                R          hur                                          Relative Humidity             %    TAMIP_sites
 #      300039.128             OMEG          wap                                             omega (=dp/dt)        Pa s-1    TAMIP_sites
 #         156.128               GH           zg                                        Geopotential Height             m    TAMIP_sites
-#                                           rlu                               Upwelling Longwave Radiation         W m-2    TAMIP_sites
-#                                           rsu                              Upwelling Shortwave Radiation         W m-2    TAMIP_sites
-#                                           rld                             Downwelling Longwave Radiation         W m-2    TAMIP_sites
-#                                           rsd                            Downwelling Shortwave Radiation         W m-2    TAMIP_sites
-#                                         rlucs                     Upwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
-#                                         rsucs                    Upwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
-#                                         rldcs                   Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
-#                                         rsdcs                  Downwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
+#        96ci.128           LBUD23           ci                         Fraction of Time Convection Occurs             1    TAMIP_sites
+#       96sci.128           LBUD23           ci                 Fraction of Time Shallow Convection Occurs             1    TAMIP_sites
 #         104.128           var104         tnta               Tendency of Air Temperature due to Advection         K s-1    TAMIP_sites
 #         102.128           var102        tntmp      Tendency of Air Temperature due to Diabatic Processes         K s-1    TAMIP_sites
 #                                      tntscpbl   T. of Air Temp due to Strati Cloud Condensation and Evap         K s-1    TAMIP_sites
@@ -73,5 +61,17 @@
 #                                           edt      Eddy Diffusivity Coefficient for Temperature Variable        m2 s-1    TAMIP_sites
 #      54full.128             PRES        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites
 #      54half.128             PRES        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
+#                                            cl                                        Cloud Area Fraction             %    TAMIP_sites
+#      130212.128              CLW          clw                        Mass Fraction of Cloud Liquid Water             1    TAMIP_sites
+#                                           cli                                 Mass Fraction of Cloud Ice             1    TAMIP_sites
+#      201065.128               mc           mc                                       Convective Mass Flux    kg m-2 s-1    TAMIP_sites
+#                                           rlu                               Upwelling Longwave Radiation         W m-2    TAMIP_sites
+#                                           rsu                              Upwelling Shortwave Radiation         W m-2    TAMIP_sites
+#                                           rld                             Downwelling Longwave Radiation         W m-2    TAMIP_sites
+#                                           rsd                            Downwelling Shortwave Radiation         W m-2    TAMIP_sites
+#                                         rlucs                     Upwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
+#                                         rsucs                    Upwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
+#                                         rldcs                   Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
+#                                         rsdcs                  Downwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
 #------------ not implemented ----------
 #      300135.128             PSLC           ps                                       Surface Air Pressure            Pa    TAMIP_sites

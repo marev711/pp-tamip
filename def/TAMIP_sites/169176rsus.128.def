@@ -1,0 +1,36 @@
+<definition>
+
+    <write_ncl filename="indata.ncl">
+        cf_sites_file = "${DEF_FOLDER}/cf_sites_location_lon360.txt"
+        data_path = "${RUN_FOLDER}/"
+        data_file = "169176rsus.128.nc"
+        oldvarname = "${OLDVARNAME}"
+        newvarname = "${NEWVARNAME}"
+        sp_file = "${RUN_FOLDER}/134.128.nc"
+        outfilename = "169176rsus.sites.nc"
+    </write_ncl>
+
+    <command_block>
+        cdo -O -R -r -f nc -t ecmwf copy 169.128.grb 169.128_tmp.nc
+        cdo -O -R -r -f nc -t ecmwf copy 176.128.grb 176.128_tmp.nc
+        cdo divc,2700.  169.128_tmp.nc 169.128.nc
+        cdo divc,2700.  176.128_tmp.nc 176.128.nc
+        cdo -O sub -selparam,169.128 169.128.nc -selparam,176.128 176.128.nc 169176rsus.128.nc
+        ncl write_cf_sites.ncl
+        mv -f 169176rsus.sites.nc 169176rsus.128.nc 
+    </command_block>
+
+    <post_cdo_units> 
+        W m-2
+     </post_cdo_units>
+
+    <original_name>
+        (SSRD-SSR)/2700
+    </original_name>
+
+    <cmor_var_positive>
+        upwards
+    </cmor_var_positive>
+
+</definition>
+
