@@ -1,25 +1,18 @@
 # Parameter numbers requested on CFMIPS sites
 # ------------------------------------------------------------------------------------------------
        variables        names_old        names                                                   longname     units_old       table_id
-         tnt.128           var110          tnt                                Tendency of Air Temperature         K s-1    TAMIP_sites
+#         tnt.128           var110          tnt                                Tendency of Air Temperature         K s-1    TAMIP_sites
 #         235.128              SKT          tas                               Near-Surface Air Temperature             K    TAMIP_sites
-#                                            p0       vertical coordinate formula term: reference pressure            Pa    TAMIP_sites
-#                                          ptop                                   pressure at top of model            Pa    TAMIP_sites
-#                                             b                     vertical coordinate formula term: b(k)                  TAMIP_sites
-#                                        b_bnds                 vertical coordinate formula term: b(k+1/2)                  TAMIP_sites
-#                                            ap                    vertical coordinate formula term: ap(k)            Pa    TAMIP_sites
-#                                       ap_bnds                vertical coordinate formula term: ap(k+1/2)            Pa    TAMIP_sites
 #         167.128              T2M           ts                                        Surface Temperature             K    TAMIP_sites
 #         151.128              MSL          psl                                         Sea Level Pressure            Pa    TAMIP_sites
-#      300135.128             PSLC           ps                                       Surface Air Pressure            Pa    TAMIP_sites
 #         165.128             U10M          uas                           Eastward Near-Surface Wind Speed         m s-1    TAMIP_sites
 #         166.128             V10M          vas                          Northward Near-Surface Wind Speed         m s-1    TAMIP_sites
 #      165166.128             U10M      sfcWind                                    Near-Surface Wind Speed         m s-1    TAMIP_sites
 #          83.128            var83         hurs                             Near-Surface Relative Humidity             %    TAMIP_sites
 #          82.128            var82         huss                             Near-Surface Specific Humidity             1    TAMIP_sites
-#         142.128              LSP           pr                                              Precipitation    kg m-2 s-1    TAMIP_sites
-#         144.128               SF         prsn                                              Snowfall Flux    kg m-2 s-1    TAMIP_sites
-#         143.128               CP          prc                                   Convective Precipitation    kg m-2 s-1    TAMIP_sites
+         142.128              LSP           pr                                              Precipitation    kg m-2 s-1    TAMIP_sites
+         144.128               SF         prsn                                              Snowfall Flux    kg m-2 s-1    TAMIP_sites
+         143.128               CP          prc                                   Convective Precipitation    kg m-2 s-1    TAMIP_sites
 #         182.128                E      evspsbl                                                Evaporation    kg m-2 s-1    TAMIP_sites
 #          44.128               ES          sbl                      Surface Snow and Ice Sublimation Flux    kg m-2 s-1    TAMIP_sites
 #         180.128             EWSS         tauu                      Surface Downward Eastward Wind Stress            Pa    TAMIP_sites
@@ -80,3 +73,5 @@
 #                                           edt      Eddy Diffusivity Coefficient for Temperature Variable        m2 s-1    TAMIP_sites
 #      54full.128             PRES        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites
 #      54half.128             PRES        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
+#------------ not implemented ----------
+#      300135.128             PSLC           ps                                       Surface Air Pressure            Pa    TAMIP_sites

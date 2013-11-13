@@ -1,0 +1,29 @@
+<definition>
+
+    <write_ncl filename="indata.ncl">
+        cf_sites_file = "${DEF_FOLDER}/cf_sites_location_lon360.txt"
+        data_path = "${RUN_FOLDER}/"
+        data_file = "165166.128.nc"
+        oldvarname = "${OLDVARNAME}"
+        newvarname = "${NEWVARNAME}"
+        sp_file = "${RUN_FOLDER}/134.128.nc"
+        outfilename = "165166.sites.nc"
+    </write_ncl>
+
+    <command_block>
+        cdo  sqrt -add -sqr -selparam,165.128 165.128.grb -sqr -selparam,166.128 166.128.grb 165166.128_tmp.grb
+        cdo -O -R -r -f nc -t ecmwf copy 165166.128_tmp.grb 165166.128.nc
+        rm -f 165166.128_tmp.grb
+        ncl write_cf_sites.ncl
+        mv -f 165166.sites.nc 165166.128.nc 
+    </command_block>
+
+    <post_cdo_units> 
+        m s-1
+     </post_cdo_units>
+
+    <original_name>
+        SQRT(10U**2+10V**2)
+    </original_name>
+
+</definition>
