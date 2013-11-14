@@ -16,11 +16,8 @@
     248.128                  CC            cl                         Cloud Area Fraction in Atmosphere Layer             %      TAMIP_3hrMlev
     tnt.128              var110           tnt                                     Tendency of Air Temperature         K s-1      TAMIP_3hrMlev
    tntscpbl               var90      tntscpbl Tend. of Air T. Due to Strat Cloud & Pr & Boundary Layer Mixing         K s-1      TAMIP_3hrMlev
-    108.128              var108        tnhusd                  Tendency of Specific Humidity due to Diffusion           s-1      TAMIP_3hrMlev
     114.128              var114          tntc             Tendency of Air Temperature due to Moist Convection         K s-1      TAMIP_3hrMlev
-    115.128              var115        tnhusc                 Tendency of Specific Humidity due to Convection           s-1      TAMIP_3hrMlev
       tnhus              var103         tnhus                                   Tendency of Specific Humidity           s-1      TAMIP_3hrMlev
- tnhusscpbl               var91    tnhusscpbl    T. of Specific Hum due to Strati Cloud Condensation and Evap           s-1      TAMIP_3hrMlev
  54full.128                PRES         pfull                                        Pressure on Model Levels            Pa      TAMIP_3hrMlev
  54half.128                PRES         phalf                                   Pressure on Model Half-Levels            Pa      TAMIP_3hrMlev
 #

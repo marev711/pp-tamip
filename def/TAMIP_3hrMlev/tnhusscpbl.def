@@ -1,7 +1,7 @@
 <definition>
 
     <command_block>
-        cdo add -timselmean,4 91.128.grb -timselmean,4 108.162.grb tnhusscpbl.grb 
+        cdo add -timselmean,4 91.128.grb -timselmean,4 108.128.grb tnhusscpbl.grb
         cdo -R -r -f nc -t ecmwf copy tnhusscpbl.grb tnhusscpbl.nc
         rm -f tnhusscpbl.grb
     </command_block>

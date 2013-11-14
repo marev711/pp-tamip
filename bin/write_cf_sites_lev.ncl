@@ -93,7 +93,7 @@ filedimdef(fout,"time",-1,True)
 fout->$oldvarname$ = sites_array
 timestamp = systemfunc("date -R")
 cr = inttochar(10)
-history = timestamp + ": write_cf_sites.ncl " + data_file + cr + history
+history = timestamp + ": write_cf_sites_lev.ncl " + data_file + cr + history
 fout@history = history
 
 if (isfilepresent("134.sites.nc")) then

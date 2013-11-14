@@ -37,30 +37,26 @@
 #         79.128             var79        clivi                                             Ice Water Path        kg m-2    TAMIP_sites
 #       96ccb.128           var118          ccb                      Air Pressure at Convective Cloud Base            Pa    TAMIP_sites
 #       96cct.128           var118          cct                       Air Pressure at Convective Cloud Top            Pa    TAMIP_sites
-         130.128                T           ta                                            Air Temperature             K    TAMIP_sites
+#         130.128                T           ta                                            Air Temperature             K    TAMIP_sites
 #         131.128                U           ua                                              Eastward Wind         m s-1    TAMIP_sites
 #         132.128                V           va                                             Northward Wind         m s-1    TAMIP_sites
-#         133.128                G          hus                                          Specific Humidity             1    TAMIP_sites
+#         133.128                Q          hus                                          Specific Humidity             1    TAMIP_sites
 #         157.128                R          hur                                          Relative Humidity             %    TAMIP_sites
-#      300039.128             OMEG          wap                                             omega (=dp/dt)        Pa s-1    TAMIP_sites
-#         156.128               GH           zg                                        Geopotential Height             m    TAMIP_sites
+#         135.128                W          wap                                             omega (=dp/dt)        Pa s-1    TAMIP_sites
+#         129.128                Z           zg                                        Geopotential Height           gpm    TAMIP_sites
+#         102.128           var102        tntmp      Tendency of Air Temperature due to Diabatic Processes         K s-1    TAMIP_sites
+#        tntscpbl            var90     tntscpbl   T. of Air Temp due to Strati Cloud Condensation and Evap         K s-1    TAMIP_sites
+#         104.128           var104         tntr       Tendency of Air Temperature due to Radiative Heating         K s-1    TAMIP_sites
+#         114.128           var114         tntc        Tendency of Air Temperature due to Moist Convection         K s-1    TAMIP_sites
+#           tnhus           var103        tnhus                              Tendency of Specific Humidity           s-1    TAMIP_sites
+#         115.128           var115       tnhusc            Tendency of Specific Humidity due to Convection           s-1    TAMIP_sites
+#         108.128           var108       tnhusd             Tendency of Specific Humidity due to Diffusion           s-1    TAMIP_sites
+#      tnhusscpbl            var91   tnhusscpbl    T. of Specific Hum due to Strat Cloud Condens. and Evap           s-1    TAMIP_sites
+         111.162           var162      tnhusmp         Tendency of Specific Humidity due to Model Physics           s-1    TAMIP_sites
+      54full.128             PRES        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites
+      54half.128             PRES        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
 #        96ci.128           LBUD23           ci                         Fraction of Time Convection Occurs             1    TAMIP_sites
 #       96sci.128           LBUD23           ci                 Fraction of Time Shallow Convection Occurs             1    TAMIP_sites
-#         104.128           var104         tnta               Tendency of Air Temperature due to Advection         K s-1    TAMIP_sites
-#         102.128           var102        tntmp      Tendency of Air Temperature due to Diabatic Processes         K s-1    TAMIP_sites
-#                                      tntscpbl   T. of Air Temp due to Strati Cloud Condensation and Evap         K s-1    TAMIP_sites
-#         103.128           var103         tntr       Tendency of Air Temperature due to Radiative Heating         K s-1    TAMIP_sites
-#                                          tntc        Tendency of Air Temperature due to Moist Convection         K s-1    TAMIP_sites
-#                                         tnhus                              Tendency of Specific Humidity           s-1    TAMIP_sites
-#                                        tnhusa             Tendency of Specific Humidity due to Advection           s-1    TAMIP_sites
-#                                        tnhusc            Tendency of Specific Humidity due to Convection           s-1    TAMIP_sites
-#                                        tnhusd             Tendency of Specific Humidity due to Diffusion           s-1    TAMIP_sites
-#                                    tnhusscpbl   T. of Spec Hum due to Strati Cloud Condensation and Evap           s-1    TAMIP_sites
-#      162111.128           var162      tnhusmp         Tendency of Specific Humidity due to Model Physics           s-1    TAMIP_sites
-#                                           evu          Eddy Viscosity Coefficient for Momentum Variables        m2 s-1    TAMIP_sites
-#                                           edt      Eddy Diffusivity Coefficient for Temperature Variable        m2 s-1    TAMIP_sites
-#      54full.128             PRES        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites
-#      54half.128             PRES        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
 #                                            cl                                        Cloud Area Fraction             %    TAMIP_sites
 #      130212.128              CLW          clw                        Mass Fraction of Cloud Liquid Water             1    TAMIP_sites
 #                                           cli                                 Mass Fraction of Cloud Ice             1    TAMIP_sites
@@ -75,3 +71,6 @@
 #                                         rsdcs                  Downwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
 #------------ not implemented ----------
 #      300135.128             PSLC           ps                                       Surface Air Pressure            Pa    TAMIP_sites
+#                                        tnhusa             Tendency of Specific Humidity due to Advection           s-1    TAMIP_sites
+#                                          evu          Eddy Viscosity Coefficient for Momentum Variables        m2 s-1    TAMIP_sites
+#                                          edt      Eddy Diffusivity Coefficient for Temperature Variable        m2 s-1    TAMIP_sites
