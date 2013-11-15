@@ -1,0 +1,40 @@
+
+<definition>
+
+    <write_namelist filename='indata.nml'>
+        &amp;indata
+          compute_full_levels = .False.,
+          surface_pressure_file = '${RUN_FOLDER}/134.128_gaussian.grb',
+          ml_ref_grib_file =      '${DEF_FOLDER}/ml_ref_file.grb'
+          pressure_outfile =      '${RUN_FOLDER}/54half.128.grb'
+        /
+    </write_namelist>
+
+    <write_ncl filename="indata.ncl">
+        cf_sites_file = "${DEF_FOLDER}/cf_sites_location_lon360.txt"
+        data_path = "${RUN_FOLDER}/"
+        data_file = "54half.128.nc"
+        oldvarname = "${OLDVARNAME}"
+        newvarname = "${NEWVARNAME}"
+        sp_file = "${RUN_FOLDER}/134.128.nc"
+        outfilename = "54half.sites.nc"
+    </write_ncl>
+
+    <command_block>
+        cdo -R -r -t ecmwf copy 134.128.grb 134.128_gaussian.grb
+        compute_pressure.x
+        cdo -f nc copy 54half.128.grb 54half.128.nc
+        rm -f 134.128_gaussian.grb
+        ncl write_cf_sites_lev.ncl
+        mv -f 54half.sites.nc 54half.128.nc
+    </command_block>
+
+    <post_cdo_units>
+        Pa
+     </post_cdo_units>
+
+    <original_name>
+       AP(k+1/2)+B(k+1/2)*PS
+    </original_name>
+
+</definition>

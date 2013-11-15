@@ -52,9 +52,9 @@
 #         115.128           var115       tnhusc            Tendency of Specific Humidity due to Convection           s-1    TAMIP_sites
 #         108.128           var108       tnhusd             Tendency of Specific Humidity due to Diffusion           s-1    TAMIP_sites
 #      tnhusscpbl            var91   tnhusscpbl    T. of Specific Hum due to Strat Cloud Condens. and Evap           s-1    TAMIP_sites
-         111.162           var162      tnhusmp         Tendency of Specific Humidity due to Model Physics           s-1    TAMIP_sites
-      54full.128             PRES        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites
-      54half.128             PRES        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
+#         111.162           var111      tnhusmp         Tendency of Specific Humidity due to Model Physics           s-1    TAMIP_sites
+#      54full.128            var54        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites
+      54half.128            var54        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
 #        96ci.128           LBUD23           ci                         Fraction of Time Convection Occurs             1    TAMIP_sites
 #       96sci.128           LBUD23           ci                 Fraction of Time Shallow Convection Occurs             1    TAMIP_sites
 #                                            cl                                        Cloud Area Fraction             %    TAMIP_sites
