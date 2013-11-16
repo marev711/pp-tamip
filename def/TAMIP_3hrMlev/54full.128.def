@@ -10,10 +10,9 @@
     </write_namelist>
 
     <command_block>
-        cdo -R -r -t ecmwf copy 134.128.grb 134.128_gaussian.grb
+        cdo -O -R -r -t ecmwf copy 134.128.grb 134.128_gaussian.grb
         compute_pressure.x
-        cdo timselmean,4 54full.128.grb 54full.128_tmp.grb
-        mv -f 54full.128_tmp.grb 54full.128.nc
+        cdo -t ecmwf -f nc timselmean,4 54full.128.grb 54full.128.nc
         rm -f 134.128_gaussian.grb
     </command_block>
 

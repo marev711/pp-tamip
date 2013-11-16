@@ -173,7 +173,7 @@ for run_folder in run_folders:
         curr_temp= param['variables'] + "_tmp.nc"
         cdo_setreftime = "cdo setreftime," + curr_date + "," + date_hh[curr_date] + ":00 " + curr_file + " " + curr_temp
         cdo_command = postproc_aux.command_launch(cdo_setreftime, log_handle=sys.stdout)
-        os.rename(curr_temp, curr_file)
+        mv_command  = postproc_aux.command_launch("mv " + curr_temp + " " + curr_file, log_handle=sys.stdout)
 
         sys.stdout.write("postpr.py: curr_file = " + curr_file + "\n")
         # Update the CMOR namelist file (cmor.nml)

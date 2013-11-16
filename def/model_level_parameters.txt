@@ -12,7 +12,7 @@
     110.162              var110         tntmp           Tendency of Air Temperature due to Diabatic Processes         K s-1      TAMIP_3hrMlev
     104.128              var104          tntr            Tendency of Air Temperature due to Radiative Heating         K s-1      TAMIP_3hrMlev
     111.162              var111       tnhusmp              Tendency of Specific Humidity due to Model Physics           s-1      TAMIP_3hrMlev
-    247.128                CICW           cli                                      Mass Fraction of Cloud Ice             1      TAMIP_3hrMlev
+    247.128                CIWC           cli                                      Mass Fraction of Cloud Ice             1      TAMIP_3hrMlev
     248.128                  CC            cl                         Cloud Area Fraction in Atmosphere Layer             %      TAMIP_3hrMlev
     tnt.128              var110           tnt                                     Tendency of Air Temperature         K s-1      TAMIP_3hrMlev
    tntscpbl               var90      tntscpbl Tend. of Air T. Due to Strat Cloud & Pr & Boundary Layer Mixing         K s-1      TAMIP_3hrMlev

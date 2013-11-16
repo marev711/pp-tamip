@@ -1,11 +1,13 @@
 <definition>
 
     <command_block>
-        cdo timselmean,4 102.128.grb 102.128_tmp.grb
+        cdo -R -r -f nc -t ecmwf add -timselmean,4 110.162.grb -timselmean,4 102.128.grb tnt.128.nc
+<!--
         cdo -R -r -f nc -t ecmwf copy 102.128_tmp.grb 102.128.nc
         cdo add 110.162.nc 102.128.nc tnt.128.nc
         rm -f 102.128_tmp.grb
         rm -f 102.128.nc
+-->
     </command_block>
 
     <original_name>
