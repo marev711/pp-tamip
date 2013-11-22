@@ -37,11 +37,15 @@ do time_idx = 0, time_len - 1
 end do
 sites_array!0 = "time"
 sites_array!1 = "sites"
-sites_array!2 = "lev"
 sites_array&time = time
+
+sp_array!0 = "time"
+sp_array!1 = "sites"
+sp_array&time = time
 
 do site_idx = 0, 118
     sites_array&sites(site_idx) = site_idx + 1
+    sp_array&sites(site_idx) = site_idx + 1
     latv = cf_sites_lat(site_idx)
     lonv = cf_sites_lon(site_idx)
     tmp = fvar(0, {latv}, {lonv})
@@ -51,10 +55,6 @@ do site_idx = 0, 118
 end do
 sites_array@lat = new_lat
 sites_array@lon = new_lon
-
-sp_array!0 = "time"
-sp_array!1 = "sites"
-sp_array&time = time
 
 ; Update coordinate attributes
 new_att = (/"units", "long_name"/)
@@ -102,4 +102,4 @@ if (isfilepresent("134.sites.nc")) then
 end if
 
 fspout = addfile("134.sites.nc", "c")
-fspout->sp = sp_array
+fspout->SP = sp_array

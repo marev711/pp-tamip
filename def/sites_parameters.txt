@@ -58,19 +58,21 @@
          246.128             CLWC          clw                        Mass Fraction of Cloud Liquid Water     kg kg**-1    TAMIP_sites
          247.128             CIWC          cli                                 Mass Fraction of Cloud Ice             1    TAMIP_sites
          248.128               CC           cl                                        Cloud Area Fraction             %    TAMIP_sites
-#------------ not implemented ----------
-#      300135.128             PSLC           ps                                       Surface Air Pressure            Pa    TAMIP_sites
-#                                        tnhusa             Tendency of Specific Humidity due to Advection           s-1    TAMIP_sites
+         134.128               SP           ps                                       Surface Air Pressure            Pa    TAMIP_sites
+##------------ not clear how to implement  ----------
+#         rlu.128           var175          rlu                               Upwelling Longwave Radiation         W m-2    TAMIP_sites
+#         rsu.128           var169          rsu                              Upwelling Shortwave Radiation         W m-2    TAMIP_sites
+#         175.128           var175          rld                             Downwelling Longwave Radiation         W m-2    TAMIP_sites
+#         169.128           var169          rsd                            Downwelling Shortwave Radiation         W m-2    TAMIP_sites
+#           rlucs                                 rlucs                     Upwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
+#           rsucs                                rsucs                    Upwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
+#           rldcs                               rldcs                   Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
+#           rsdcs                               rsdcs                  Downwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
+##------------ not implemented ----------
 #                                          evu          Eddy Viscosity Coefficient for Momentum Variables        m2 s-1    TAMIP_sites
 #                                          edt      Eddy Diffusivity Coefficient for Temperature Variable        m2 s-1    TAMIP_sites
 #        96ci.128           LBUD23           ci                         Fraction of Time Convection Occurs             1    TAMIP_sites
 #       96sci.128           LBUD23           ci                 Fraction of Time Shallow Convection Occurs             1    TAMIP_sites
 #      201065.128               mc           mc                                       Convective Mass Flux    kg m-2 s-1    TAMIP_sites
-#                                           rlu                               Upwelling Longwave Radiation         W m-2    TAMIP_sites
-#                                           rsu                              Upwelling Shortwave Radiation         W m-2    TAMIP_sites
-#                                           rld                             Downwelling Longwave Radiation         W m-2    TAMIP_sites
-#                                           rsd                            Downwelling Shortwave Radiation         W m-2    TAMIP_sites
-#                                         rlucs                     Upwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
-#                                         rsucs                    Upwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
-#                                         rldcs                   Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
-#                                         rsdcs                  Downwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
+#------------ not available ----------
+#                                        tnhusa             Tendency of Specific Humidity due to Advection           s-1    TAMIP_sites

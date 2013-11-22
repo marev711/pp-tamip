@@ -5,8 +5,8 @@
         cdo timselmean,4 176.128.grb 176.128_tmp.grb
         cdo -O -R -r -f nc -t ecmwf copy 169.128_tmp.grb 169.128.nc
         cdo -O -R -r -f nc -t ecmwf copy 176.128_tmp.grb 176.128.nc
-        cdo divc,10800.  169.128.nc 169.128_tmp.nc
-        cdo divc,10800.  176.128.nc 176.128_tmp.nc
+        cdo divc,2700.  169.128.nc 169.128_tmp.nc
+        cdo divc,2700.  176.128.nc 176.128_tmp.nc
         mv 169.128_tmp.nc 169.128.nc
         mv 176.128_tmp.nc 176.128.nc
         cdo -O sub -selparam,169.128 169.128.nc -selparam,176.128 176.128.nc 169176rsus.128.nc
@@ -17,7 +17,7 @@
      </post_cdo_units>
 
     <original_name>
-        (SSRD-SSR)/10800
+        (SSRD-SSR)/2700
     </original_name>
 
     <cmor_var_positive>

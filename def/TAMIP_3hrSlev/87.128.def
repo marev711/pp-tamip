@@ -3,7 +3,7 @@
     <command_block>
         cdo timselmean,4 87.128.grb 87.128_tmp.grb
         cdo -O -R -r -f nc -t ecmwf copy 87.128_tmp.grb 87.128.nc
-        cdo divc,10800. 87.128.nc 87.128_tmp.nc
+        cdo divc,2700. 87.128.nc 87.128_tmp.nc
         mv 87.128_tmp.nc 87.128.nc
         rm -f 87.128_tmp.grb
     </command_block>
@@ -13,7 +13,7 @@
      </post_cdo_units>
 
     <original_name>
-        LBUD23/10800
+        LBUD23/2700
     </original_name>
 
     <cmor_var_positive>
