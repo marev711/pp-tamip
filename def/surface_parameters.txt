@@ -1,18 +1,17 @@
 # Parameter numbers present in _both_ the postprocess script and in our T-AMIP runs
 # ------------------------------------------------------------------------------------------------
         variables      names_old        names                                               longname       units_old             table_id    representation
+       rldscs.128           STRD       rldscs       Surface Downwelling Clear-Sky Longwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
        165166.128           U10M      sfcWind                            Mean of 10 metre wind speed           m s-1        TAMIP_3hrSlev         gridpoint
    212178rsut.128             SI         rsut                       TOA Outgoing Shortwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
    175177rlus.128           STRD         rlus                   Surface Upwelling Longwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
    169176rsus.128           SSRD         rsus                  Surface Upwelling Shortwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
-  86210rsuscs.128          var86       rsuscs        Surface Upwelling Clear-Sky Shortwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
  212208rsutcs.128             SI       rsutcs             TOA Outgoing Clear-Sky Shortwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
     209rlutcs.128           TTRC       rlutcs              TOA Outgoing Clear-Sky Longwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
     7879clwvi.128          var78        clwvi                    Condensed water path (liquid + ice)          kg m-2        TAMIP_3hrSlev         gridpoint
            82.128          var82         huss                                Specific Humidity at 2m               1        TAMIP_3hrSlev         gridpoint
            83.128          var83         hurs                                Relative Humidity at 2m               %        TAMIP_3hrSlev         gridpoint
-           86.128          var86       rsdscs                Surface Downwelling Shortwave Clear Sky           J m-2        TAMIP_3hrSlev         gridpoint
-           87.128          var87       rldscs       Surface Downwelling Clear-Sky Longwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
+       rldscs.128           STRD       rldscs       Surface Downwelling Clear-Sky Longwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
       179rlut.128            TTR         rlut                        TOA Outgoing Longwave Radiation           J m-2        TAMIP_3hrSlev         gridpoint
         96cct.128         var118          cct                   Air pressure at Convective Cloud Top     Model level        TAMIP_3hrSlev         gridpoint
         96ccb.128         var118          ccb                  Air Pressure at Convective Cloud Base     Model level        TAMIP_3hrSlev         gridpoint

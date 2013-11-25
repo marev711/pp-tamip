@@ -1,7 +1,7 @@
 <definition>
 
     <command_block>
-        cdo -O -R -r -f nc -t ecmwf timselmean,4 86.128.grb 86.128.nc
+        cdo -O -R -r -f nc -t ecmwf timselmean,4 -divc,2700 -add -sub 175.128.grb 177.128.grb 211.128.grb rldscs.128.nc
     </command_block>
 
     <post_cdo_units> 
@@ -9,7 +9,7 @@
      </post_cdo_units>
 
     <original_name>
-        LBUD23
+        (175.128-177.128+211.12)/2700.8
     </original_name>
 
     <cmor_var_positive>

@@ -11,9 +11,7 @@
     </write_ncl>
 
     <command_block>
-        cdo -O -R -r -f nc -t ecmwf copy 86.128.grb 86.128_tmp.nc
-        cdo divc,2700. 86.128_tmp.nc 86.128.nc
-        rm -f 86.128_tmp.nc
+        cdo -O -R -r -f nc -t ecmwf copy 86.128.grb 86.128.nc
         ncl write_cf_sites.ncl
         mv -f 86.sites.nc 86.128.nc 
     </command_block>
@@ -23,7 +21,7 @@
      </post_cdo_units>
 
     <original_name>
-        LBUD23/2700
+        LBUD23
     </original_name>
 
     <cmor_var_positive>

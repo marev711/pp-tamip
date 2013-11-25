@@ -175,12 +175,17 @@ for run_folder in run_folders:
         cdo_command = postproc_aux.command_launch(cdo_setreftime, log_handle=sys.stdout)
         mv_command  = postproc_aux.command_launch("mv " + curr_temp + " " + curr_file, log_handle=sys.stdout)
 
+        if param['table_id'] == 'TAMIP_sites':
+            sp_file = '134.sites.nc'
+        else:
+            sp_file = '134.128.nc'
+
         sys.stdout.write("postpr.py: curr_file = " + curr_file + "\n")
         # Update the CMOR namelist file (cmor.nml)
         os.chdir(os.path.join(postpr_dir))
         nml_replacements = {"cmor_varname"  : param['names'],
                             "curr_file"     : os.path.join(model_data_folder, curr_file),
-                            "sp_file"       : os.path.join(model_data_folder, '134.128.nc'),
+                            "sp_file"       : os.path.join(model_data_folder, sp_file),
                             "experiment_id" : date_exp[curr_date],
                             "history"       : "PLACE_HOLDER",
                             "inpath"        : os.path.join(def_dir, param['table_id']),

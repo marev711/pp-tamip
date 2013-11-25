@@ -1,8 +1,9 @@
 # Parameter numbers requested on CFMIPS sites
 # ------------------------------------------------------------------------------------------------
        variables        names_old        names                                                   longname     units_old       table_id
-         tnt.128           var110          tnt                                Tendency of Air Temperature         K s-1    TAMIP_sites
+      rldscs.128             STRD       rldscs           Surface Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
          235.128              SKT          tas                               Near-Surface Air Temperature             K    TAMIP_sites
+         tnt.128           var110          tnt                                Tendency of Air Temperature         K s-1    TAMIP_sites
          167.128              T2M           ts                                        Surface Temperature             K    TAMIP_sites
          151.128              MSL          psl                                         Sea Level Pressure            Pa    TAMIP_sites
          165.128             U10M          uas                           Eastward Near-Surface Wind Speed         m s-1    TAMIP_sites
@@ -23,9 +24,6 @@
   175177rlus.128             STRD         rlus                       Surface Upwelling Longwave Radiation         W m-2    TAMIP_sites
          169.128             SSRD         rsds                    Surface Downwelling Shortwave Radiation         W m-2    TAMIP_sites
   169176rsus.128             SSRD         rsus                      Surface Upwelling Shortwave Radiation         W m-2    TAMIP_sites
-          86.128            var86       rsdscs          Surface Downwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
- 86210rsuscs.128            var86       rsuscs            Surface Upwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
-          87.128            var87       rldscs           Surface Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
          212.128               SI         rsdt                           TOA Incident Shortwave Radiation         W m-2    TAMIP_sites
   212178rsut.128               SI         rsut                           TOA Outgoing Shortwave Radiation         W m-2    TAMIP_sites
      179rlut.128              TTR         rlut                            TOA Outgoing Longwave Radiation         W m-2    TAMIP_sites
@@ -54,16 +52,17 @@
       tnhusscpbl            var91   tnhusscpbl    T. of Specific Hum due to Strat Cloud Condens. and Evap           s-1    TAMIP_sites
          111.162           var111      tnhusmp         Tendency of Specific Humidity due to Model Physics           s-1    TAMIP_sites
       54full.128            var54        pfull                                   Pressure on Model Levels            Pa    TAMIP_sites
-      54half.128            var54        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
+      54half.128             PRES        phalf                              Pressure on Model Half-Levels            Pa    TAMIP_sites
          246.128             CLWC          clw                        Mass Fraction of Cloud Liquid Water     kg kg**-1    TAMIP_sites
          247.128             CIWC          cli                                 Mass Fraction of Cloud Ice             1    TAMIP_sites
          248.128               CC           cl                                        Cloud Area Fraction             %    TAMIP_sites
          134.128               SP           ps                                       Surface Air Pressure            Pa    TAMIP_sites
-##------------ not clear how to implement  ----------
+##------------ not available ----------
 #         rlu.128           var175          rlu                               Upwelling Longwave Radiation         W m-2    TAMIP_sites
 #         rsu.128           var169          rsu                              Upwelling Shortwave Radiation         W m-2    TAMIP_sites
 #         175.128           var175          rld                             Downwelling Longwave Radiation         W m-2    TAMIP_sites
 #         169.128           var169          rsd                            Downwelling Shortwave Radiation         W m-2    TAMIP_sites
+##------------ not available ----------
 #           rlucs                                 rlucs                     Upwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites
 #           rsucs                                rsucs                    Upwelling Clear-Sky Shortwave Radiation         W m-2    TAMIP_sites
 #           rldcs                               rldcs                   Downwelling Clear-Sky Longwave Radiation         W m-2    TAMIP_sites

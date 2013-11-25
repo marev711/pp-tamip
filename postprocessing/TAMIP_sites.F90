@@ -26,7 +26,7 @@
      real, dimension(:, :, :), allocatable :: rhValues_lev
      real, dimension(:, :), allocatable :: rhValues
      integer, dimension(:), allocatable :: axis_ids
-     DOUBLE PRECISION, dimension(:), allocatable :: time, sites, alats, alons
+     DOUBLE PRECISION, dimension(:), allocatable :: time, sites, sites_ps, alats, alons
      DOUBLE PRECISION, dimension(:, :), allocatable :: time_bounds, sites_bounds
      DOUBLE PRECISION, dimension(:, :), allocatable :: hyai_bounds, hybi_bounds
      DOUBLE PRECISION, dimension(:, :), allocatable :: hyam_bounds, hybm_bounds
@@ -121,6 +121,9 @@
 
      status = nf90_inq_varid(ncid2, 'SP', rhVarId)
      if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (SP)")
+
+     status = nf90_inq_varid(ncid2, "sites", sitesVarId)
+     if(status /= nf90_NoErr) call handle_err(status, "NF90_INQ_VARID (sites)")
 
      allocate(ps_val(size(sites), size(time)))
      status = nf90_get_var(ncid2, rhVarId, ps_val)

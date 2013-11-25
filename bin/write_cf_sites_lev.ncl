@@ -14,13 +14,15 @@ history = f_data@history
 
 fvar_lat = fvar&lat
 fvar_lon = fvar&lon
+fvar_lev = fvar&lev
 time = fvar&time
 time_len = dimsizes(time)
+lev_len = dimsizes(fvar_lev)
 
 sp_fhandle = addfile(sp_file, "r")
 sp = sp_fhandle->SP
 
-sites_array = new((/time_len, 119, 91/), float)
+sites_array = new((/time_len, 119, lev_len/), float)
 sp_array = new((/time_len, 119/), float)
 new_lat = new((/119/), float)
 new_lon = new((/119/), float)
@@ -36,11 +38,10 @@ sites_array!0 = "time"
 sites_array!1 = "sites"
 sites_array!2 = "lev"
 sites_array&time = time
-sites_array&sites = ispan(0, 118, 1)
-sites_array&lev = ispan(1, 91, 1)
+sites_array&lev = ispan(1, lev_len, 1)
+sites_array&sites = ispan(1, 119, 1)
 
 do site_idx = 0, 118
-    sites_array&sites(site_idx) = site_idx + 1
     latv = cf_sites_lat(site_idx)
     lonv = cf_sites_lon(site_idx)
     tmp = fvar(0, 0, {latv}, {lonv})
@@ -54,6 +55,7 @@ sites_array@lon = new_lon
 sp_array!0 = "time"
 sp_array!1 = "sites"
 sp_array&time = time
+sp_array&sites = ispan(1, 119, 1)
 
 ; Update coordinate attributes
 new_att = (/"units", "long_name"/)
@@ -102,4 +104,4 @@ end if
 
 fspout = addfile("134.sites.nc", "c")
 filedimdef(fspout,"time",-1,True)
-fspout->sp = sp_array
+fspout->SP = sp_array

@@ -7,13 +7,12 @@
         oldvarname = "${OLDVARNAME}"
         newvarname = "${NEWVARNAME}"
         sp_file = "${RUN_FOLDER}/134.128.nc"
-        outfilename = "134.sites.nc"
+        outfilename = "134.128.nc"
     </write_ncl>
 
     <command_block>
         cdo -O -R -r -f nc -t ecmwf copy 134.128.grb 134.128.nc
         ncl write_cf_sites.ncl
-        mv -f 134.sites.nc 134.128.nc 
     </command_block>
 
 </definition>

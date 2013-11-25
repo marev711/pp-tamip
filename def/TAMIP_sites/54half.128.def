@@ -23,7 +23,8 @@
     <command_block>
         cdo -R -r -t ecmwf copy 134.128.grb 134.128_gaussian.grb
         compute_pressure.x
-        cdo -f nc copy 54half.128.grb 54half.128.nc
+        cdo -f nc -R -r -t ecmwf copy 54half.128.grb 54half.128.nc
+        cp -f 54half.128.nc 54half_copy.128.nc
         rm -f 134.128_gaussian.grb
         ncl write_cf_sites_lev.ncl
         mv -f 54half.sites.nc 54half.128.nc
