@@ -1,0 +1,34 @@
+TARGET  := compute_ccbt.x
+INSTALL_DIR := ../../bin
+SRCS    := compute_ccbt.f90
+OBJS    := ${SRCS:.f90=.o} 
+
+FC      = ifort
+CCFLAGS = -traceback -g -check all
+FCFLAGS = -I/software/apps/grib-api/1.9.9/i111064/include -traceback -g -check all
+LDFLAGS = -L/software/apps/grib-api/1.9.9/i111064/lib/ -L/usr/lib64/ /usr/lib64/libjasper.so
+LIBS    = -lgrib_api_f90 -lgrib_api -lopenjpeg
+
+.PHONY: all clean distclean print_vars install
+
+all: ${TARGET}
+
+print_vars:
+	@echo TARGET=$(TARGET)
+	@echo OBJS=$(OBJS)
+	@echo SRCS=$(SRCS)
+
+$(TARGET): $(OBJS) 
+	$(FC) $(LDFLAGS) -o $@ $^ $(LIBS) 
+
+$(OBJS): %.o: %.f90
+	$(FC) $(FCFLAGS) -o $@ -c $< 
+
+clean: 
+	-rm -f *.mod *.o $(TARGET) *~
+
+install:
+	-mv $(TARGET) $(INSTALL_DIR)
+
+
+distclean: clean
